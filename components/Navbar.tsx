@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { LazyMotion, domAnimation, m, AnimatePresence } from "motion/react";
 import { NAV_LINKS, SOCIALS, IDENTITY } from "@/lib/constants";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -25,35 +26,38 @@ export default function Navbar() {
         <span className="pointer-events-auto font-heading font-bold text-white text-sm tracking-widest uppercase">
           {IDENTITY.alias}
         </span>
-        <button
-          onClick={() => setOpen(true)}
-          className="pointer-events-auto size-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/60 transition-colors"
-          aria-label="Open menu"
-          aria-expanded={open}
-        >
-          <span className="flex flex-col gap-1">
-            <span className="block w-4 h-px bg-white" />
-            <span className="block w-4 h-px bg-white" />
-          </span>
-        </button>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <button
+            onClick={() => setOpen(true)}
+            className="pointer-events-auto size-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/60 transition-colors"
+            aria-label="Open menu"
+            aria-expanded={open}
+          >
+            <span className="flex flex-col gap-1">
+              <span className="block w-4 h-px bg-white" />
+              <span className="block w-4 h-px bg-white" />
+            </span>
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence initial={false}>
         {open && (
           <m.div
-            className="fixed inset-0 z-[900] bg-white flex flex-col justify-between p-8 md:p-12"
+            className="fixed inset-0 z-[900] bg-[var(--bg)] flex flex-col justify-between p-8 md:p-12"
             initial={{ clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" }}
             animate={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
             exit={{ clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" }}
             transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           >
             <div className="flex justify-between items-center">
-              <span className="font-heading font-bold text-[#0F172A] text-sm tracking-widest uppercase">
+              <span className="font-heading font-bold text-[var(--fg)] text-sm tracking-widest uppercase">
                 {IDENTITY.alias}
               </span>
               <button
                 onClick={() => setOpen(false)}
-                className="size-10 rounded-full border border-[#0F172A]/20 flex items-center justify-center hover:border-[#0F172A]/60 transition-colors text-[#0F172A] text-xl"
+                className="size-10 rounded-full border border-[var(--border)] flex items-center justify-center hover:border-[var(--fg)]/60 transition-colors text-[var(--fg)] text-xl"
                 aria-label="Close menu"
               >
                 ×
@@ -65,7 +69,7 @@ export default function Navbar() {
                 <m.button
                   key={link.label}
                   onClick={() => handleNavClick(link.href)}
-                  className="text-left font-heading font-bold text-[#0F172A] leading-none hover:text-[#D97706] transition-colors"
+                  className="text-left font-heading font-bold text-[var(--fg)] leading-none hover:text-[var(--accent)] transition-colors"
                   style={{ fontSize: "clamp(48px, 10vw, 96px)" }}
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -77,7 +81,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-end justify-between">
-              <p className="text-[#0F172A] text-xs font-body tracking-widest uppercase">
+              <p className="text-[var(--fg)] text-xs font-body tracking-widest uppercase">
                 {IDENTITY.location}
               </p>
               <div className="flex gap-6">
@@ -87,7 +91,7 @@ export default function Navbar() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#0F172A] hover:text-[#0F172A] text-xs font-body tracking-wider uppercase transition-colors"
+                    className="text-[var(--fg)] hover:text-[var(--accent)] text-xs font-body tracking-wider uppercase transition-colors"
                   >
                     {s.label}
                   </a>
