@@ -33,12 +33,12 @@ export function IDCardModel({
       ref={cardRef}
       type="dynamic"
       mass={1}
-      position={[0, -1, 0]}
+      position={[0, 0, 0]}
       linearDamping={0.5}
       angularDamping={0.9}
     >
       <RoundedBox
-        args={[1.4, 2, 0.05]}
+        args={[2, 2.85, 0.05]}
         radius={0.05}
         smoothness={4}
         onPointerDown={onPointerDown}
