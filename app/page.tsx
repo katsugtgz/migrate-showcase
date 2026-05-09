@@ -1,38 +1,11 @@
-"use client";
+import HomeClient from "./HomeClient";
 
-import { useState } from "react";
-import Preloader from "@/components/Preloader";
-import Navbar from "@/components/Navbar";
-import SequenceScroll from "@/components/SequenceScroll";
-import Projects from "@/components/Projects";
-import About from "@/components/About";
-import Services from "@/components/Services";
-import Marquee from "@/components/Marquee";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
-import CustomCursor from "@/components/CustomCursor";
-import { useLenis } from "@/hooks/useLenis";
+export const metadata = {
+  title: "Fariz — Software Crafter",
+  description:
+    "Nizar Alfarizi Akbar — Software Crafter based in Sidoarjo, Indonesia.",
+};
 
 export default function Home() {
-  const [preloaderDone, setPreloaderDone] = useState(false);
-  useLenis();
-
-  return (
-    <>
-      <CustomCursor />
-      <Preloader onComplete={() => setPreloaderDone(true)} />
-      {preloaderDone && (
-        <main>
-          <Navbar />
-          <SequenceScroll />
-          <Projects />
-          <About />
-          <Marquee />
-          <Services />
-          <Contact />
-          <Footer />
-        </main>
-      )}
-    </>
-  );
+  return <HomeClient />;
 }
