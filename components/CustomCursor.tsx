@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { motion, useMotionValue, useSpring } from "motion/react";
+import { LazyMotion, domAnimation, m, useMotionValue, useSpring } from "motion/react";
 
 export default function CustomCursor() {
   const cursorX = useMotionValue(-100);
@@ -15,7 +15,13 @@ export default function CustomCursor() {
   const ringScale = useMotionValue(1);
   const ringScaleSpring = useSpring(ringScale, { damping: 20, stiffness: 300 });
 
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const move = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -42,16 +48,20 @@ export default function CustomCursor() {
       document.removeEventListener("mouseover", handleOver);
       document.removeEventListener("mouseout", handleOut);
     };
-  }, [cursorX, cursorY, ringScale]);
+  }, [cursorX, cursorY, ringScale, prefersReducedMotion]);
+
+  if (prefersReducedMotion) {
+    return null;
+  }
 
   return (
-    <>
-      <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference"
+    <LazyMotion features={domAnimation}>
+      <m.div
+        className="fixed top-0 left-0 size-2 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference"
         style={{ x: dotX, y: dotY, translateX: "-50%", translateY: "-50%" }}
       />
-      <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border border-white rounded-full pointer-events-none z-[9998] mix-blend-difference"
+      <m.div
+        className="fixed top-0 left-0 size-8 border border-white rounded-full pointer-events-none z-[9998] mix-blend-difference"
         style={{
           x: ringX,
           y: ringY,
@@ -60,6 +70,6 @@ export default function CustomCursor() {
           scale: ringScaleSpring,
         }}
       />
-    </>
+    </LazyMotion>
   );
 }
