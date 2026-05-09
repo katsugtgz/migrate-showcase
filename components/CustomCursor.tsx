@@ -1,8 +1,16 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LazyMotion, domAnimation, m, useMotionValue, useSpring } from "motion/react";
 
 export default function CustomCursor() {
+  const cursorOptOutRef = useRef(false);
+  const [hidden, setHidden] = useState(() => {
+    if (typeof window === "undefined") return true;
+    const opted = localStorage.getItem("cursor-opt-out") === "true";
+    cursorOptOutRef.current = opted;
+    return opted;
+  });
+
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
@@ -19,8 +27,26 @@ export default function CustomCursor() {
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  const hasFinePointer =
+    typeof window !== "undefined" &&
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
   useEffect(() => {
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || !hasFinePointer) return;
+
+    if (cursorOptOutRef.current) return;
+
+    // Set data-cursor attribute on mount
+    document.documentElement.setAttribute("data-cursor", "custom");
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Tab" && !cursorOptOutRef.current) {
+        localStorage.setItem("cursor-opt-out", "true");
+        document.documentElement.removeAttribute("data-cursor");
+        cursorOptOutRef.current = true;
+        setHidden(true);
+      }
+    };
 
     const move = (e: MouseEvent) => {
       cursorX.set(e.clientX);
@@ -39,28 +65,31 @@ export default function CustomCursor() {
       }
     };
 
+    window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("mousemove", move);
     document.addEventListener("mouseover", handleOver);
     document.addEventListener("mouseout", handleOut);
 
     return () => {
+      window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("mousemove", move);
       document.removeEventListener("mouseover", handleOver);
       document.removeEventListener("mouseout", handleOut);
+      document.documentElement.removeAttribute("data-cursor");
     };
-  }, [cursorX, cursorY, ringScale, prefersReducedMotion]);
+  }, [cursorX, cursorY, ringScale, prefersReducedMotion, hasFinePointer]);
 
-  if (prefersReducedMotion) {
-    return null;
-  }
+  const shouldRender = !prefersReducedMotion && hasFinePointer && !hidden;
 
-  return (
+  return shouldRender ? (
     <LazyMotion features={domAnimation}>
       <m.div
+        aria-hidden="true"
         className="fixed top-0 left-0 size-2 bg-[var(--fg)] rounded-full pointer-events-none z-[9999]"
         style={{ x: dotX, y: dotY, translateX: "-50%", translateY: "-50%" }}
       />
       <m.div
+        aria-hidden="true"
         className="fixed top-0 left-0 size-8 border border-[var(--fg)] rounded-full pointer-events-none z-[9998]"
         style={{
           x: ringX,
@@ -71,5 +100,5 @@ export default function CustomCursor() {
         }}
       />
     </LazyMotion>
-  );
+  ) : null;
 }
