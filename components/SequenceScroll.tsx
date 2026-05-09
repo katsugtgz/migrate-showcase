@@ -13,6 +13,7 @@ export default function SequenceScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
+  const drawRef = useRef<(index: number) => void>(() => {});
   const [loaded, setLoaded] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
 
@@ -29,21 +30,34 @@ export default function SequenceScroll() {
 
   // Preload all frames
   useEffect(() => {
+    let cancelled = false;
     const images: HTMLImageElement[] = [];
     let loadedCount = 0;
+
+    const onSettle = () => {
+      if (cancelled) return;
+      loadedCount++;
+      setLoadProgress(Math.round((loadedCount / TOTAL_FRAMES) * 100));
+      if (loadedCount === TOTAL_FRAMES) setLoaded(true);
+    };
 
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = frameUrl(i);
-      img.onload = () => {
-        loadedCount++;
-        setLoadProgress(Math.round((loadedCount / TOTAL_FRAMES) * 100));
-        if (loadedCount === TOTAL_FRAMES) setLoaded(true);
-      };
+      img.onload = onSettle;
+      img.onerror = onSettle; // count errors as settled so loader never hangs
       images.push(img);
     }
 
     imagesRef.current = images;
+
+    return () => {
+      cancelled = true;
+      images.forEach((img) => {
+        img.onload = null;
+        img.onerror = null;
+      });
+    };
   }, []);
 
   // Draw frame on scroll
@@ -54,25 +68,29 @@ export default function SequenceScroll() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const draw = (index: number) => {
-      const img = imagesRef.current[Math.round(index)];
-      if (!img) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let lastIndex = -1;
 
-      // object-fit: cover
-      const scale = Math.max(
-        canvas.width / img.naturalWidth,
-        canvas.height / img.naturalHeight
-      );
-      const w = img.naturalWidth * scale;
-      const h = img.naturalHeight * scale;
-      const x = (canvas.width - w) / 2;
-      const y = (canvas.height - h) / 2;
-      ctx.drawImage(img, x, y, w, h);
+    const draw = (index: number) => {
+      const rounded = Math.round(index);
+      if (rounded === lastIndex) return;
+      lastIndex = rounded;
+      const img = imagesRef.current[rounded];
+      if (!img) return;
+      const dpr = window.devicePixelRatio || 1;
+      const w = canvas.width / dpr;
+      const h = canvas.height / dpr;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const scale = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+      const iw = img.naturalWidth * scale;
+      const ih = img.naturalHeight * scale;
+      const x = (w - iw) / 2;
+      const y = (h - ih) / 2;
+      ctx.drawImage(img, x, y, iw, ih);
     };
 
+    drawRef.current = draw;
     const unsubscribe = frameIndex.on("change", draw);
-    draw(0);
+    draw(frameIndex.get());
 
     return unsubscribe;
   }, [loaded, frameIndex]);
@@ -83,14 +101,20 @@ export default function SequenceScroll() {
     if (!canvas) return;
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      const ctx = canvas.getContext("2d");
+      if (ctx) ctx.scale(dpr, dpr);
+      drawRef.current(frameIndex.get());
     };
 
     resize();
     window.addEventListener("resize", resize);
     return () => window.removeEventListener("resize", resize);
-  }, []);
+  }, [frameIndex]);
 
   const op1 = useTransform(scrollYProgress, [0, 0.04, 0.12, 0.18], [0, 1, 1, 0]);
   const op2 = useTransform(scrollYProgress, [0.25, 0.30, 0.42, 0.48], [0, 1, 1, 0]);
