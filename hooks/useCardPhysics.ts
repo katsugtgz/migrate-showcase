@@ -1,16 +1,21 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useImperativeHandle } from "react";
+import type { Ref } from "react";
 import { useFrame } from "@react-three/fiber";
 import {
   RapierRigidBody,
   useSphericalJoint,
   useRapier,
 } from "@react-three/rapier";
-import { Vector3, Plane } from "three";
+import { Vector3, Plane, Quaternion, Euler } from "three";
 
 // ── Constants ───────────────────────────────────────────────────
 const SEGMENT_LENGTH = 0.8;
+
+// Tilt-back: card slowly returns to face camera when idle
+const IDLE_THRESHOLD_MS = 1500;
+const TILT_STRENGTH = 4.0;
 
 // Stable joint anchor points (module-level to avoid per-render allocation)
 const ANCHOR_BOTTOM = new Vector3(0, -SEGMENT_LENGTH, 0);
@@ -21,8 +26,16 @@ const _cameraDir = new Vector3();
 const _plane = new Plane();
 const _intersection = new Vector3();
 const _cardPos = new Vector3();
+const _quat = new Quaternion();
+const _euler = new Euler();
 
-export function useCardPhysics() {
+export interface CardPhysicsHandle {
+  rotateBy: (dx: number, dy: number) => void;
+  flip: () => void;
+  resetRotation: () => void;
+}
+
+export function useCardPhysics(ref: Ref<CardPhysicsHandle>) {
   // ── Refs ────────────────────────────────────────────────────
   const anchorRef = useRef<RapierRigidBody>(null!);
   const chainRef1 = useRef<RapierRigidBody>(null!);
@@ -38,6 +51,7 @@ export function useCardPhysics() {
 
   // ── State ───────────────────────────────────────────────────
   const [isDragging, setIsDragging] = useState(false);
+  const lastInteractionRef = useRef(performance.now());
 
   const { rapier } = useRapier();
 
@@ -48,30 +62,54 @@ export function useCardPhysics() {
   useSphericalJoint(chainRef2, chainRef3, [ANCHOR_BOTTOM, CHAIN_TOP]);
   useSphericalJoint(chainRef3, cardRef, [ANCHOR_BOTTOM, CHAIN_TOP]);
 
-  // ── Drag tracking (per-frame) ──────────────────────────────
-  useFrame((state) => {
-    if (!isDragging || !cardRef.current) return;
+  // ── Per-frame: drag tracking + tilt-back ───────────────────
+  useFrame((state, delta) => {
+    if (!cardRef.current) return;
 
-    const cardTranslation = cardRef.current.translation();
-    _cardPos.set(cardTranslation.x, cardTranslation.y, cardTranslation.z);
+    if (isDragging) {
+      lastInteractionRef.current = performance.now();
 
-    state.camera.getWorldDirection(_cameraDir);
-    _plane.setFromNormalAndCoplanarPoint(_cameraDir.negate(), _cardPos);
+      const cardTranslation = cardRef.current.translation();
+      _cardPos.set(cardTranslation.x, cardTranslation.y, cardTranslation.z);
 
-    state.raycaster.setFromCamera(state.pointer, state.camera);
+      state.camera.getWorldDirection(_cameraDir);
+      _plane.setFromNormalAndCoplanarPoint(_cameraDir.negate(), _cardPos);
 
-    if (state.raycaster.ray.intersectPlane(_plane, _intersection)) {
-      cardRef.current.setNextKinematicTranslation({
-        x: _intersection.x,
-        y: _intersection.y,
-        z: _intersection.z,
-      });
+      state.raycaster.setFromCamera(state.pointer, state.camera);
+
+      if (state.raycaster.ray.intersectPlane(_plane, _intersection)) {
+        cardRef.current.setNextKinematicTranslation({
+          x: _intersection.x,
+          y: _intersection.y,
+          z: _intersection.z,
+        });
+      }
+      return;
+    }
+
+    // ── Tilt-back: gently return card to face camera when idle ──
+    const now = performance.now();
+    if (now - lastInteractionRef.current > IDLE_THRESHOLD_MS) {
+      const rot = cardRef.current.rotation();
+      _quat.set(rot.x, rot.y, rot.z, rot.w);
+      _euler.setFromQuaternion(_quat);
+
+      const strength = TILT_STRENGTH * delta;
+      cardRef.current.applyTorqueImpulse(
+        {
+          x: -_euler.x * strength,
+          y: -_euler.y * strength,
+          z: -_euler.z * strength,
+        },
+        true,
+      );
     }
   });
 
   // ── Drag handlers ──────────────────────────────────────────
   const onPointerDown = useCallback(() => {
     setIsDragging(true);
+    lastInteractionRef.current = performance.now();
     if (cardRef.current) {
       cardRef.current.setBodyType(
         rapier.RigidBodyType.KinematicPositionBased,
@@ -82,10 +120,43 @@ export function useCardPhysics() {
 
   const onPointerUp = useCallback(() => {
     setIsDragging(false);
+    lastInteractionRef.current = performance.now();
     if (cardRef.current) {
       cardRef.current.setBodyType(rapier.RigidBodyType.Dynamic, true);
     }
   }, [rapier]);
+
+  // ── Imperative API for keyboard controls ────────────────────
+  const rotateBy = useCallback((dx: number, dy: number) => {
+    lastInteractionRef.current = performance.now();
+    if (cardRef.current) {
+      cardRef.current.applyTorqueImpulse(
+        { x: dy * 0.5, y: dx * 0.5, z: 0 },
+        true,
+      );
+    }
+  }, []);
+
+  const flip = useCallback(() => {
+    lastInteractionRef.current = performance.now();
+    if (cardRef.current) {
+      cardRef.current.applyTorqueImpulse({ x: 8, y: 0, z: 0 }, true);
+    }
+  }, []);
+
+  const resetRotation = useCallback(() => {
+    lastInteractionRef.current = performance.now();
+    if (cardRef.current) {
+      cardRef.current.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true);
+      cardRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
+    }
+  }, []);
+
+  useImperativeHandle(ref, () => ({ rotateBy, flip, resetRotation }), [
+    rotateBy,
+    flip,
+    resetRotation,
+  ]);
 
   return {
     anchorRef,
