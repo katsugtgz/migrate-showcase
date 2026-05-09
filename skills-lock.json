@@ -1,11 +1,29 @@
 {
   "version": 1,
   "skills": {
+    "accessibility": {
+      "source": "addyosmani/web-quality-skills",
+      "sourceType": "github",
+      "skillPath": "skills/accessibility/SKILL.md",
+      "computedHash": "10e83284d3395ab5ec2f2db602b663480a37a4ff404d16510eefe86b034fcc1a"
+    },
     "accessibility-a11y": {
       "source": "mindrally/skills",
       "sourceType": "github",
       "skillPath": "accessibility-a11y/SKILL.md",
       "computedHash": "3117d5b0302f4fbb90cf7b3b65474aa0ea70eadaf91036ab9e20c912d68f9289"
+    },
+    "nextjs": {
+      "source": "vercel-labs/vercel-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/nextjs/SKILL.md",
+      "computedHash": "d3a48eada4dbae95856d643a0c9c54a38974ee7896a4d34f93aead13d26c343a"
+    },
+    "tailwind-design-system": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "skillPath": "skills/tailwind-design-system/SKILL.md",
+      "computedHash": "8bf7b1946042609fb682e41d822f875208ac4d6383037c170675a8bbe52f9ba5"
     }
   }
 }
