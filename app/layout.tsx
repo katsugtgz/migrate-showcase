@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 const outfitHeading = Outfit({
@@ -43,8 +44,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${outfitHeading.variable} ${outfitBody.variable}`}>
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning className={`${outfitHeading.variable} ${outfitBody.variable}`}>
+      <body>
+        <ThemeProvider attribute="class" defaultTheme="light">
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
