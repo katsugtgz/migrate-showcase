@@ -1,0 +1,3 @@
+{
+  "ignore": [".claude", ".next", "*.md", "*.mdx"]
+}
