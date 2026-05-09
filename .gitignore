@@ -45,3 +45,5 @@ next-env.d.ts
 *.png
 .playwright-mcp/*.yml
 .playwright-mcp/*.log
+app/api/scrape-ifalf/route.ts
+.firecrawl/*
