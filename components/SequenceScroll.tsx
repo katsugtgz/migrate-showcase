@@ -128,11 +128,11 @@ export default function SequenceScroll() {
       <div ref={containerRef} className="relative h-[500vh]">
         {/* Loading overlay */}
         {!loaded && (
-          <div className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center">
-            <p className="font-heading font-bold text-[#0F172A] text-6xl mb-4">{loadProgress}</p>
-            <div className="w-48 h-px bg-[#0F172A]/10 relative overflow-hidden">
+          <div className="fixed inset-0 z-50 bg-[var(--bg)] flex flex-col items-center justify-center">
+            <p className="font-heading font-bold text-[var(--fg)] text-6xl mb-4">{loadProgress}</p>
+            <div className="w-48 h-px bg-[var(--border)] relative overflow-hidden">
               <div
-                className="absolute inset-y-0 left-0 bg-[#D97706] transition-all duration-100"
+                className="absolute inset-y-0 left-0 bg-[var(--accent)] transition-all duration-100"
                 style={{ width: `${loadProgress}%` }}
               />
             </div>
@@ -143,7 +143,7 @@ export default function SequenceScroll() {
         <div className="sticky top-0 h-screen w-full overflow-hidden">
           <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
-          <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-b from-transparent to-white pointer-events-none z-10" />
+          <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-b from-transparent to-[var(--bg)] pointer-events-none z-10" />
 
           {/* Text overlay 1 — 5% — bottom-left */}
           <m.div
@@ -211,7 +211,7 @@ export default function SequenceScroll() {
             </p>
             <a
               href={`mailto:${IDENTITY.email}`}
-              className="pointer-events-auto group relative inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-body text-white text-sm tracking-wider uppercase hover:border-[#D97706] hover:text-[#D97706] transition-all duration-300 backdrop-blur-sm bg-black/20"
+              className="pointer-events-auto group relative inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-body text-white text-sm tracking-wider uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 backdrop-blur-sm bg-black/20"
             >
               <span>{IDENTITY.email}</span>
               <span className="group-hover:translate-x-1 transition-transform">→</span>
