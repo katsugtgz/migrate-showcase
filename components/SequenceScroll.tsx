@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useScroll, useTransform, LazyMotion, domAnimation, m } from "motion/react";
 import { SEQUENCE_FRAME_COUNT, IDENTITY } from "@/lib/constants";
+import HeroClock from "@/components/HeroClock";
 
 const TOTAL_FRAMES = SEQUENCE_FRAME_COUNT;
 
@@ -16,6 +17,7 @@ export default function SequenceScroll() {
   const drawRef = useRef<(index: number) => void>(() => {});
   const [loaded, setLoaded] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -29,6 +31,14 @@ export default function SequenceScroll() {
   );
 
   // Preload all frames
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
     const images: HTMLImageElement[] = [];
@@ -117,18 +127,30 @@ export default function SequenceScroll() {
     return () => window.removeEventListener("resize", resize);
   }, [frameIndex]);
 
+  // Scroll to canvas when a child receives focus
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const handleFocusIn = () => {
+      container.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    container.addEventListener("focusin", handleFocusIn);
+    return () => container.removeEventListener("focusin", handleFocusIn);
+  }, []);
+
   const op1 = useTransform(scrollYProgress, [0, 0.02, 0.10, 0.16], [0, 1, 1, 0]);
   const op2 = useTransform(scrollYProgress, [0.25, 0.30, 0.42, 0.48], [0, 1, 1, 0]);
   const op3 = useTransform(scrollYProgress, [0.52, 0.58, 0.70, 0.76], [0, 1, 1, 0]);
   const op4 = useTransform(scrollYProgress, [0.82, 0.88, 0.97, 1.0], [0, 1, 1, 0]);
   const scrollHintOp = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
+  const heroClockOp = useTransform(scrollYProgress, [0, 0.03, 0.06], [1, 1, 0]);
 
   return (
     <LazyMotion features={domAnimation}>
       <div ref={containerRef} className="relative h-[500vh]">
         {/* Loading overlay */}
         {!loaded && (
-          <div className="fixed inset-0 z-50 bg-[var(--bg)] flex flex-col items-center justify-center">
+          <div role="status" aria-live="polite" className="fixed inset-0 z-50 bg-[var(--bg)] flex flex-col items-center justify-center">
             <p className="font-heading font-bold text-[var(--fg)] text-6xl mb-4">{loadProgress}</p>
             <div className="w-48 h-px bg-[var(--border)] relative overflow-hidden">
               <div
@@ -136,6 +158,7 @@ export default function SequenceScroll() {
                 style={{ width: `${loadProgress}%` }}
               />
             </div>
+            <span className="sr-only">Loading: {loadProgress}%</span>
           </div>
         )}
 
@@ -145,20 +168,24 @@ export default function SequenceScroll() {
 
           <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-b from-transparent to-[var(--bg)] pointer-events-none z-10" />
 
+          <m.div style={{ opacity: heroClockOp }} className="absolute inset-0 pointer-events-none z-20">
+            <HeroClock />
+          </m.div>
+
           {/* Text overlay 1 — 5% — bottom-left */}
           <m.div
             style={{ opacity: op1 }}
             className="absolute inset-0 flex flex-col items-start justify-end pb-24 pl-8 md:pl-16 pointer-events-none text-left"
           >
-            <p className="text-white/50 font-body text-sm tracking-[0.3em] uppercase mb-4 drop-shadow-md">
+            <p className="text-white/80 font-body text-sm tracking-[0.3em] uppercase mb-4 drop-shadow-md">
               My name is
             </p>
-            <h1
+            <p
               className="font-heading font-semibold text-white leading-none"
               style={{ fontSize: "clamp(40px, 8vw, 96px)", textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}
             >
               {IDENTITY.alias}
-            </h1>
+            </p>
             <p className="text-white/80 font-body text-lg mt-4 tracking-widest uppercase drop-shadow-md">
               {IDENTITY.role}
             </p>
@@ -169,7 +196,7 @@ export default function SequenceScroll() {
             style={{ opacity: op2 }}
             className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 pointer-events-none max-w-lg"
           >
-            <p className="text-white/50 font-body text-xs tracking-[0.3em] uppercase mb-4 drop-shadow-md">
+            <p className="text-white/80 font-body text-xs tracking-[0.3em] uppercase mb-4 drop-shadow-md">
               About
             </p>
             <p
@@ -183,9 +210,9 @@ export default function SequenceScroll() {
           {/* Text overlay 3 — 60% — right */}
           <m.div
             style={{ opacity: op3 }}
-            className="absolute inset-0 flex flex-col justify-center items-end px-10 md:px-20 pointer-events-none text-right max-w-lg ml-auto"
+            className="absolute inset-0 flex flex-col justify-center items-end px-6 md:px-20 pointer-events-none text-right max-w-lg ml-auto"
           >
-            <p className="text-white/50 font-body text-xs tracking-[0.3em] uppercase mb-4 drop-shadow-md">
+            <p className="text-white/80 font-body text-xs tracking-[0.3em] uppercase mb-4 drop-shadow-md">
               Philosophy
             </p>
             <p
@@ -211,7 +238,7 @@ export default function SequenceScroll() {
             </p>
             <a
               href={`mailto:${IDENTITY.email}`}
-              className="pointer-events-auto group relative inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-body text-white text-sm tracking-wider uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 backdrop-blur-sm bg-black/20"
+              className="pointer-events-auto scroll-mt-4 group relative inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-body text-white text-sm tracking-wider uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 backdrop-blur-sm bg-black/20"
             >
               <span>{IDENTITY.email}</span>
               <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -220,16 +247,17 @@ export default function SequenceScroll() {
 
           {/* Scroll hint */}
           <m.div
+            data-testid="scroll-cta"
             style={{ opacity: scrollHintOp }}
             className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
           >
-            <p className="text-white/50 text-xs font-body tracking-widest uppercase drop-shadow-md">
+            <p className="text-white/80 text-xs font-body tracking-widest uppercase drop-shadow-md">
               Scroll
             </p>
             <m.div
               className="w-px h-8 bg-white/50 shadow-[0_0_10px_rgba(0,0,0,0.5)]"
-              animate={{ scaleY: [1, 0.3, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              animate={reducedMotion ? undefined : { scaleY: [1, 0.3, 1] }}
+              transition={reducedMotion ? undefined : { duration: 1.5, repeat: Infinity }}
             />
           </m.div>
         </div>
