@@ -45,7 +45,7 @@ export default function Contact() {
       >
         <div className="max-w-5xl mx-auto text-center">
           <m.p
-            className="text-[#0F172A]/30 font-body text-xs tracking-[0.3em] uppercase mb-8"
+            className="text-[#0F172A] font-body text-xs tracking-[0.3em] uppercase mb-8"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -75,7 +75,7 @@ export default function Contact() {
           </m.p>
           <m.a
             href={`mailto:${IDENTITY.email}`}
-            className="inline-flex items-center gap-3 bg-[#D97706] hover:bg-[#B45309] text-white font-heading font-bold rounded-full px-10 py-5 text-sm tracking-wider uppercase transition-colors"
+            className="inline-flex items-center gap-3 bg-[#0F172A] hover:bg-[#1E293B] text-white font-heading font-bold rounded-full px-10 py-5 text-sm tracking-wider uppercase transition-colors"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -96,7 +96,7 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="text-[#0F172A]/20 hover:text-[#0F172A] transition-colors"
+                  className="text-[#0F172A] hover:text-[#D97706] transition-colors"
                 >
                   {Icon && <Icon className="size-5" />}
                 </a>

@@ -52,7 +52,7 @@ export default function VTuberLogos() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <p className="text-[#0F172A]/30 uppercase tracking-widest text-xs mb-3">
+          <p className="text-[#0F172A] uppercase tracking-widest text-xs mb-3">
             Tech Stack
           </p>
           <h2 className="text-[#0F172A] font-heading font-semibold text-3xl md:text-4xl">
@@ -60,7 +60,11 @@ export default function VTuberLogos() {
           </h2>
         </m.div>
 
-        <div className="relative overflow-hidden mb-8">
+        <span className="sr-only">
+          Tools I use: {LOGOS_ROW_1.map(l => l.name).join(", ")}, {LOGOS_ROW_2.map(l => l.name).join(", ")}
+        </span>
+
+        <div className="relative overflow-hidden mb-8" aria-hidden="true">
           <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
           <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
           <m.div
@@ -74,7 +78,7 @@ export default function VTuberLogos() {
           </m.div>
         </div>
 
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden" aria-hidden="true">
           <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
           <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
           <m.div

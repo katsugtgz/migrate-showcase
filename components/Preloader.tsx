@@ -56,10 +56,10 @@ export default function Preloader() {
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         >
           <div className="mb-8 text-center">
-            <p className="text-[#0F172A]/40 text-xs tracking-[0.3em] uppercase font-body">
+            <p className="text-[#0F172A] text-xs tracking-[0.3em] uppercase font-body">
               {IDENTITY.alias}
             </p>
-            <p className="text-[#0F172A]/20 text-xs tracking-[0.2em] uppercase font-body mt-1">
+            <p className="text-[#0F172A] text-xs tracking-[0.2em] uppercase font-body mt-1">
               {IDENTITY.role}
             </p>
           </div>
@@ -71,7 +71,7 @@ export default function Preloader() {
             >
               {String(state.count).padStart(2, "0")}
             </span>
-            <span className="text-[#0F172A]/40 text-2xl font-heading absolute -right-8 bottom-4">
+            <span className="text-[#0F172A] text-2xl font-heading absolute -right-8 bottom-4">
               %
             </span>
           </div>

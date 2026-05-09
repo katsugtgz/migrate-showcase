@@ -51,7 +51,7 @@ export default function About() {
       >
         <div className="max-w-5xl mx-auto">
           <m.p
-            className="text-[#0F172A]/20 font-body text-xs tracking-[0.3em] uppercase mb-12"
+            className="text-[#0F172A] font-body text-xs tracking-[0.3em] uppercase mb-12"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -62,15 +62,18 @@ export default function About() {
             className="font-heading font-semibold text-[#0F172A] leading-tight"
             style={{ fontSize: "clamp(24px, 4vw, 52px)" }}
           >
-            {charEntries.map((entry) => (
-              <CharReveal
-                key={entry.id}
-                char={entry.char}
-                progress={scrollYProgress}
-                start={entry.start}
-                end={entry.end}
-              />
-            ))}
+            <span className="sr-only">{ABOUT_TEXT}</span>
+            <span aria-hidden="true">
+              {charEntries.map((entry) => (
+                <CharReveal
+                  key={entry.id}
+                  char={entry.char}
+                  progress={scrollYProgress}
+                  start={entry.start}
+                  end={entry.end}
+                />
+              ))}
+            </span>
           </p>
           <m.div
             className="mt-16 flex flex-wrap gap-6"

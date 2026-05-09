@@ -44,10 +44,10 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: n
       )}
       <div className="relative z-10">
         <div className="flex items-start justify-between mb-6">
-          <span className="text-[#0F172A]/20 font-body text-xs tracking-widest">
+          <span className="text-[#0F172A] font-body text-xs tracking-widest">
             {String(index + 1).padStart(2, "0")}
           </span>
-          <span className="text-[#0F172A]/20 font-body text-xs">{project.year}</span>
+          <span className="text-[#0F172A] font-body text-xs">{project.year}</span>
         </div>
         <h3
           className="font-heading font-semibold text-[#0F172A] group-hover:text-[#D97706] transition-colors leading-none mb-3"
@@ -55,12 +55,12 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: n
         >
           {project.displayTitle ?? project.title}
         </h3>
-        <p className="text-[#0F172A]/50 font-body text-sm mb-6">{project.subtitle}</p>
+        <p className="text-[#0F172A] font-body text-sm mb-6">{project.subtitle}</p>
         <div className="flex items-center justify-between">
-          <span className="text-xs font-body text-[#0F172A]/30 border border-[#0F172A]/10 rounded-full px-3 py-1">
+          <span className="text-xs font-body text-[#0F172A] border border-[#0F172A]/10 rounded-full px-3 py-1">
             {project.tech}
           </span>
-          <span className="text-[#0F172A]/30 group-hover:text-[#D97706] group-hover:translate-x-1 transition-all">
+          <span className="text-[#0F172A] group-hover:text-[#D97706] group-hover:translate-x-1 transition-all">
             →
           </span>
         </div>
@@ -84,7 +84,7 @@ export default function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-[#0F172A]/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#0F172A] font-body text-xs tracking-[0.3em] uppercase mb-4">
             Selected Work
           </p>
           <h2
@@ -110,7 +110,7 @@ export default function Projects() {
             href="https://github.com/farizink"
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-[#0F172A]/20 rounded-full px-8 py-3 font-body text-[#0F172A]/60 text-sm tracking-wider uppercase hover:text-[#0F172A] hover:border-[#0F172A]/60 transition-all"
+            className="border border-[#0F172A]/20 rounded-full px-8 py-3 font-body text-[#0F172A] text-sm tracking-wider uppercase hover:text-[#0F172A] hover:border-[#0F172A]/60 transition-all"
           >
             See All on GitHub
           </a>
