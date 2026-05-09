@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Outfit, Bebas_Neue } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
+
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 const outfitHeading = Outfit({
   subsets: ["latin"],
@@ -44,11 +52,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${outfitHeading.variable} ${outfitBody.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${bebasNeue.variable} ${outfitHeading.variable} ${outfitBody.variable}`}>
       <body>
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-md focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-[var(--bg)] focus:no-underline">
+          Skip to main content
+        </a>
         <ThemeProvider attribute="class" defaultTheme="light">
           {children}
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
