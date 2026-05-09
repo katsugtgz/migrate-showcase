@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useScroll, useTransform, motion } from "motion/react";
+import { useScroll, useTransform, LazyMotion, domAnimation, m } from "motion/react";
 import { SEQUENCE_FRAME_COUNT, IDENTITY } from "@/lib/constants";
 
 const TOTAL_FRAMES = SEQUENCE_FRAME_COUNT;
@@ -102,10 +102,11 @@ export default function SequenceScroll() {
 
     const resize = () => {
       const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.cssText = `width:${w}px;height:${h}px`;
       const ctx = canvas.getContext("2d");
       if (ctx) ctx.scale(dpr, dpr);
       drawRef.current(frameIndex.get());
@@ -116,119 +117,123 @@ export default function SequenceScroll() {
     return () => window.removeEventListener("resize", resize);
   }, [frameIndex]);
 
-  const op1 = useTransform(scrollYProgress, [0, 0.04, 0.12, 0.18], [0, 1, 1, 0]);
+  const op1 = useTransform(scrollYProgress, [0, 0.02, 0.10, 0.16], [0, 1, 1, 0]);
   const op2 = useTransform(scrollYProgress, [0.25, 0.30, 0.42, 0.48], [0, 1, 1, 0]);
   const op3 = useTransform(scrollYProgress, [0.52, 0.58, 0.70, 0.76], [0, 1, 1, 0]);
   const op4 = useTransform(scrollYProgress, [0.82, 0.88, 0.97, 1.0], [0, 1, 1, 0]);
   const scrollHintOp = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
 
   return (
-    <div ref={containerRef} className="relative h-[500vh]">
-      {/* Loading overlay */}
-      {!loaded && (
-        <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center">
-          <p className="font-['Syne'] font-bold text-white text-6xl mb-4">{loadProgress}</p>
-          <div className="w-48 h-px bg-white/10 relative overflow-hidden">
-            <div
-              className="absolute inset-y-0 left-0 bg-white transition-all duration-100"
-              style={{ width: `${loadProgress}%` }}
-            />
+    <LazyMotion features={domAnimation}>
+      <div ref={containerRef} className="relative h-[500vh]">
+        {/* Loading overlay */}
+        {!loaded && (
+          <div className="fixed inset-0 z-50 bg-[#0a0a0f] flex flex-col items-center justify-center">
+            <p className="font-heading font-bold text-white text-6xl mb-4">{loadProgress}</p>
+            <div className="w-48 h-px bg-white/10 relative overflow-hidden">
+              <div
+                className="absolute inset-y-0 left-0 bg-white transition-all duration-100"
+                style={{ width: `${loadProgress}%` }}
+              />
+            </div>
           </div>
+        )}
+
+        {/* Sticky canvas */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
+          <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+
+          <div className="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-b from-transparent to-[#0a0a0f] pointer-events-none z-10" />
+
+          {/* Text overlay 1 — 5% — bottom-left */}
+          <m.div
+            style={{ opacity: op1 }}
+            className="absolute inset-0 flex flex-col items-start justify-end pb-24 pl-8 md:pl-16 pointer-events-none text-left"
+          >
+            <p className="text-white/50 font-body text-sm tracking-[0.3em] uppercase mb-4">
+              My name is
+            </p>
+            <h1
+              className="font-heading font-semibold text-white leading-none"
+              style={{ fontSize: "clamp(40px, 8vw, 96px)", textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}
+            >
+              {IDENTITY.alias}
+            </h1>
+            <p className="text-white/60 font-body text-lg mt-4 tracking-widest uppercase">
+              {IDENTITY.role}
+            </p>
+          </m.div>
+
+          {/* Text overlay 2 — 30% — left */}
+          <m.div
+            style={{ opacity: op2 }}
+            className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 pointer-events-none max-w-lg"
+          >
+            <p className="text-white/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
+              About
+            </p>
+            <p
+              className="font-heading font-semibold text-white leading-tight"
+              style={{ fontSize: "clamp(22px, 3.5vw, 42px)" }}
+            >
+              {IDENTITY.description}
+            </p>
+          </m.div>
+
+          {/* Text overlay 3 — 60% — right */}
+          <m.div
+            style={{ opacity: op3 }}
+            className="absolute inset-0 flex flex-col justify-center items-end px-10 md:px-20 pointer-events-none text-right max-w-lg ml-auto"
+          >
+            <p className="text-white/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
+              Philosophy
+            </p>
+            <p
+              className="font-heading font-semibold text-white leading-tight"
+              style={{ fontSize: "clamp(24px, 4vw, 48px)", textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}
+            >
+              {IDENTITY.motto}
+            </p>
+          </m.div>
+
+          {/* Text overlay 4 — 90% — center CTA */}
+          <m.div
+            style={{ opacity: op4 }}
+            className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
+          >
+            <p
+              className="font-heading font-semibold text-white leading-tight mb-8"
+              style={{ fontSize: "clamp(28px, 5vw, 60px)" }}
+            >
+              Let&apos;s build
+              <br />
+              something great.
+            </p>
+            <a
+              href={`mailto:${IDENTITY.email}`}
+              className="pointer-events-auto group relative inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-body text-white text-sm tracking-wider uppercase hover:border-blue-400 hover:text-blue-400 transition-all duration-300"
+            >
+              <span>{IDENTITY.email}</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </a>
+          </m.div>
+
+          {/* Scroll hint */}
+          <m.div
+            style={{ opacity: scrollHintOp }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
+          >
+            <p className="text-white/30 text-xs font-body tracking-widest uppercase">
+              Scroll
+            </p>
+            <m.div
+              className="w-px h-8 bg-white/20"
+              animate={{ scaleY: [1, 0.3, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
+          </m.div>
         </div>
-      )}
-
-      {/* Sticky canvas */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-
-        {/* Text overlay 1 — 5% — center */}
-        <motion.div
-          style={{ opacity: op1 }}
-          className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
-        >
-          <p className="text-white/50 font-['Manrope'] text-sm tracking-[0.3em] uppercase mb-4">
-            My name is
-          </p>
-          <h1
-            className="font-['Syne'] font-bold text-white leading-none"
-            style={{ fontSize: "clamp(40px, 8vw, 96px)" }}
-          >
-            {IDENTITY.alias}
-          </h1>
-          <p className="text-white/60 font-['Manrope'] text-lg mt-4 tracking-widest uppercase">
-            {IDENTITY.role}
-          </p>
-        </motion.div>
-
-        {/* Text overlay 2 — 30% — left */}
-        <motion.div
-          style={{ opacity: op2 }}
-          className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 pointer-events-none max-w-lg"
-        >
-          <p className="text-white/30 font-['Manrope'] text-xs tracking-[0.3em] uppercase mb-4">
-            About
-          </p>
-          <p
-            className="font-['Syne'] font-semibold text-white leading-tight"
-            style={{ fontSize: "clamp(22px, 3.5vw, 42px)" }}
-          >
-            {IDENTITY.description}
-          </p>
-        </motion.div>
-
-        {/* Text overlay 3 — 60% — right */}
-        <motion.div
-          style={{ opacity: op3 }}
-          className="absolute inset-0 flex flex-col justify-center items-end px-8 md:px-16 pointer-events-none text-right max-w-lg ml-auto"
-        >
-          <p className="text-white/30 font-['Manrope'] text-xs tracking-[0.3em] uppercase mb-4">
-            Philosophy
-          </p>
-          <p
-            className="font-['Syne'] font-bold text-white leading-tight"
-            style={{ fontSize: "clamp(28px, 4.5vw, 56px)" }}
-          >
-            {IDENTITY.motto}
-          </p>
-        </motion.div>
-
-        {/* Text overlay 4 — 90% — center CTA */}
-        <motion.div
-          style={{ opacity: op4 }}
-          className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
-        >
-          <p
-            className="font-['Syne'] font-bold text-white leading-tight mb-8"
-            style={{ fontSize: "clamp(28px, 5vw, 60px)" }}
-          >
-            Let&apos;s build
-            <br />
-            something great.
-          </p>
-          <a
-            href={`mailto:${IDENTITY.email}`}
-            className="pointer-events-auto group relative inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-['Manrope'] text-white text-sm tracking-wider uppercase hover:border-blue-400 hover:text-blue-400 transition-all duration-300"
-          >
-            <span>{IDENTITY.email}</span>
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
-          </a>
-        </motion.div>
-
-        {/* Scroll hint */}
-        <motion.div
-          style={{ opacity: scrollHintOp }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
-        >
-          <p className="text-white/30 text-xs font-['Manrope'] tracking-widest uppercase">
-            Scroll
-          </p>
-          <motion.div
-            className="w-px h-8 bg-white/20"
-            animate={{ scaleY: [1, 0.3, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          />
-        </motion.div>
       </div>
-    </div>
+    </LazyMotion>
   );
 }
