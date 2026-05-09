@@ -13,23 +13,32 @@ export interface IDCardModelProps {
   isDragging: boolean;
   onPointerDown: (e: ThreeEvent<PointerEvent>) => void;
   onPointerUp: (e: ThreeEvent<PointerEvent>) => void;
+  isDark?: boolean;
 }
 
 export function IDCardModel({
   cardRef,
   onPointerDown,
   onPointerUp,
+  isDark = false,
 }: IDCardModelProps) {
   const texture = useMemo(() => {
-    const tex = new THREE.CanvasTexture(generateCardTexture());
+    const tex = new THREE.CanvasTexture(generateCardTexture(isDark));
     tex.needsUpdate = true;
     return tex;
-  }, []);
+  }, [isDark]);
 
   return (
-    <RigidBody ref={cardRef} type="dynamic" mass={1} position={[0, -1, 0]}>
+    <RigidBody
+      ref={cardRef}
+      type="dynamic"
+      mass={1}
+      position={[0, -1, 0]}
+      linearDamping={0.5}
+      angularDamping={0.9}
+    >
       <RoundedBox
-        args={[2, 1.25, 0.05]}
+        args={[1.4, 2, 0.05]}
         radius={0.05}
         smoothness={4}
         onPointerDown={onPointerDown}
