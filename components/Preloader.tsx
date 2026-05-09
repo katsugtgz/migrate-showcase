@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { IDENTITY } from "@/lib/constants";
 
@@ -11,11 +11,18 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const [count, setCount] = useState(0);
   const [visible, setVisible] = useState(true);
 
+  const onCompleteRef = useRef(onComplete);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
   useEffect(() => {
     const duration = 2200;
     const interval = 20;
     const steps = duration / interval;
     let current = 0;
+    let t1: ReturnType<typeof setTimeout>;
+    let t2: ReturnType<typeof setTimeout>;
 
     const timer = setInterval(() => {
       current += 1;
@@ -25,15 +32,19 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
       if (current >= steps) {
         clearInterval(timer);
-        setTimeout(() => {
+        t1 = setTimeout(() => {
           setVisible(false);
-          setTimeout(onComplete, 800);
+          t2 = setTimeout(() => onCompleteRef.current(), 800);
         }, 300);
       }
     }, interval);
 
-    return () => clearInterval(timer);
-  }, [onComplete]);
+    return () => {
+      clearInterval(timer);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
 
   return (
     <AnimatePresence>
