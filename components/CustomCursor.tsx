@@ -21,23 +21,26 @@ export default function CustomCursor() {
       cursorY.set(e.clientY);
     };
 
-    const handleEnter = () => ringScale.set(2.2);
-    const handleLeave = () => ringScale.set(1);
+    const handleOver = (e: MouseEvent) => {
+      if ((e.target as Element).closest("a, button, [role='button']")) {
+        ringScale.set(2.2);
+      }
+    };
+
+    const handleOut = (e: MouseEvent) => {
+      if ((e.target as Element).closest("a, button, [role='button']")) {
+        ringScale.set(1);
+      }
+    };
 
     window.addEventListener("mousemove", move);
-
-    const interactives = document.querySelectorAll("a, button, [role='button']");
-    interactives.forEach((el) => {
-      el.addEventListener("mouseenter", handleEnter);
-      el.addEventListener("mouseleave", handleLeave);
-    });
+    document.addEventListener("mouseover", handleOver);
+    document.addEventListener("mouseout", handleOut);
 
     return () => {
       window.removeEventListener("mousemove", move);
-      interactives.forEach((el) => {
-        el.removeEventListener("mouseenter", handleEnter);
-        el.removeEventListener("mouseleave", handleLeave);
-      });
+      document.removeEventListener("mouseover", handleOver);
+      document.removeEventListener("mouseout", handleOut);
     };
   }, [cursorX, cursorY, ringScale]);
 

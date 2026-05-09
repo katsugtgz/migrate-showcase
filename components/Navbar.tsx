@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { NAV_LINKS, SOCIALS, IDENTITY } from "@/lib/constants";
 
@@ -8,10 +8,16 @@ export default function Navbar() {
 
   const handleNavClick = (href: string) => {
     setOpen(false);
-    setTimeout(() => {
-      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-    }, 600);
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, []);
 
   return (
     <>
@@ -31,7 +37,7 @@ export default function Navbar() {
         </button>
       </nav>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {open && (
           <motion.div
             className="fixed inset-0 z-[900] bg-black flex flex-col justify-between p-8 md:p-12"
