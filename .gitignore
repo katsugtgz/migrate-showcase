@@ -47,3 +47,10 @@ next-env.d.ts
 .playwright-mcp/*.log
 app/api/scrape-ifalf/route.ts
 .firecrawl/*
+
+# test output
+playwright-report/
+test-results/
+
+# temp files
+fix9may.md
