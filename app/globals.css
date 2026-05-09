@@ -6,10 +6,10 @@
 }
 
 :root {
-  --bg: #000000;
-  --fg: #ffffff;
-  --accent: #3b82f6;
-  --accent-dim: rgba(59, 130, 246, 0.15);
+  --bg: #FFFFFF;
+  --fg: #0F172A;
+  --accent: #D97706;
+  --accent-dim: rgba(217, 119, 6, 0.15);
 }
 
 * {

@@ -57,11 +57,11 @@ export default function CustomCursor() {
   return (
     <LazyMotion features={domAnimation}>
       <m.div
-        className="fixed top-0 left-0 size-2 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference"
+        className="fixed top-0 left-0 size-2 bg-[#0F172A] rounded-full pointer-events-none z-[9999]"
         style={{ x: dotX, y: dotY, translateX: "-50%", translateY: "-50%" }}
       />
       <m.div
-        className="fixed top-0 left-0 size-8 border border-white rounded-full pointer-events-none z-[9998] mix-blend-difference"
+        className="fixed top-0 left-0 size-8 border border-[#0F172A] rounded-full pointer-events-none z-[9998]"
         style={{
           x: ringX,
           y: ringY,

@@ -1,0 +1,364 @@
+- main
+  - navigation
+    - StaticText "FARIZ"
+    - button "Open menu" [ref=e1]
+  - generic
+    - Canvas
+    - generic
+      - paragraph
+        - StaticText "MY NAME IS"
+      - heading "Fariz" [level=1, ref=e20]
+      - paragraph
+        - StaticText "SOFTWARE ENGINEER"
+    - generic
+      - paragraph
+        - StaticText "ABOUT"
+      - paragraph
+        - StaticText "Software engineer passionate about building innovative solutions and developer tools. Explore my projects and free online utilities."
+    - generic
+      - paragraph
+        - StaticText "PHILOSOPHY"
+      - paragraph
+        - StaticText "Code with craft. Ship with purpose."
+    - generic
+      - paragraph
+        - StaticText "Let's build"
+        - LineBreak "\n"
+        - StaticText "something great."
+      - link "ME@FARIZ.DEV →" [ref=e21]
+        - StaticText "ME@FARIZ.DEV"
+        - StaticText "→"
+    - generic
+      - paragraph
+        - StaticText "SCROLL"
+  - paragraph
+    - StaticText "SELECTED WORK"
+  - heading "Projects" [level=2, ref=e2]
+  - link "01 2024 Dea Your virtual secretary TypeScript →" [ref=e3]
+    - generic
+      - StaticText "01"
+      - StaticText "2024"
+      - heading "Dea" [level=3, ref=e22]
+      - paragraph
+        - StaticText "Your virtual secretary"
+      - StaticText "TypeScript"
+      - StaticText "→"
+  - link "02 2024 Space Personal experimental project TypeScript →" [ref=e4]
+    - generic
+      - StaticText "02"
+      - StaticText "2024"
+      - heading "Space" [level=3, ref=e23]
+      - paragraph
+        - StaticText "Personal experimental project"
+      - StaticText "TypeScript"
+      - StaticText "→"
+  - link "03 2024 Avogado6 Personal site — built with Svelte Svelte →" [ref=e5]
+    - generic
+      - StaticText "03"
+      - StaticText "2024"
+      - heading "Avogado6" [level=3, ref=e24]
+      - paragraph
+        - StaticText "Personal site — built with Svelte"
+      - StaticText "Svelte"
+      - StaticText "→"
+  - link "04 2023 Gak Ngotak Discord random auto-chat bot JavaScript →" [ref=e6]
+    - generic
+      - StaticText "04"
+      - StaticText "2023"
+      - heading "Gak Ngotak" [level=3, ref=e25]
+      - paragraph
+        - StaticText "Discord random auto-chat bot"
+      - StaticText "JavaScript"
+      - StaticText "→"
+  - link "SEE ALL ON GITHUB" [ref=e7]
+  - paragraph
+    - StaticText "ABOUT"
+  - paragraph
+    - StaticText "H"
+    - StaticText "i"
+    - StaticText ","
+    - StaticText "I"
+    - StaticText "'"
+    - StaticText "m"
+    - StaticText "F"
+    - StaticText "a"
+    - StaticText "r"
+    - StaticText "i"
+    - StaticText "z"
+    - StaticText "—"
+    - StaticText "a"
+    - StaticText "S"
+    - StaticText "o"
+    - StaticText "f"
+    - StaticText "t"
+    - StaticText "w"
+    - StaticText "a"
+    - StaticText "r"
+    - StaticText "e"
+    - StaticText "E"
+    - StaticText "n"
+    - StaticText "g"
+    - StaticText "i"
+    - StaticText "n"
+    - StaticText "e"
+    - StaticText "e"
+    - StaticText "r"
+    - StaticText "f"
+    - StaticText "r"
+    - StaticText "o"
+    - StaticText "m"
+    - StaticText "S"
+    - StaticText "i"
+    - StaticText "d"
+    - StaticText "o"
+    - StaticText "a"
+    - StaticText "r"
+    - StaticText "j"
+    - StaticText "o"
+    - StaticText ","
+    - StaticText "I"
+    - StaticText "n"
+    - StaticText "d"
+    - StaticText "o"
+    - StaticText "n"
+    - StaticText "e"
+    - StaticText "s"
+    - StaticText "i"
+    - StaticText "a"
+    - StaticText "."
+    - StaticText "S"
+    - StaticText "o"
+    - StaticText "f"
+    - StaticText "t"
+    - StaticText "w"
+    - StaticText "a"
+    - StaticText "r"
+    - StaticText "e"
+    - StaticText "e"
+    - StaticText "n"
+    - StaticText "g"
+    - StaticText "i"
+    - StaticText "n"
+    - StaticText "e"
+    - StaticText "e"
+    - StaticText "r"
+    - StaticText "p"
+    - StaticText "a"
+    - StaticText "s"
+    - StaticText "s"
+    - StaticText "i"
+    - StaticText "o"
+    - StaticText "n"
+    - StaticText "a"
+    - StaticText "t"
+    - StaticText "e"
+    - StaticText "a"
+    - StaticText "b"
+    - StaticText "o"
+    - StaticText "u"
+    - StaticText "t"
+    - StaticText "b"
+    - StaticText "u"
+    - StaticText "i"
+    - StaticText "l"
+    - StaticText "d"
+    - StaticText "i"
+    - StaticText "n"
+    - StaticText "g"
+    - StaticText "i"
+    - StaticText "n"
+    - StaticText "n"
+    - StaticText "o"
+    - StaticText "v"
+    - StaticText "a"
+    - StaticText "t"
+    - StaticText "i"
+    - StaticText "v"
+    - StaticText "e"
+    - StaticText "s"
+    - StaticText "o"
+    - StaticText "l"
+    - StaticText "u"
+    - StaticText "t"
+    - StaticText "i"
+    - StaticText "o"
+    - StaticText "n"
+    - StaticText "s"
+    - StaticText "a"
+    - StaticText "n"
+    - StaticText "d"
+    - StaticText "d"
+    - StaticText "e"
+    - StaticText "v"
+    - StaticText "e"
+    - StaticText "l"
+    - StaticText "o"
+    - StaticText "p"
+    - StaticText "e"
+    - StaticText "r"
+    - StaticText "t"
+    - StaticText "o"
+    - StaticText "o"
+    - StaticText "l"
+    - StaticText "s"
+    - StaticText "."
+    - StaticText "E"
+    - StaticText "x"
+    - StaticText "p"
+    - StaticText "l"
+    - StaticText "o"
+    - StaticText "r"
+    - StaticText "e"
+    - StaticText "m"
+    - StaticText "y"
+    - StaticText "p"
+    - StaticText "r"
+    - StaticText "o"
+    - StaticText "j"
+    - StaticText "e"
+    - StaticText "c"
+    - StaticText "t"
+    - StaticText "s"
+    - StaticText "a"
+    - StaticText "n"
+    - StaticText "d"
+    - StaticText "f"
+    - StaticText "r"
+    - StaticText "e"
+    - StaticText "e"
+    - StaticText "o"
+    - StaticText "n"
+    - StaticText "l"
+    - StaticText "i"
+    - StaticText "n"
+    - StaticText "e"
+    - StaticText "u"
+    - StaticText "t"
+    - StaticText "i"
+    - StaticText "l"
+    - StaticText "i"
+    - StaticText "t"
+    - StaticText "i"
+    - StaticText "e"
+    - StaticText "s"
+    - StaticText "."
+  - StaticText "Backend Systems"
+  - StaticText "TypeScript"
+  - StaticText "Node.js"
+  - StaticText "Svelte"
+  - StaticText "APIs"
+  - StaticText "Dev Tools"
+  - generic
+    - paragraph
+      - StaticText "TECH STACK"
+    - heading "Tools I Use" [level=2, ref=e8]
+    - generic
+      - image "TypeScript logo"
+      - image "React logo"
+      - image "Next.js logo"
+      - image "Tailwind CSS logo"
+      - image "Node.js logo"
+      - image "Python logo"
+      - image "Vite logo"
+      - image "Vue logo"
+      - image "TypeScript logo"
+      - image "React logo"
+      - image "Next.js logo"
+      - image "Tailwind CSS logo"
+      - image "Node.js logo"
+      - image "Python logo"
+      - image "Vite logo"
+      - image "Vue logo"
+    - generic
+      - image "GitHub logo"
+      - image "Go logo"
+      - image "Rust logo"
+      - image "HTML logo"
+      - image "Figma logo"
+      - image "Java logo"
+      - image "Kotlin logo"
+      - image "Swift logo"
+      - image "GitHub logo"
+      - image "Go logo"
+      - image "Rust logo"
+      - image "HTML logo"
+      - image "Figma logo"
+      - image "Java logo"
+      - image "Kotlin logo"
+      - image "Swift logo"
+  - StaticText "SOFTWARE CRAFTER"
+  - StaticText "✦"
+  - StaticText "BACKEND DEVELOPER"
+  - StaticText "✦"
+  - StaticText "TYPESCRIPT"
+  - StaticText "✦"
+  - StaticText "NODE.JS"
+  - StaticText "✦"
+  - StaticText "SVELTE"
+  - StaticText "✦"
+  - StaticText "OPEN SOURCE"
+  - StaticText "✦"
+  - StaticText "SIDOARJO, ID"
+  - StaticText "✦"
+  - StaticText "SOFTWARE CRAFTER"
+  - StaticText "✦"
+  - StaticText "BACKEND DEVELOPER"
+  - StaticText "✦"
+  - StaticText "TYPESCRIPT"
+  - StaticText "✦"
+  - StaticText "NODE.JS"
+  - StaticText "✦"
+  - StaticText "SVELTE"
+  - StaticText "✦"
+  - StaticText "OPEN SOURCE"
+  - StaticText "✦"
+  - StaticText "SIDOARJO, ID"
+  - StaticText "✦"
+  - paragraph
+    - StaticText "WHAT I DO"
+  - heading "Services" [level=2, ref=e9]
+  - image
+  - heading "Backend Development" [level=3, ref=e10]
+  - paragraph
+    - StaticText "Scalable APIs, microservices, and server-side systems built for performance."
+  - image
+  - heading "Web Application" [level=3, ref=e11]
+  - paragraph
+    - StaticText "Full-stack web apps from architecture to deployment — fast and reliable."
+  - image
+  - heading "Developer Tools" [level=3, ref=e12]
+  - paragraph
+    - StaticText "Internal tooling and automation that makes teams ship faster."
+  - image
+  - heading "Code Review & Consulting" [level=3, ref=e13]
+  - paragraph
+    - StaticText "Architecture reviews, performance audits, and technical guidance."
+  - paragraph
+    - StaticText "GET IN TOUCH"
+  - heading "Let's build something great." [level=2, ref=e14]
+    - StaticText "Let's build"
+    - LineBreak "\n"
+    - StaticText "something great."
+  - paragraph
+    - StaticText "Open to new opportunities, collaborations, and interesting projects."
+  - link "ME@FARIZ.DEV →" [ref=e15]
+    - StaticText "ME@FARIZ.DEV"
+    - StaticText "→"
+  - link "GitHub" [ref=e16]
+    - image
+  - link "Bluesky" [ref=e17]
+    - image
+  - link "Discord" [ref=e18]
+    - image
+  - link "Email" [ref=e19]
+    - image
+  - sectionfooter
+    - paragraph
+      - StaticText "© 2026Nizar Alfarizi Akbar"
+    - paragraph
+      - StaticText "FARIZ"
+    - paragraph
+      - StaticText "Sidoarjo, Indonesia"
+- button "Open Next.js Dev Tools" [expanded=false, ref=e26]
+  - image
+- alert

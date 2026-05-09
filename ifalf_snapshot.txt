@@ -1,0 +1,199 @@
+- banner
+  - image "logo"
+  - generic
+    - StaticText "17:28:00"
+    - generic
+      - StaticText "Your time: 16:28:00"
+- generic
+  - generic
+    - image "logo aldo.me"
+    - heading "IFAL FAHRI A" [level=2, ref=e20]
+      - StaticText "IFAL FAHRI A"
+    - button "Scroll" [ref=e21]
+      - StaticText "Scroll"
+      - image
+    - heading "Ifal Fahri A - Web Developer, Designer, and Tech Enthusiast" [level=1, ref=e7]
+    - StaticText "FRONTEND DEVELOPER - BACKEND SURVIVOR - DESIGN DREAMER -"
+    - StaticText "FRONTEND DEVELOPER - BACKEND SURVIVOR - DESIGN DREAMER -"
+    - StaticText "FRONTEND DEVELOPER - BACKEND SURVIVOR - DESIGN DREAMER -"
+    - StaticText "FRONTEND DEVELOPER - BACKEND SURVIVOR - DESIGN DREAMER -"
+    - StaticText "DESIGN DREAMER - BACKEND SURVIVOR - FRONTEND DEVELOPER -"
+    - StaticText "DESIGN DREAMER - BACKEND SURVIVOR - FRONTEND DEVELOPER -"
+    - StaticText "DESIGN DREAMER - BACKEND SURVIVOR - FRONTEND DEVELOPER -"
+    - StaticText "DESIGN DREAMER - BACKEND SURVIVOR - FRONTEND DEVELOPER -"
+  - region "About Me" [ref=e1]
+    - heading "About Me" [level=2, ref=e8]
+    - StaticText "Hi,"
+    - StaticText "Hi,"
+    - StaticText "I'm"
+    - StaticText "I'm"
+    - StaticText "Ifal"
+    - StaticText "Ifal"
+    - StaticText "Fahri"
+    - StaticText "Fahri"
+    - StaticText "A."
+    - StaticText "A."
+    - StaticText "A"
+    - StaticText "A"
+    - StaticText "tech"
+    - StaticText "tech"
+    - StaticText "enthusiast"
+    - StaticText "enthusiast"
+    - StaticText "studying"
+    - StaticText "studying"
+    - StaticText "Informatics"
+    - StaticText "Informatics"
+    - StaticText "Engineering."
+    - StaticText "Engineering."
+    - StaticText "Mainly"
+    - StaticText "Mainly"
+    - StaticText "focused"
+    - StaticText "focused"
+    - StaticText "on"
+    - StaticText "on"
+    - StaticText "Web"
+    - StaticText "Web"
+    - StaticText "Development"
+    - StaticText "Development"
+    - StaticText "and"
+    - StaticText "and"
+    - StaticText "Visual"
+    - StaticText "Visual"
+    - StaticText "Design."
+    - StaticText "Design."
+    - StaticText "I"
+    - StaticText "I"
+    - StaticText "love"
+    - StaticText "love"
+    - StaticText "creating"
+    - StaticText "creating"
+    - StaticText "intuitive"
+    - StaticText "intuitive"
+    - StaticText "and"
+    - StaticText "and"
+    - StaticText "visually"
+    - StaticText "visually"
+    - StaticText "appealing"
+    - StaticText "appealing"
+    - StaticText "stuff"
+    - StaticText "stuff"
+    - StaticText "like"
+    - StaticText "like"
+    - StaticText "this."
+    - StaticText "this."
+    - generic
+      - image "1's image"
+      - image "2's image"
+      - image "3's image"
+      - image "4's image"
+      - image "5's image"
+      - image "6's image"
+      - image "7's image"
+      - image "8's image"
+      - image "9's image"
+      - image "10's image"
+      - image "11's image"
+      - image "12's image"
+      - image "1's image"
+      - image "2's image"
+      - image "3's image"
+      - image "4's image"
+      - image "5's image"
+      - image "6's image"
+      - image "7's image"
+      - image "8's image"
+      - image "9's image"
+      - image "10's image"
+      - image "11's image"
+      - image "12's image"
+    - link "MORE ABOUT ME" [ref=e9]
+      - generic
+        - paragraph
+          - StaticText "MORE ABOUT ME"
+  - region "Project Highlights" [ref=e2]
+    - heading "Project Highlights" [level=2, ref=e10]
+    - StaticText "MY WORKS"
+    - link "Cultrahub Cultural Social Commerce App Landing Page Image representing a link for Cultrahub" [ref=e22]
+      - generic
+      - StaticText "Cultrahub"
+      - StaticText "Cultural Social Commerce App Landing Page"
+      - image "Image representing a link for Cultrahub"
+      - image
+    - link "Butterfly Tours Tour and Travel Landing Page Image representing a link for Butterfly Tours" [ref=e23]
+      - generic
+      - StaticText "Butterfly Tours"
+      - StaticText "Tour and Travel Landing Page"
+      - image "Image representing a link for Butterfly Tours"
+      - image
+    - link "KeluhKesah Anonymous Menfess-like App Image representing a link for KeluhKesah" [ref=e24]
+      - generic
+      - StaticText "KeluhKesah"
+      - StaticText "Anonymous Menfess-like App"
+      - image "Image representing a link for KeluhKesah"
+      - image
+    - link "Background Begone 100% Free Background Remover Image representing a link for Background Begone" [ref=e25]
+      - generic
+      - StaticText "Background Begone"
+      - StaticText "100% Free Background Remover"
+      - image "Image representing a link for Background Begone"
+      - image
+    - link "Bhinneka All in One Indonesian App Image representing a link for Bhinneka" [ref=e26]
+      - generic
+      - StaticText "Bhinneka"
+      - StaticText "All in One Indonesian App"
+      - image "Image representing a link for Bhinneka"
+      - image
+    - link "SEE MORE" [ref=e11]
+      - generic
+        - paragraph
+          - StaticText "SEE MORE"
+  - region "Quote" [ref=e3]
+    - heading "Quote" [level=2, ref=e12]
+    - StaticText "QUOTE"
+    - generic
+      - image
+      - paragraph
+        - StaticText "Hoping AI doesn't take over my job... but also hoping it finishes my code.."
+      - paragraph
+        - StaticText "Ifal Fahri A, probably"
+  - region "Contact Me" [ref=e4]
+    - heading "Contact Me" [level=2, ref=e13]
+    - StaticText "CONTACT"
+    - generic
+      - heading "LET'S MAKE SOMETHING GREAT" [level=3, ref=e27]
+      - button "CONTACT ME" [ref=e36]
+        - button "CONTACT ME" [ref=e37]
+          - StaticText "CONTACT ME"
+      - paragraph
+        - StaticText "I'm always open to new opportunities, collaborations, and connections. Got a project to discuss or just want to say hi? Feel free to reach out!"
+  - region "3D Logo Animation" [ref=e5]
+- sectionfooter
+  - image "logo aldo.me"
+  - paragraph
+    - StaticText "Crafting digital experiences with code and creativity, blending aesthetics with functionality for a seamless and impactful digital presence."
+  - heading "Links" [level=3, ref=e29]
+  - link "About" [ref=e30]
+  - link "Projects" [ref=e31]
+  - link "Contact" [ref=e32]
+  - heading "Connect" [level=3, ref=e33]
+  - link "GitHub" [ref=e34]
+  - link "LinkedIn" [ref=e35]
+  - paragraph
+    - StaticText "© 2026 Ifal Fahri A. All rights reserved."
+- generic
+  - generic
+    - link [ref=e14]
+    - link [ref=e15]
+    - link [ref=e16]
+    - link [ref=e17]
+      - image
+    - link "LinkedIn" [ref=e18]
+      - image "LinkedIn"
+    - generic [ref=e19] clickable [cursor:pointer, onclick]
+      - button [ref=e28]
+        - image
+- button "Open IfalAI Open IfalAI" [expanded=false, ref=e6]
+  - image
+  - StaticText "Open IfalAI"
+  - StaticText "Open IfalAI"
+- alert

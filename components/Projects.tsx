@@ -20,7 +20,7 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: n
       target="_blank"
       rel="noopener noreferrer"
       ref={cardRef}
-      className="relative block border border-white/10 rounded-2xl p-8 overflow-hidden group"
+      className="relative block border border-[#0F172A]/10 rounded-2xl p-8 overflow-hidden group"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -38,29 +38,29 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: n
             width: 300,
             height: 300,
             transform: "translate(-50%, -50%)",
-            background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(217,119,6,0.12) 0%, transparent 70%)",
           }}
         />
       )}
       <div className="relative z-10">
         <div className="flex items-start justify-between mb-6">
-          <span className="text-white/20 font-body text-xs tracking-widest">
+          <span className="text-[#0F172A]/20 font-body text-xs tracking-widest">
             {String(index + 1).padStart(2, "0")}
           </span>
-          <span className="text-white/20 font-body text-xs">{project.year}</span>
+          <span className="text-[#0F172A]/20 font-body text-xs">{project.year}</span>
         </div>
         <h3
-          className="font-heading font-semibold text-white group-hover:text-blue-400 transition-colors leading-none mb-3"
+          className="font-heading font-semibold text-[#0F172A] group-hover:text-[#D97706] transition-colors leading-none mb-3"
           style={{ fontSize: "clamp(28px, 4vw, 48px)" }}
         >
           {project.displayTitle ?? project.title}
         </h3>
-        <p className="text-white/50 font-body text-sm mb-6">{project.subtitle}</p>
+        <p className="text-[#0F172A]/50 font-body text-sm mb-6">{project.subtitle}</p>
         <div className="flex items-center justify-between">
-          <span className="text-xs font-body text-white/30 border border-white/10 rounded-full px-3 py-1">
+          <span className="text-xs font-body text-[#0F172A]/30 border border-[#0F172A]/10 rounded-full px-3 py-1">
             {project.tech}
           </span>
-          <span className="text-white/30 group-hover:text-blue-400 group-hover:translate-x-1 transition-all">
+          <span className="text-[#0F172A]/30 group-hover:text-[#D97706] group-hover:translate-x-1 transition-all">
             →
           </span>
         </div>
@@ -74,7 +74,7 @@ export default function Projects() {
     <LazyMotion features={domAnimation}>
     <section
       id="projects"
-      className="relative -mt-[100vh] z-10 bg-[#0a0a0f] px-6 md:px-12 py-24 md:py-32"
+      className="relative -mt-[100vh] z-10 bg-white px-6 md:px-12 py-24 md:py-32"
     >
       <div className="max-w-6xl mx-auto">
         <m.div
@@ -84,11 +84,11 @@ export default function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-white/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#0F172A]/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
             Selected Work
           </p>
           <h2
-            className="font-heading font-semibold text-white leading-none"
+            className="font-heading font-semibold text-[#0F172A] leading-none"
             style={{ fontSize: "clamp(36px, 6vw, 72px)" }}
           >
             Projects
@@ -110,7 +110,7 @@ export default function Projects() {
             href="https://github.com/farizink"
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-white/20 rounded-full px-8 py-3 font-body text-white/60 text-sm tracking-wider uppercase hover:text-white hover:border-white/60 transition-all"
+            className="border border-[#0F172A]/20 rounded-full px-8 py-3 font-body text-[#0F172A]/60 text-sm tracking-wider uppercase hover:text-[#0F172A] hover:border-[#0F172A]/60 transition-all"
           >
             See All on GitHub
           </a>

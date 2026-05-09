@@ -50,35 +50,35 @@ export default function Preloader() {
     <AnimatePresence>
       {state.visible && (
         <m.div
-          className="fixed inset-0 z-[9000] bg-[#0a0a0f] flex flex-col items-center justify-center"
+          className="fixed inset-0 z-[9000] bg-white flex flex-col items-center justify-center"
           exit={{ clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" }}
           initial={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         >
           <div className="mb-8 text-center">
-            <p className="text-white/40 text-xs tracking-[0.3em] uppercase font-body">
+            <p className="text-[#0F172A]/40 text-xs tracking-[0.3em] uppercase font-body">
               {IDENTITY.alias}
             </p>
-            <p className="text-white/20 text-xs tracking-[0.2em] uppercase font-body mt-1">
+            <p className="text-[#0F172A]/20 text-xs tracking-[0.2em] uppercase font-body mt-1">
               {IDENTITY.role}
             </p>
           </div>
 
           <div className="relative">
             <span
-              className="text-white font-heading font-bold leading-none"
+              className="text-[#0F172A] font-heading font-bold leading-none"
               style={{ fontSize: "clamp(80px, 15vw, 160px)" }}
             >
               {String(state.count).padStart(2, "0")}
             </span>
-            <span className="text-white/40 text-2xl font-heading absolute -right-8 bottom-4">
+            <span className="text-[#0F172A]/40 text-2xl font-heading absolute -right-8 bottom-4">
               %
             </span>
           </div>
 
-          <div className="mt-8 w-48 h-px bg-white/10 relative overflow-hidden">
+          <div className="mt-8 w-48 h-px bg-[#0F172A]/10 relative overflow-hidden">
             <m.div
-              className="absolute inset-y-0 left-0 bg-white"
+              className="absolute inset-y-0 left-0 bg-[#D97706]"
               style={{ width: `${state.count}%` }}
             />
           </div>
