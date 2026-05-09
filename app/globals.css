@@ -5,24 +5,41 @@
 @theme {
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
+  --font-display: var(--font-display);
 }
 
 :root {
   --bg: #FFFFFF;
   --fg: #0F172A;
-  --fg-muted: rgba(15, 23, 42, 0.75);
+  --fg-muted: rgba(15, 23, 42, 0.85);
   --accent: #D97706;
   --accent-dim: rgba(217, 119, 6, 0.15);
   --border: rgba(15, 23, 42, 0.1);
+
+  /* Transition tokens */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Section spacing */
+  --section-spacing: clamp(4rem, 10vh, 8rem);
 }
 
 .dark {
   --bg: #0F172A;
   --fg: #F8FAFC;
-  --fg-muted: rgba(248, 250, 252, 0.75);
+  --fg-muted: rgba(248, 250, 252, 0.85);
   --accent: #F59E0B;
   --accent-dim: rgba(245, 158, 11, 0.15);
   --border: rgba(248, 250, 252, 0.1);
+}
+
+/* Selection — accent gold on both themes */
+::selection {
+  background-color: var(--accent);
+  color: #FFFFFF;
 }
 
 * {
@@ -33,8 +50,14 @@ html {
   position: relative;
   background: var(--bg);
   color: var(--fg);
-  cursor: none;
   scrollbar-width: none;
+  overflow-x: clip;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-cursor="custom"] {
+    cursor: none;
+  }
 }
 
 html::-webkit-scrollbar {
@@ -44,15 +67,19 @@ html::-webkit-scrollbar {
 body {
   font-family: var(--font-body);
   background: var(--bg);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
 }
 
-a, button, [role="button"] {
-  cursor: none;
+@media (hover: hover) and (pointer: fine) {
+  html[data-cursor="custom"] a,
+  html[data-cursor="custom"] button,
+  html[data-cursor="custom"] [role="button"] {
+    cursor: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -61,8 +88,40 @@ a, button, [role="button"] {
   }
 }
 
+/* Focus management */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .char {
   display: inline-block;
   opacity: 0;
   transform: translateY(20px);
+}
+
+/* About glitch echo layer */
+.about-glitch-echo {
+  color: var(--accent);
+  opacity: 0.3;
+  transform: translateX(3px) translateY(2px);
+  mix-blend-mode: multiply;
+}
+
+.dark .about-glitch-echo {
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-glitch-echo {
+    display: none;
+  }
+
+  .about-glitch-container {
+    font-variant-numeric: tabular-nums;
+  }
 }
