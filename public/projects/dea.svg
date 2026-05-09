@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" fill="none">
+  <rect width="600" height="400" rx="12" fill="#0F172A"/>
+  <text x="300" y="180" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="bold" font-size="48" fill="#E2E8F0">Dea</text>
+  <text x="300" y="220" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16" fill="#94A3B8">Your virtual secretary</text>
+  <text x="300" y="260" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#64748B">TypeScript · 2024</text>
+</svg>
