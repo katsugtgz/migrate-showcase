@@ -32,6 +32,7 @@ export const PROJECTS = [
     tech: "TypeScript",
     href: "https://github.com/farizink/dea",
     year: "2024",
+    imageUrl: "https://opengraph.githubassets.com/1/farizink/dea",
   },
   {
     title: "space",
@@ -40,6 +41,7 @@ export const PROJECTS = [
     tech: "TypeScript",
     href: "https://github.com/farizink/space",
     year: "2024",
+    imageUrl: "https://opengraph.githubassets.com/1/farizink/space",
   },
   {
     title: "avogado6",
@@ -48,6 +50,7 @@ export const PROJECTS = [
     tech: "Svelte",
     href: "https://github.com/farizink/avogado6",
     year: "2024",
+    imageUrl: "https://opengraph.githubassets.com/1/farizink/avogado6",
   },
   {
     title: "gak-ngotak",
@@ -56,6 +59,7 @@ export const PROJECTS = [
     tech: "JavaScript",
     href: "https://github.com/farizink/gak-ngotak",
     year: "2023",
+    imageUrl: "https://opengraph.githubassets.com/1/farizink/gak-ngotak",
   },
 ];
 
@@ -94,69 +98,4 @@ export const MARQUEE_ITEMS = [
 
 export const SEQUENCE_FRAME_COUNT = 192;
 
-export const VTUBER_LOGOS = [
-  {
-    name: "TypeScript",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/TypeScript/TypeScript.png",
-  },
-  {
-    name: "React",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/React/React.png",
-  },
-  {
-    name: "Next.js",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/Next.js/Next.js.png",
-  },
-  {
-    name: "Tailwind CSS",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/Tailwind%20CSS/Tailwind%20CSS.png",
-  },
-  {
-    name: "Node.js",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/Node.js/Node.js.png",
-  },
-  {
-    name: "Python",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/Python/Python.png",
-  },
-  {
-    name: "VS Code",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/VS%20Code/VS%20Code.png",
-  },
-  {
-    name: "GitHub",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/GitHub/GitHub.png",
-  },
-  {
-    name: "Bun",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/Bun/Bun.png",
-  },
-  {
-    name: "Vite",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/Vite/Vite.png",
-  },
-  {
-    name: "HTML5",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/HTML5/HTML5.png",
-  },
-  {
-    name: "CSS3",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/CSS3/CSS3.png",
-  },
-  {
-    name: "Figma",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/Figma/Figma.png",
-  },
-  {
-    name: "Laravel",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/Laravel/Laravel.png",
-  },
-  {
-    name: "Express",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/Express/Express.png",
-  },
-  {
-    name: "Svelte",
-    src: "https://raw.githubusercontent.com/Ender-Wiggin2019/VTuber-Logos-Collection/main/public/DownloadedLogos/Svelte/Svelte.png",
-  },
-];
+
