@@ -27,6 +27,6 @@ export function useLenis() {
   }, []);
 }
 
-export function getLenis() {
+function getLenis() {
   return lenisInstance;
 }

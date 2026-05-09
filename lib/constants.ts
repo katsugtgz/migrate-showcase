@@ -27,6 +27,7 @@ export const NAV_LINKS = [
 export const PROJECTS = [
   {
     title: "dea",
+    displayTitle: "Dea",
     subtitle: "Your virtual secretary",
     tech: "TypeScript",
     href: "https://github.com/farizink/dea",
@@ -34,6 +35,7 @@ export const PROJECTS = [
   },
   {
     title: "space",
+    displayTitle: "Space",
     subtitle: "Personal experimental project",
     tech: "TypeScript",
     href: "https://github.com/farizink/space",
@@ -41,6 +43,7 @@ export const PROJECTS = [
   },
   {
     title: "avogado6",
+    displayTitle: "Avogado6",
     subtitle: "Personal site — built with Svelte",
     tech: "Svelte",
     href: "https://github.com/farizink/avogado6",
@@ -48,6 +51,7 @@ export const PROJECTS = [
   },
   {
     title: "gak-ngotak",
+    displayTitle: "Gak Ngotak",
     subtitle: "Discord random auto-chat bot",
     tech: "JavaScript",
     href: "https://github.com/farizink/gak-ngotak",
@@ -59,22 +63,22 @@ export const SERVICES = [
   {
     title: "Backend Development",
     description: "Scalable APIs, microservices, and server-side systems built for performance.",
-    icon: "⚙️",
+    icon: "gear",
   },
   {
     title: "Web Application",
     description: "Full-stack web apps from architecture to deployment — fast and reliable.",
-    icon: "🌐",
+    icon: "globe",
   },
   {
     title: "Developer Tools",
     description: "Internal tooling and automation that makes teams ship faster.",
-    icon: "🔧",
+    icon: "wrench",
   },
   {
     title: "Code Review & Consulting",
     description: "Architecture reviews, performance audits, and technical guidance.",
-    icon: "🔍",
+    icon: "search",
   },
 ];
 
