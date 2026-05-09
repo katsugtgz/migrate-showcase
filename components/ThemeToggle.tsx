@@ -3,13 +3,14 @@
 import { useTheme } from "next-themes";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
 
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="pointer-events-auto inline-flex size-9 items-center justify-center rounded-full transition-colors hover:bg-[var(--border)]"
-      aria-label="Toggle theme"
+      className="pointer-events-auto inline-flex size-11 items-center justify-center rounded-full transition-colors hover:bg-[var(--border)]"
+      aria-label={resolvedTheme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+      aria-pressed={resolvedTheme === "dark"}
     >
       <svg
         className="size-[1.2rem] dark:hidden"
@@ -19,6 +20,7 @@ export default function ThemeToggle() {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+        aria-hidden="true"
       >
         <circle cx="12" cy="12" r="5" />
         <line x1="12" y1="1" x2="12" y2="3" />
@@ -38,6 +40,7 @@ export default function ThemeToggle() {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+        aria-hidden="true"
       >
         <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
       </svg>
