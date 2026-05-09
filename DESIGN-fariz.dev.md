@@ -22,12 +22,12 @@ Software engineer passionate about building innovative solutions and developer t
 
 ## Colors
 
-- **Primary** (`primary`): #D97706
-- **Secondary** (`secondary`): #9CA3AF
-- **Accent** (`accent`): #0F172A
-- **Background** (`background`): #FFFFFF
-- **Text (primary)** (`textPrimary`): #0F172A
-- **Link** (`link`): #0F172A
+- **Primary** (`primary`): `rgb(217, 119, 6)` / `#D97706` ![#D97706](https://via.placeholder.com/15/D97706/000000?text=+)
+- **Secondary** (`secondary`): `rgb(156, 163, 175)` / `#9CA3AF` ![#9CA3AF](https://via.placeholder.com/15/9CA3AF/000000?text=+)
+- **Accent** (`accent`): `rgb(15, 23, 42)` / `#0F172A` ![#0F172A](https://via.placeholder.com/15/0F172A/000000?text=+)
+- **Background** (`background`): `rgb(255, 255, 255)` / `#FFFFFF` ![#FFFFFF](https://via.placeholder.com/15/FFFFFF/000000?text=+)
+- **Text (primary)** (`textPrimary`): `rgb(15, 23, 42)` / `#0F172A` ![#0F172A](https://via.placeholder.com/15/0F172A/000000?text=+)
+- **Link** (`link`): `rgb(15, 23, 42)` / `#0F172A` ![#0F172A](https://via.placeholder.com/15/0F172A/000000?text=+)
 
 ## Typography
 
