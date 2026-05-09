@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
@@ -8,8 +10,19 @@
 :root {
   --bg: #FFFFFF;
   --fg: #0F172A;
+  --fg-muted: rgba(15, 23, 42, 0.75);
   --accent: #D97706;
   --accent-dim: rgba(217, 119, 6, 0.15);
+  --border: rgba(15, 23, 42, 0.1);
+}
+
+.dark {
+  --bg: #0F172A;
+  --fg: #F8FAFC;
+  --fg-muted: rgba(248, 250, 252, 0.75);
+  --accent: #F59E0B;
+  --accent-dim: rgba(245, 158, 11, 0.15);
+  --border: rgba(248, 250, 252, 0.1);
 }
 
 * {
@@ -17,6 +30,7 @@
 }
 
 html {
+  position: relative;
   background: var(--bg);
   color: var(--fg);
   cursor: none;
