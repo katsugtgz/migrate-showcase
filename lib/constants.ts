@@ -63,39 +63,105 @@ export const PROJECTS = [
   },
 ];
 
-export const SERVICES = [
-  {
-    title: "Backend Development",
-    description: "Scalable APIs, microservices, and server-side systems built for performance.",
-    icon: "gear",
-  },
-  {
-    title: "Web Application",
-    description: "Full-stack web apps from architecture to deployment — fast and reliable.",
-    icon: "globe",
-  },
-  {
-    title: "Developer Tools",
-    description: "Internal tooling and automation that makes teams ship faster.",
-    icon: "wrench",
-  },
-  {
-    title: "Code Review & Consulting",
-    description: "Architecture reviews, performance audits, and technical guidance.",
-    icon: "search",
-  },
-];
-
-export const MARQUEE_ITEMS = [
-  "SOFTWARE CRAFTER",
-  "BACKEND DEVELOPER",
-  "TYPESCRIPT",
-  "NODE.JS",
-  "SVELTE",
-  "OPEN SOURCE",
-  "SIDOARJO, ID",
-];
+// SERVICES removed — was only consumed by deleted Services.tsx component
 
 export const SEQUENCE_FRAME_COUNT = 192;
+
+// ── Hero Clock ──────────────────────────────────────────────
+export const HERO_CLOCK = {
+  siteTimezone: "WIB",
+  localTimeLabel: "Your time",
+} as const;
+
+// ── Marquee (2 rows, alternating direction) ─────────────────
+export const MARQUEE_ROWS = [
+  [
+    "FRONTEND DEVELOPER",
+    "CREATIVE CODER",
+    "TYPESCRIPT",
+    "REACT",
+    "NEXT.JS",
+    "OPEN SOURCE",
+    "SIDOARJO, ID",
+  ],
+  [
+    "BACKEND DEVELOPER",
+    "UI/UX ENTHUSIAST",
+    "NODE.JS",
+    "SVELTE",
+    "THREE.JS",
+    "FULL STACK",
+    "INDONESIA 🇮🇩",
+  ],
+] as const;
+
+// ── About Section ───────────────────────────────────────────
+export const ABOUT_COPY = {
+  heading: "About Me",
+  body: "Hi, I'm Fariz — a software engineer based in Sidoarjo, Indonesia. I love crafting clean, performant web experiences and building developer tools that solve real problems. When I'm not shipping code, I'm exploring creative coding, 3D experiments, or contributing to open source.",
+  skills: [
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Node.js",
+    "Svelte",
+    "Tailwind CSS",
+    "PostgreSQL",
+    "Docker",
+    "Git",
+    "Figma",
+  ],
+} as const;
+
+// ── Tech Logos (12 entries, local asset paths) ──────────────
+export const TECH_LOGOS = [
+  { name: "HTML", src: "/tech/htmlnime.png" },
+  { name: "CSS", src: "/tech/cssnime.png" },
+  { name: "VS Code", src: "/tech/vsnime.png" },
+  { name: "TypeScript", src: "/tech/tsnime.png" },
+  { name: "Python", src: "/tech/pynime.png" },
+  { name: "React", src: "/tech/reactnime.png" },
+  { name: "Next.js", src: "/tech/nextnime.png" },
+  { name: "Tailwind CSS", src: "/tech/twnime.png" },
+  { name: "Node.js", src: "/tech/nodenime.png" },
+  { name: "Laravel", src: "/tech/laranime.png" },
+  { name: "Figma", src: "/tech/figmanime.png" },
+  { name: "Bun", src: "/tech/bunime.png" },
+] as const;
+
+// ── Project Categories ──────────────────────────────────────
+export const PROJECT_CATEGORIES = [
+  "ALL",
+  "WEB APP",
+  "WEBSITE",
+  "UI/UX",
+  "GRAPHIC",
+] as const;
+
+// ── Quote ───────────────────────────────────────────────────
+export const QUOTE = {
+  text: "Code with craft. Ship with purpose.",
+  author: "Fariz",
+} as const;
+
+// ── Contact CTA ─────────────────────────────────────────────
+export const CONTACT_CTA = {
+  heading: "Let's Make Something Great",
+  subheading:
+    "I'm always open to new opportunities, collaborations, and connections. Got a project to discuss or just want to say hi? Feel free to reach out!",
+  email: "me@fariz.dev",
+} as const;
+
+// ── Footer ──────────────────────────────────────────────────
+export const FOOTER = {
+  tagline:
+    "Crafting digital experiences with code and creativity, blending aesthetics with functionality for a seamless and impactful digital presence.",
+  navItems: [
+    { label: "Work", href: "#projects" },
+    { label: "About", href: "#about" },
+    { label: "Contact", href: "mailto:me@fariz.dev" },
+  ],
+  copyright: `© ${new Date().getFullYear()} Nizar Alfarizi Akbar. All rights reserved.`,
+} as const;
 
 
