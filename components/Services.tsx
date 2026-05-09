@@ -34,7 +34,7 @@ export default function Services() {
     <LazyMotion features={domAnimation}>
     <section
       id="services"
-      className="relative z-10 bg-[#0a0a0f] px-6 md:px-12 py-24 md:py-32 border-t border-white/5"
+      className="relative z-10 bg-white px-6 md:px-12 py-24 md:py-32 border-t border-[#0F172A]/5"
     >
       <div className="max-w-6xl mx-auto">
         <m.div
@@ -44,31 +44,31 @@ export default function Services() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-white/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#0F172A]/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
             What I do
           </p>
           <h2
-            className="font-heading font-semibold text-white leading-none"
+            className="font-heading font-semibold text-[#0F172A] leading-none"
             style={{ fontSize: "clamp(36px, 6vw, 72px)" }}
           >
             Services
           </h2>
         </m.div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#0F172A]/5">
           {SERVICES.map((service, i) => (
             <m.div
               key={service.title}
-              className="bg-[#0a0a0f] p-10 group hover:bg-white/[0.02] transition-colors"
+              className="bg-white p-10 group hover:bg-[#0F172A]/[0.02] transition-colors"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              <span className="text-blue-400 mb-6 block size-8">{ICONS[service.icon]}</span>
-              <h3 className="font-heading font-semibold text-white text-xl mb-3 group-hover:text-blue-400 transition-colors">
+              <span className="text-[#D97706] mb-6 block size-8">{ICONS[service.icon]}</span>
+              <h3 className="font-heading font-semibold text-[#0F172A] text-xl mb-3 group-hover:text-[#D97706] transition-colors">
                 {service.title}
               </h3>
-              <p className="text-white/75 font-body text-sm leading-relaxed">
+              <p className="text-[#0F172A]/75 font-body text-sm leading-relaxed">
                 {service.description}
               </p>
             </m.div>

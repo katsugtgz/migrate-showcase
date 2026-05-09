@@ -6,6 +6,7 @@ import SequenceScroll from "@/components/SequenceScroll";
 import Projects from "@/components/Projects";
 import About from "@/components/About";
 import Services from "@/components/Services";
+import VTuberLogos from "@/components/VTuberLogos";
 import Marquee from "@/components/Marquee";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -24,6 +25,7 @@ export default function HomeClient() {
         <SequenceScroll />
         <Projects />
         <About />
+        <VTuberLogos />
         <Marquee />
         <Services />
         <Contact />

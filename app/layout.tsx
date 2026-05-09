@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Syne, Manrope } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 
-const syne = Syne({
+const outfitHeading = Outfit({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
 });
 
-const manrope = Manrope({
+const outfitBody = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-body",
@@ -16,14 +16,15 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Fariz — Software Crafter",
+  title: "Fariz — Software Engineer",
   description:
-    "Nizar Alfarizi Akbar — Software Crafter based in Sidoarjo, Indonesia. Backend development and high-quality web applications.",
+    "Software engineer passionate about building innovative solutions and developer tools. Explore my projects and free online utilities.",
   keywords: ["fariz", "software engineer", "backend developer", "typescript", "svelte"],
   authors: [{ name: "Nizar Alfarizi Akbar" }],
   openGraph: {
-    title: "Fariz — Software Crafter",
-    description: "Backend dev building great software from Sidoarjo, Indonesia.",
+    title: "Fariz — Software Engineer",
+    description:
+      "Software engineer passionate about building innovative solutions and developer tools. Explore my projects and free online utilities.",
     url: "https://fariz.dev",
     siteName: "Fariz",
     locale: "en_US",
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fariz — Software Crafter",
+    title: "Fariz — Software Engineer",
     creator: "@FarizInk",
   },
 };
@@ -42,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${syne.variable} ${manrope.variable}`}>
+    <html lang="en" className={`${outfitHeading.variable} ${outfitBody.variable}`}>
       <body>{children}</body>
     </html>
   );

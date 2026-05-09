@@ -42,3 +42,6 @@ next-env.d.ts
 
 # claude worktrees
 .claude/worktrees/
+*.png
+.playwright-mcp/*.yml
+.playwright-mcp/*.log

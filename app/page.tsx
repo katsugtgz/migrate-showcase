@@ -1,9 +1,9 @@
 import HomeClient from "./HomeClient";
 
 export const metadata = {
-  title: "Fariz — Software Crafter",
+  title: "Fariz — Software Engineer",
   description:
-    "Nizar Alfarizi Akbar — Software Crafter based in Sidoarjo, Indonesia.",
+    "Software engineer passionate about building innovative solutions and developer tools. Explore my projects and free online utilities.",
 };
 
 export default function Home() {

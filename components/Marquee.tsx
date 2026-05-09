@@ -8,7 +8,7 @@ export default function Marquee() {
 
   return (
     <LazyMotion features={domAnimation}>
-      <div className="relative z-10 bg-[#0a0a0f] border-y border-white/5 py-5 overflow-hidden">
+      <div className="relative z-10 bg-white border-y border-[#0F172A]/5 py-5 overflow-hidden">
         <m.div
           className="flex gap-12 whitespace-nowrap"
           animate={{ x: ["0%", "-50%"] }}
@@ -17,10 +17,10 @@ export default function Marquee() {
           {doubled.map((item) => (
             <span
               key={`${item.id}-${item.copy}`}
-              className="font-heading font-bold text-white/10 text-sm tracking-[0.3em] uppercase flex-shrink-0 flex items-center gap-12"
+              className="font-heading font-bold text-[#0F172A]/10 text-sm tracking-[0.3em] uppercase flex-shrink-0 flex items-center gap-12"
             >
               {item.text}
-              <span className="text-blue-500/40">✦</span>
+              <span className="text-[#D97706]/40">✦</span>
             </span>
           ))}
         </m.div>
