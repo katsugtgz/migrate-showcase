@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { LazyMotion, domAnimation, m } from "motion/react";
 
 const BASE = "https://raw.githubusercontent.com/Ender-Wiggin2019/ServiceLogos/main";
@@ -27,24 +28,27 @@ const LOGOS_ROW_2 = [
 
 function LogoItem({ name, src }: { name: string; src: string }) {
   return (
-    <div className="flex-shrink-0 h-20 md:h-24 w-20 md:w-24 flex items-center justify-center">
-      <img
+    <div className="relative flex-shrink-0 size-20 md:size-24 flex items-center justify-center">
+      <Image
         src={src}
         alt={`${name} logo`}
-        className="max-h-full max-w-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
-        loading="lazy"
+        fill
+        className="object-contain grayscale hover:grayscale-0 transition-all duration-300"
+        sizes="80px"
+        unoptimized
       />
     </div>
   );
 }
 
+const ROW1_ITEMS = [...LOGOS_ROW_1, ...LOGOS_ROW_1].map((item, i) => ({ ...item, uid: `r1-${item.name}-${i}` }));
+const ROW2_ITEMS = [...LOGOS_ROW_2, ...LOGOS_ROW_2].map((item, i) => ({ ...item, uid: `r2-${item.name}-${i}` }));
+
 export default function VTuberLogos() {
-  const row1 = [...LOGOS_ROW_1, ...LOGOS_ROW_1];
-  const row2 = [...LOGOS_ROW_2, ...LOGOS_ROW_2];
 
   return (
     <LazyMotion features={domAnimation}>
-      <section id="tools" className="relative z-10 bg-white py-24 md:py-32">
+      <section id="tools" className="relative z-10 bg-[var(--bg)] py-24 md:py-32">
         <m.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -52,10 +56,10 @@ export default function VTuberLogos() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <p className="text-[#0F172A] uppercase tracking-widest text-xs mb-3">
+          <p className="text-[var(--fg)] uppercase tracking-widest text-xs mb-3">
             Tech Stack
           </p>
-          <h2 className="text-[#0F172A] font-heading font-semibold text-3xl md:text-4xl">
+          <h2 className="text-[var(--fg)] font-heading font-semibold text-3xl md:text-4xl">
             Tools I Use
           </h2>
         </m.div>
@@ -65,29 +69,29 @@ export default function VTuberLogos() {
         </span>
 
         <div className="relative overflow-hidden mb-8" aria-hidden="true">
-          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[var(--bg)] to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[var(--bg)] to-transparent z-10 pointer-events-none" />
           <m.div
             className="flex gap-8 md:gap-12"
             animate={{ x: ["0%", "-50%"] }}
             transition={{ duration: 25, ease: "linear", repeat: Infinity }}
           >
-            {row1.map((logo, i) => (
-              <LogoItem key={`r1-${i}`} {...logo} />
+            {ROW1_ITEMS.map((logo) => (
+              <LogoItem key={logo.uid} {...logo} />
             ))}
           </m.div>
         </div>
 
         <div className="relative overflow-hidden" aria-hidden="true">
-          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[var(--bg)] to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[var(--bg)] to-transparent z-10 pointer-events-none" />
           <m.div
             className="flex gap-8 md:gap-12"
             animate={{ x: ["-50%", "0%"] }}
             transition={{ duration: 25, ease: "linear", repeat: Infinity }}
           >
-            {row2.map((logo, i) => (
-              <LogoItem key={`r2-${i}`} {...logo} />
+            {ROW2_ITEMS.map((logo) => (
+              <LogoItem key={logo.uid} {...logo} />
             ))}
           </m.div>
         </div>

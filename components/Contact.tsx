@@ -41,11 +41,11 @@ export default function Contact() {
       <section
         id="contact"
         ref={ref}
-        className="relative z-10 bg-white px-6 md:px-12 py-32 md:py-48 overflow-hidden"
+        className="relative z-10 bg-[var(--bg)] px-6 md:px-12 py-32 md:py-48 overflow-hidden"
       >
         <div className="max-w-5xl mx-auto text-center">
           <m.p
-            className="text-[#0F172A] font-body text-xs tracking-[0.3em] uppercase mb-8"
+            className="text-[var(--fg)] font-body text-xs tracking-[0.3em] uppercase mb-8"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -53,7 +53,7 @@ export default function Contact() {
             Get in touch
           </m.p>
           <m.h2
-            className="font-heading font-semibold text-[#0F172A] leading-none mb-4"
+            className="font-heading font-semibold text-[var(--fg)] leading-none mb-4"
             style={{ fontSize: "clamp(40px, 8vw, 96px)" }}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -62,10 +62,10 @@ export default function Contact() {
           >
             Let&apos;s build
             <br />
-            <span className="text-[#D97706]">something great.</span>
+            <span className="text-[var(--accent)]">something great.</span>
           </m.h2>
           <m.p
-            className="text-[#0F172A]/75 font-body text-lg mb-12 max-w-md mx-auto"
+            className="text-[var(--fg-muted)] font-body text-lg mb-12 max-w-md mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -75,7 +75,7 @@ export default function Contact() {
           </m.p>
           <m.a
             href={`mailto:${IDENTITY.email}`}
-            className="inline-flex items-center gap-3 bg-[#0F172A] hover:bg-[#1E293B] text-white font-heading font-bold rounded-full px-10 py-5 text-sm tracking-wider uppercase transition-colors"
+            className="inline-flex items-center gap-3 bg-[var(--fg)] hover:bg-[var(--fg)] text-white font-heading font-bold rounded-full px-10 py-5 text-sm tracking-wider uppercase transition-colors"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -96,7 +96,7 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="text-[#0F172A] hover:text-[#D97706] transition-colors"
+                  className="text-[var(--fg)] hover:text-[var(--accent)] transition-colors"
                 >
                   {Icon && <Icon className="size-5" />}
                 </a>
