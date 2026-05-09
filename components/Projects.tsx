@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
-import { motion } from "motion/react";
+import { LazyMotion, domAnimation, m } from "motion/react";
 import { PROJECTS } from "@/lib/constants";
 
 function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: number }) {
@@ -15,7 +15,7 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: n
   };
 
   return (
-    <motion.a
+    <m.a
       href={project.href}
       target="_blank"
       rel="noopener noreferrer"
@@ -44,20 +44,20 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: n
       )}
       <div className="relative z-10">
         <div className="flex items-start justify-between mb-6">
-          <span className="text-white/20 font-['Manrope'] text-xs tracking-widest">
+          <span className="text-white/20 font-body text-xs tracking-widest">
             {String(index + 1).padStart(2, "0")}
           </span>
-          <span className="text-white/20 font-['Manrope'] text-xs">{project.year}</span>
+          <span className="text-white/20 font-body text-xs">{project.year}</span>
         </div>
         <h3
-          className="font-['Syne'] font-bold text-white group-hover:text-blue-400 transition-colors leading-none mb-3"
+          className="font-heading font-semibold text-white group-hover:text-blue-400 transition-colors leading-none mb-3"
           style={{ fontSize: "clamp(28px, 4vw, 48px)" }}
         >
-          {project.title}
+          {project.displayTitle ?? project.title}
         </h3>
-        <p className="text-white/50 font-['Manrope'] text-sm mb-6">{project.subtitle}</p>
+        <p className="text-white/50 font-body text-sm mb-6">{project.subtitle}</p>
         <div className="flex items-center justify-between">
-          <span className="text-xs font-['Manrope'] text-white/30 border border-white/10 rounded-full px-3 py-1">
+          <span className="text-xs font-body text-white/30 border border-white/10 rounded-full px-3 py-1">
             {project.tech}
           </span>
           <span className="text-white/30 group-hover:text-blue-400 group-hover:translate-x-1 transition-all">
@@ -65,40 +65,41 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[0]; index: n
           </span>
         </div>
       </div>
-    </motion.a>
+    </m.a>
   );
 }
 
 export default function Projects() {
   return (
+    <LazyMotion features={domAnimation}>
     <section
       id="projects"
-      className="relative -mt-[100vh] z-10 bg-black px-6 md:px-12 py-24 md:py-32"
+      className="relative -mt-[100vh] z-10 bg-[#0a0a0f] px-6 md:px-12 py-24 md:py-32"
     >
       <div className="max-w-6xl mx-auto">
-        <motion.div
+        <m.div
           className="mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-white/30 font-['Manrope'] text-xs tracking-[0.3em] uppercase mb-4">
+          <p className="text-white/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
             Selected Work
           </p>
           <h2
-            className="font-['Syne'] font-bold text-white leading-none"
+            className="font-heading font-semibold text-white leading-none"
             style={{ fontSize: "clamp(36px, 6vw, 72px)" }}
           >
             Projects
           </h2>
-        </motion.div>
+        </m.div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {PROJECTS.map((project, i) => (
             <ProjectCard key={project.title} project={project} index={i} />
           ))}
         </div>
-        <motion.div
+        <m.div
           className="mt-10 flex justify-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -109,12 +110,13 @@ export default function Projects() {
             href="https://github.com/farizink"
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-white/20 rounded-full px-8 py-3 font-['Manrope'] text-white/60 text-sm tracking-wider uppercase hover:text-white hover:border-white/60 transition-all"
+            className="border border-white/20 rounded-full px-8 py-3 font-body text-white/60 text-sm tracking-wider uppercase hover:text-white hover:border-white/60 transition-all"
           >
             See All on GitHub
           </a>
-        </motion.div>
+        </m.div>
       </div>
     </section>
+    </LazyMotion>
   );
 }
