@@ -1,7 +1,7 @@
 "use client";
-import { useRef } from "react";
-import { LazyMotion, domAnimation, m, useScroll, useTransform } from "motion/react";
-import { IDENTITY, SOCIALS } from "@/lib/constants";
+import { useRef, useState } from "react";
+import { LazyMotion, domAnimation, m, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { CONTACT_CTA, SOCIALS, IDENTITY } from "@/lib/constants";
 
 const SOCIAL_ICONS: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
   GitHub: (props) => (
@@ -30,17 +30,28 @@ const SOCIAL_ICONS: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
 
 export default function Contact() {
   const ref = useRef<HTMLDivElement>(null);
+  const [copied, setCopied] = useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
+  const shouldReduceMotion = useReducedMotion();
   const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
+
+  const headingWords = CONTACT_CTA.heading.split(" ");
+
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText(IDENTITY.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <LazyMotion features={domAnimation}>
       <section
         id="contact"
         ref={ref}
+        data-testid="contact-section"
         className="relative z-10 bg-[var(--bg)] px-6 md:px-12 py-32 md:py-48 overflow-hidden"
       >
         <div className="max-w-5xl mx-auto text-center">
@@ -50,43 +61,69 @@ export default function Contact() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            Get in touch
+            Contact
           </m.p>
-          <m.h2
-            className="font-heading font-semibold text-[var(--fg)] leading-none mb-4"
-            style={{ fontSize: "clamp(40px, 8vw, 96px)" }}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+
+          <h2
+            className="font-display text-[var(--fg)] uppercase leading-none mb-6"
+            style={{ fontSize: "clamp(48px, 10vw, 120px)" }}
           >
-            Let&apos;s build
-            <br />
-            <span className="text-[var(--accent)]">something great.</span>
-          </m.h2>
+            {headingWords.map((word, i) => (
+              <m.span
+                key={word}
+                className={`inline-block mr-[0.3em] ${i === headingWords.length - 1 ? "text-[var(--accent)]" : ""}`}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+              >
+                {word}
+              </m.span>
+            ))}
+          </h2>
+
           <m.p
-            className="text-[var(--fg-muted)] font-body text-lg mb-12 max-w-md mx-auto"
+            className="text-[var(--fg-muted)] font-body text-lg mb-14 max-w-lg mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Open to new opportunities, collaborations, and interesting projects.
+            {CONTACT_CTA.subheading}
           </m.p>
+
           <m.a
-            href={`mailto:${IDENTITY.email}`}
-            className="inline-flex items-center gap-3 bg-[var(--fg)] hover:bg-[var(--fg)] text-white font-heading font-bold rounded-full px-10 py-5 text-sm tracking-wider uppercase transition-colors"
+            href={`mailto:${CONTACT_CTA.email}`}
+            data-testid="contact-email-link"
+            className="inline-flex items-center gap-3 bg-[var(--fg)] text-[var(--bg)] font-heading font-bold rounded-full px-10 py-5 text-sm tracking-wider uppercase transition-colors duration-[var(--duration-normal)]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
           >
-            {IDENTITY.email}
-            <span>→</span>
+            {CONTACT_CTA.email}
+            <span aria-hidden="true">→</span>
           </m.a>
-          <m.div style={{ y }} className="mt-20 flex justify-center gap-8">
+
+          <m.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="mt-4"
+          >
+            <button
+              onClick={copyEmail}
+              className="inline-flex items-center gap-2 text-[var(--fg-muted)] hover:text-[var(--fg)] font-body text-sm tracking-wider transition-colors duration-[var(--duration-fast)]"
+              aria-label="Copy email address to clipboard"
+            >
+              {copied ? "Copied!" : "Copy email"}
+            </button>
+          </m.div>
+
+          <m.div style={shouldReduceMotion ? undefined : { y }} className="mt-20 flex justify-center gap-8">
             {SOCIALS.map((s) => {
               const Icon = SOCIAL_ICONS[s.label];
               return (
@@ -96,9 +133,9 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="text-[var(--fg)] hover:text-[var(--accent)] transition-colors"
+                  className="text-[var(--fg)] hover:text-[var(--accent)] transition-colors duration-[var(--duration-fast)] min-w-11 min-h-11 flex items-center justify-center"
                 >
-                  {Icon && <Icon className="size-5" />}
+                  {Icon && <Icon className="size-5" aria-hidden="true" />}
                 </a>
               );
             })}
