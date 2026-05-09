@@ -4,6 +4,7 @@ import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import SequenceScroll from "@/components/SequenceScroll";
 import Projects from "@/components/Projects";
+import IDCard from "@/components/IDCard";
 import About from "@/components/About";
 import Services from "@/components/Services";
 import VTuberLogos from "@/components/VTuberLogos";
@@ -24,6 +25,7 @@ export default function HomeClient() {
         <Navbar />
         <SequenceScroll />
         <Projects />
+        <IDCard />
         <About />
         <VTuberLogos />
         <Marquee />
