@@ -1,0 +1,128 @@
+PRE-FLIGHT BASELINE EVIDENCE
+Timestamp: 2026-05-09
+Project: /Users/ktz/migrate
+
+========================================
+SCRIPT AVAILABILITY CHECK
+========================================
+npm run type-check: DOES NOT EXIST
+npm run test: DOES NOT EXIST
+npm run test:e2e: DOES NOT EXIST
+
+NOTE: type-check, test, and test:e2e scripts are NOT in package.json.
+No test infrastructure exists. These are skipped.
+
+========================================
+npm run build (EXIT CODE: 0) — PASS
+========================================
+
+> migrate@0.1.0 build
+> next build
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/ktz/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/ktz/migrate/package-lock.json
+
+▲ Next.js 16.2.6 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 3.0s
+  Running TypeScript ...
+  Finished TypeScript in 2.4s ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5) 
+  Generating static pages using 6 workers (2/5) 
+  Generating static pages using 6 workers (3/5) 
+✓ Generating static pages using 6 workers (5/5) in 321ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+└ ƒ /api/scrape-ifalf
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+========================================
+npm run lint (EXIT CODE: 1) — FAIL
+========================================
+
+> migrate@0.1.0 lint
+> eslint
+
+/Users/ktz/migrate/components/CustomCursor.tsx
+  2:21  warning  'useRef' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ktz/migrate/components/IDCardLanyard.tsx
+  1:1  warning  Unused eslint-disable directive (no problems were reported from 'react/no-unknown-property')
+
+/Users/ktz/migrate/components/IDCardModel.tsx
+  1:1  warning  Unused eslint-disable directive (no problems were reported from 'react/no-unknown-property')
+
+/Users/ktz/migrate/components/IDCardScene.tsx
+   1:1   warning  Unused eslint-disable directive (no problems were reported from 'react/no-unknown-property')
+  23:23  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/ktz/migrate/components/IDCardScene.tsx:23:23
+  21 |         </mesh>
+  22 |       </RigidBody>
+> 23 |       <RigidBody ref={chainRefs[1]} type="dynamic" position={[0, 1.4, 0]}>
+     |                       ^^^^^^^^^^^^ Cannot access ref value during render
+  24 |         <mesh visible={false}>
+  25 |           <sphereGeometry args={[0.01]} />
+  26 |         </mesh>  react-hooks/refs
+
+  28:23  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/ktz/migrate/components/IDCardScene.tsx:28:23
+  26 |         </mesh>
+  27 |       </RigidBody>
+> 28 |       <RigidBody ref={chainRefs[2]} type="dynamic" position={[0, 0.6, 0]}>
+     |                       ^^^^^^^^^^^^ Cannot access ref value during render
+  29 |         <mesh visible={false}>
+  30 |           <sphereGeometry args={[0.01]} />
+  31 |         </mesh>  react-hooks/refs
+
+  39:55  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/ktz/migrate/components/IDCardScene.tsx:39:55
+  37 |         onPointerUp={onPointerUp}
+  38 |       />
+> 39 |       <IDCardLanyard anchorRef={anchorRef} chainRefs={chainRefs} cardRef={cardRef} />
+     |                                                       ^^^^^^^^^ Cannot access ref value during render
+  40 |     </>
+  41 |   );
+  42 | }                             react-hooks/refs
+
+/Users/ktz/migrate/hooks/useLenis.ts
+  30:10  warning  'getLenis' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 8 problems (3 errors, 5 warnings)
+  0 errors and 3 warnings potentially fixable with the `--fix` option.
+
+========================================
+SUMMARY
+========================================
+BUILD:  PASS (exit 0)
+LINT:   FAIL (exit 1) — 3 errors, 5 warnings
+TYPE-CHECK: SKIPPED (script does not exist)
+TEST:       SKIPPED (script does not exist)
+TEST:E2E:   SKIPPED (script does not exist)
+
+Lint errors:
+  - 3x react-hooks/refs in IDCardScene.tsx (refs accessed during render: chainRefs[1], chainRefs[2], chainRefs prop)
+  - 1x @typescript-eslint/no-unused-vars in CustomCursor.tsx (useRef imported but unused)
+  - 3x Unused eslint-disable directives in IDCardLanyard.tsx, IDCardModel.tsx, IDCardScene.tsx
+  - 1x @typescript-eslint/no-unused-vars in useLenis.ts (getLenis defined but never used)
