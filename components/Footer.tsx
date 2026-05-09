@@ -1,9 +1,36 @@
 "use client";
+
+import Image from "next/image";
 import { useSyncExternalStore } from "react";
 import { LazyMotion, domAnimation, m } from "motion/react";
-import { IDENTITY } from "@/lib/constants";
+import { FOOTER, SOCIALS } from "@/lib/constants";
 
 const emptySubscribe = () => () => {};
+
+const SOCIAL_ICONS: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
+  GitHub: (props) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+    </svg>
+  ),
+  Bluesky: (props) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M12 10.5c-.82-1.6-3.06-4.38-5.18-5.72C4.82 3.5 3.44 3.68 2.6 4.24 1.58 4.92 1.5 6.24 1.5 7.04c0 .8.44 5.68 1.72 7.28 1.28 1.6 2.78 1.46 3.78 1 .96-.44 2.12-1.68 3-2.82.88 1.14 2.04 2.38 3 2.82 1 .46 2.5.6 3.78-1 1.28-1.6 1.72-6.48 1.72-7.28 0-.8-.08-2.12-1.1-2.8-.84-.56-2.22-.74-4.22.54C15.06 6.12 12.82 8.9 12 10.5z" />
+    </svg>
+  ),
+  Discord: (props) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M9.5 11.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm5 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+      <path d="M18.63 6.35A14.8 14.8 0 0 0 15.09 5c-.04.07-.08.16-.12.24a13.7 13.7 0 0 0-5.94 0A8.6 8.6 0 0 0 8.91 5a14.8 14.8 0 0 0-3.54 1.35A15.4 15.4 0 0 0 2.07 17.3a14.9 14.9 0 0 0 4.56 2.3 11.2 11.2 0 0 0 .97-1.58 9.7 9.7 0 0 1-1.54-.74c.13-.09.26-.19.38-.29a10.6 10.6 0 0 0 9.12 0c.13.1.25.2.38.29a9.7 9.7 0 0 1-1.54.74c.28.56.6 1.08.97 1.58a14.9 14.9 0 0 0 4.56-2.3A15.3 15.3 0 0 0 18.63 6.35z" />
+    </svg>
+  ),
+  Email: (props) => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  ),
+};
 
 export default function Footer() {
   const year = useSyncExternalStore(
@@ -14,24 +41,107 @@ export default function Footer() {
 
   return (
     <LazyMotion features={domAnimation}>
-      <footer className="relative z-10 bg-[var(--bg)] border-t border-[var(--border)] px-6 py-16 overflow-hidden">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          <p className="text-[var(--fg)] font-body text-xs tracking-widest">
-            © {year} {IDENTITY.name}
-          </p>
-          <m.p
-            className="font-heading font-bold text-[var(--fg-muted)] leading-none select-none"
-            style={{ fontSize: "clamp(60px, 12vw, 160px)" }}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            FARIZ
-          </m.p>
-          <p className="text-[var(--fg)] font-body text-xs tracking-widest">
-            {IDENTITY.location}
-          </p>
+      <footer
+        data-testid="site-footer"
+        className="relative z-10 bg-[var(--bg)] border-t border-[var(--border)] overflow-hidden"
+      >
+        <div className="max-w-6xl mx-auto px-6 md:px-12 pt-16 pb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+            <div className="md:col-span-1">
+              <m.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <Image
+                  src="/fariz-wordmark.svg"
+                  alt="Fariz"
+                  width={160}
+                  height={32}
+                  className="h-8 w-auto mb-6 brightness-0 dark:invert"
+                  data-testid="footer-wordmark"
+                />
+                <p className="text-[var(--fg-muted)] font-body text-sm leading-relaxed max-w-xs">
+                  {FOOTER.tagline}
+                </p>
+              </m.div>
+            </div>
+
+            <div>
+              <m.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                <h3 className="text-[var(--fg)] font-heading font-semibold text-xs tracking-[0.2em] uppercase mb-4">
+                  Links
+                </h3>
+                <nav aria-label="Footer navigation">
+                  <ul className="space-y-3">
+                    {FOOTER.navItems.map((item) => (
+                      <li key={item.label}>
+                        <a
+                          href={item.href}
+                          className="text-[var(--fg-muted)] hover:text-[var(--accent)] font-body text-sm transition-colors duration-[var(--duration-fast)] min-h-11 flex items-center"
+                        >
+                          {item.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </m.div>
+            </div>
+
+            <div>
+              <m.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <h3 className="text-[var(--fg)] font-heading font-semibold text-xs tracking-[0.2em] uppercase mb-4">
+                  Connect
+                </h3>
+                <div className="flex gap-4">
+                  {SOCIALS.map((s) => {
+                    const Icon = SOCIAL_ICONS[s.label];
+                    return (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={s.label}
+                        className="text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors duration-[var(--duration-fast)] min-w-11 min-h-11 flex items-center justify-center"
+                      >
+                        {Icon && <Icon className="size-5" aria-hidden="true" />}
+                      </a>
+                    );
+                  })}
+                </div>
+              </m.div>
+            </div>
+          </div>
+
+          <div className="mt-16 pt-8 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-[var(--fg-muted)] font-body text-xs tracking-wider">
+              © {year} Fariz. All rights reserved.
+            </p>
+            <m.p
+              className="font-display text-[var(--fg)]/20 select-none leading-none"
+              style={{ fontSize: "clamp(40px, 8vw, 100px)" }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              aria-hidden="true"
+            >
+              FARIZ
+            </m.p>
+          </div>
         </div>
       </footer>
     </LazyMotion>

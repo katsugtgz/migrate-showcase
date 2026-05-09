@@ -1,11 +1,17 @@
 "use client";
 import { useRef } from "react";
-import { useScroll, useTransform, LazyMotion, domAnimation, m, type MotionValue } from "motion/react";
+import {
+  useScroll,
+  useTransform,
+  LazyMotion,
+  domAnimation,
+  m,
+  type MotionValue,
+} from "motion/react";
 
-import { IDENTITY } from "@/lib/constants";
+import { ABOUT_COPY } from "@/lib/constants";
 
-const ABOUT_TEXT =
-  `Hi, I'm ${IDENTITY.alias} — a ${IDENTITY.role} from ${IDENTITY.location}. ${IDENTITY.description}`;
+const READABLE_TEXT = ABOUT_COPY.body;
 
 function CharReveal({
   char,
@@ -35,11 +41,11 @@ export default function About() {
     offset: ["start 0.8", "end 0.3"],
   });
 
-  const charEntries = ABOUT_TEXT.split("").map((char, idx) => ({
+  const charEntries = READABLE_TEXT.split("").map((char, idx) => ({
     char,
     id: `about-char-${idx}`,
-    start: Math.min(idx / ABOUT_TEXT.length, 0.95),
-    end: Math.min(idx / ABOUT_TEXT.length + 1 / ABOUT_TEXT.length + 0.05, 1),
+    start: Math.min(idx / READABLE_TEXT.length, 0.95),
+    end: Math.min(idx / READABLE_TEXT.length + 1 / READABLE_TEXT.length + 0.05, 1),
   }));
 
   return (
@@ -50,6 +56,7 @@ export default function About() {
         className="relative z-10 bg-[var(--bg)] px-6 md:px-12 py-24 md:py-40"
       >
         <div className="max-w-5xl mx-auto">
+          <h2 className="sr-only">About</h2>
           <m.p
             className="text-[var(--fg)] font-body text-xs tracking-[0.3em] uppercase mb-12"
             initial={{ opacity: 0 }}
@@ -58,12 +65,18 @@ export default function About() {
           >
             About
           </m.p>
-          <p
-            className="font-heading font-semibold text-[var(--fg)] leading-tight"
+
+          <p data-testid="about-readable-text" className="sr-only">
+            {READABLE_TEXT}
+          </p>
+
+          <div
+            data-testid="about-glitch-text"
+            aria-hidden="true"
+            className="relative font-heading font-semibold text-[var(--fg)] leading-tight about-glitch-container"
             style={{ fontSize: "clamp(24px, 4vw, 52px)" }}
           >
-            <span className="sr-only">{ABOUT_TEXT}</span>
-            <span aria-hidden="true">
+            <p>
               {charEntries.map((entry) => (
                 <CharReveal
                   key={entry.id}
@@ -73,8 +86,24 @@ export default function About() {
                   end={entry.end}
                 />
               ))}
-            </span>
-          </p>
+            </p>
+
+            <p
+              className="absolute inset-0 about-glitch-echo"
+              aria-hidden="true"
+            >
+              {charEntries.map((entry) => (
+                <CharReveal
+                  key={`echo-${entry.id}`}
+                  char={entry.char}
+                  progress={scrollYProgress}
+                  start={entry.start}
+                  end={entry.end}
+                />
+              ))}
+            </p>
+          </div>
+
           <m.div
             className="mt-16 flex flex-wrap gap-6"
             initial={{ opacity: 0, y: 20 }}
@@ -82,16 +111,14 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            {["Backend Systems", "TypeScript", "Node.js", "Svelte", "APIs", "Dev Tools"].map(
-              (skill) => (
-                <span
-                  key={skill}
-                  className="border border-[var(--border)] rounded-full px-4 py-2 text-[var(--fg-muted)] font-body text-sm"
-                >
-                  {skill}
-                </span>
-              )
-            )}
+            {ABOUT_COPY.skills.map((skill) => (
+              <span
+                key={skill}
+                className="border border-[var(--border)] rounded-full px-4 py-2 text-[var(--fg-muted)] font-body text-sm"
+              >
+                {skill}
+              </span>
+            ))}
           </m.div>
         </div>
       </section>
