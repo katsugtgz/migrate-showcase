@@ -14,13 +14,13 @@ export default function Footer() {
 
   return (
     <LazyMotion features={domAnimation}>
-      <footer className="relative z-10 bg-white border-t border-[#0F172A]/5 px-6 py-16 overflow-hidden">
+      <footer className="relative z-10 bg-[var(--bg)] border-t border-[var(--border)] px-6 py-16 overflow-hidden">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          <p className="text-[#0F172A] font-body text-xs tracking-widest">
+          <p className="text-[var(--fg)] font-body text-xs tracking-widest">
             © {year} {IDENTITY.name}
           </p>
           <m.p
-            className="font-heading font-bold text-[#0F172A]/15 leading-none select-none"
+            className="font-heading font-bold text-[var(--fg-muted)] leading-none select-none"
             style={{ fontSize: "clamp(60px, 12vw, 160px)" }}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -29,7 +29,7 @@ export default function Footer() {
           >
             FARIZ
           </m.p>
-          <p className="text-[#0F172A] font-body text-xs tracking-widest">
+          <p className="text-[var(--fg)] font-body text-xs tracking-widest">
             {IDENTITY.location}
           </p>
         </div>

@@ -47,11 +47,11 @@ export default function About() {
       <section
         id="about"
         ref={ref}
-        className="relative z-10 bg-white px-6 md:px-12 py-24 md:py-40"
+        className="relative z-10 bg-[var(--bg)] px-6 md:px-12 py-24 md:py-40"
       >
         <div className="max-w-5xl mx-auto">
           <m.p
-            className="text-[#0F172A] font-body text-xs tracking-[0.3em] uppercase mb-12"
+            className="text-[var(--fg)] font-body text-xs tracking-[0.3em] uppercase mb-12"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -59,7 +59,7 @@ export default function About() {
             About
           </m.p>
           <p
-            className="font-heading font-semibold text-[#0F172A] leading-tight"
+            className="font-heading font-semibold text-[var(--fg)] leading-tight"
             style={{ fontSize: "clamp(24px, 4vw, 52px)" }}
           >
             <span className="sr-only">{ABOUT_TEXT}</span>
@@ -86,7 +86,7 @@ export default function About() {
               (skill) => (
                 <span
                   key={skill}
-                  className="border border-[#0F172A]/10 rounded-full px-4 py-2 text-[#0F172A]/75 font-body text-sm"
+                  className="border border-[var(--border)] rounded-full px-4 py-2 text-[var(--fg-muted)] font-body text-sm"
                 >
                   {skill}
                 </span>
