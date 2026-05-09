@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { LazyMotion, domAnimation, m, AnimatePresence } from "motion/react";
 import { IDENTITY } from "@/lib/constants";
 
@@ -15,10 +15,38 @@ function reducer(state: State, action: Action): State {
 
 const initialState: State = { count: 0, visible: true };
 
-export default function Preloader() {
+interface PreloaderProps {
+  onComplete?: () => void;
+}
+
+export default function Preloader({ onComplete }: PreloaderProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [reducedExit, setReducedExit] = useState(false);
+
+  // Detect reduced motion once
+  useEffect(() => {
+    const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedExit(motionMq.matches);
+  }, []);
+
+  // Lock body scroll while preloader is visible (only if no reduced motion)
+  useEffect(() => {
+    const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!motionMq.matches) {
+      document.documentElement.style.overflow = "hidden";
+    }
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, []);
 
   useEffect(() => {
+    const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (motionMq.matches) {
+      dispatch({ type: "hide" });
+      return;
+    }
+
     const duration = 2200;
     const interval = 20;
     const steps = duration / interval;
@@ -45,15 +73,29 @@ export default function Preloader() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") dispatch({ type: "hide" });
+    };
+
+    if (state.visible) {
+      document.addEventListener("keydown", handleEscape);
+    }
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [state.visible]);
+
   return (
     <LazyMotion features={domAnimation}>
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={onComplete}>
       {state.visible && (
         <m.div
+          role="status"
+          aria-live="polite"
+          aria-label="Loading site"
           className="fixed inset-0 z-[9000] bg-[var(--bg)] flex flex-col items-center justify-center"
-          exit={{ clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" }}
-          initial={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
-          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+          exit={reducedExit ? { opacity: 0 } : { clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" }}
+          initial={reducedExit ? { opacity: 1 } : { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
+          transition={reducedExit ? { duration: 0 } : { duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         >
           <div className="mb-8 text-center">
             <p className="text-[var(--fg)] text-xs tracking-[0.3em] uppercase font-body">
@@ -82,6 +124,7 @@ export default function Preloader() {
               style={{ width: `${state.count}%` }}
             />
           </div>
+          <span className="sr-only">Loading: {state.count}%</span>
         </m.div>
       )}
     </AnimatePresence>
