@@ -44,7 +44,7 @@ export default function Services() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-[#0F172A]/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#0F172A] font-body text-xs tracking-[0.3em] uppercase mb-4">
             What I do
           </p>
           <h2

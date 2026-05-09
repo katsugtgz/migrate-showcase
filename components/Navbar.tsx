@@ -21,18 +21,19 @@ export default function Navbar() {
 
   return (
     <LazyMotion features={domAnimation}>
-      <nav className="fixed top-6 left-0 right-0 z-[800] px-6 flex items-center justify-between pointer-events-none">
-        <span className="pointer-events-auto font-heading font-bold text-[#0F172A] text-sm tracking-widest uppercase">
+      <nav className="fixed top-6 left-0 right-0 z-[800] px-6 flex items-center justify-between pointer-events-none mix-blend-difference text-white">
+        <span className="pointer-events-auto font-heading font-bold text-white text-sm tracking-widest uppercase">
           {IDENTITY.alias}
         </span>
         <button
           onClick={() => setOpen(true)}
-          className="pointer-events-auto size-10 rounded-full border border-[#0F172A]/20 flex items-center justify-center hover:border-[#0F172A]/60 transition-colors"
+          className="pointer-events-auto size-10 rounded-full border border-white/20 flex items-center justify-center hover:border-white/60 transition-colors"
           aria-label="Open menu"
+          aria-expanded={open}
         >
           <span className="flex flex-col gap-1">
-            <span className="block w-4 h-px bg-[#0F172A]" />
-            <span className="block w-4 h-px bg-[#0F172A]" />
+            <span className="block w-4 h-px bg-white" />
+            <span className="block w-4 h-px bg-white" />
           </span>
         </button>
       </nav>
@@ -76,7 +77,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-end justify-between">
-              <p className="text-[#0F172A]/30 text-xs font-body tracking-widest uppercase">
+              <p className="text-[#0F172A] text-xs font-body tracking-widest uppercase">
                 {IDENTITY.location}
               </p>
               <div className="flex gap-6">
@@ -86,7 +87,7 @@ export default function Navbar() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#0F172A]/40 hover:text-[#0F172A] text-xs font-body tracking-wider uppercase transition-colors"
+                    className="text-[#0F172A] hover:text-[#0F172A] text-xs font-body tracking-wider uppercase transition-colors"
                   >
                     {s.label}
                   </a>

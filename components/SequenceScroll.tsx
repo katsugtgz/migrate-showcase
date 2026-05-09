@@ -150,16 +150,16 @@ export default function SequenceScroll() {
             style={{ opacity: op1 }}
             className="absolute inset-0 flex flex-col items-start justify-end pb-24 pl-8 md:pl-16 pointer-events-none text-left"
           >
-            <p className="text-[#0F172A]/50 font-body text-sm tracking-[0.3em] uppercase mb-4">
+            <p className="text-white/50 font-body text-sm tracking-[0.3em] uppercase mb-4 drop-shadow-md">
               My name is
             </p>
             <h1
-              className="font-heading font-semibold text-[#0F172A] leading-none"
-              style={{ fontSize: "clamp(40px, 8vw, 96px)", textShadow: "0 2px 20px rgba(255,255,255,0.8)" }}
+              className="font-heading font-semibold text-white leading-none"
+              style={{ fontSize: "clamp(40px, 8vw, 96px)", textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}
             >
               {IDENTITY.alias}
             </h1>
-            <p className="text-[#0F172A]/60 font-body text-lg mt-4 tracking-widest uppercase">
+            <p className="text-white/80 font-body text-lg mt-4 tracking-widest uppercase drop-shadow-md">
               {IDENTITY.role}
             </p>
           </m.div>
@@ -169,12 +169,12 @@ export default function SequenceScroll() {
             style={{ opacity: op2 }}
             className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 pointer-events-none max-w-lg"
           >
-            <p className="text-[#0F172A]/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
+            <p className="text-white/50 font-body text-xs tracking-[0.3em] uppercase mb-4 drop-shadow-md">
               About
             </p>
             <p
-              className="font-heading font-semibold text-[#0F172A] leading-tight"
-              style={{ fontSize: "clamp(22px, 3.5vw, 42px)" }}
+              className="font-heading font-semibold text-white leading-tight"
+              style={{ fontSize: "clamp(22px, 3.5vw, 42px)", textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}
             >
               {IDENTITY.description}
             </p>
@@ -185,12 +185,12 @@ export default function SequenceScroll() {
             style={{ opacity: op3 }}
             className="absolute inset-0 flex flex-col justify-center items-end px-10 md:px-20 pointer-events-none text-right max-w-lg ml-auto"
           >
-            <p className="text-[#0F172A]/30 font-body text-xs tracking-[0.3em] uppercase mb-4">
+            <p className="text-white/50 font-body text-xs tracking-[0.3em] uppercase mb-4 drop-shadow-md">
               Philosophy
             </p>
             <p
-              className="font-heading font-semibold text-[#0F172A] leading-tight"
-              style={{ fontSize: "clamp(24px, 4vw, 48px)", textShadow: "0 2px 20px rgba(255,255,255,0.8)" }}
+              className="font-heading font-semibold text-white leading-tight"
+              style={{ fontSize: "clamp(24px, 4vw, 48px)", textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}
             >
               {IDENTITY.motto}
             </p>
@@ -202,8 +202,8 @@ export default function SequenceScroll() {
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
           >
             <p
-              className="font-heading font-semibold text-[#0F172A] leading-tight mb-8"
-              style={{ fontSize: "clamp(28px, 5vw, 60px)" }}
+              className="font-heading font-semibold text-white leading-tight mb-8"
+              style={{ fontSize: "clamp(28px, 5vw, 60px)", textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}
             >
               Let&apos;s build
               <br />
@@ -211,7 +211,7 @@ export default function SequenceScroll() {
             </p>
             <a
               href={`mailto:${IDENTITY.email}`}
-              className="pointer-events-auto group relative inline-flex items-center gap-3 border border-[#0F172A]/30 rounded-full px-8 py-4 font-body text-[#0F172A] text-sm tracking-wider uppercase hover:border-[#D97706] hover:text-[#D97706] transition-all duration-300"
+              className="pointer-events-auto group relative inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-body text-white text-sm tracking-wider uppercase hover:border-[#D97706] hover:text-[#D97706] transition-all duration-300 backdrop-blur-sm bg-black/20"
             >
               <span>{IDENTITY.email}</span>
               <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -223,11 +223,11 @@ export default function SequenceScroll() {
             style={{ opacity: scrollHintOp }}
             className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
           >
-            <p className="text-[#0F172A]/30 text-xs font-body tracking-widest uppercase">
+            <p className="text-white/50 text-xs font-body tracking-widest uppercase drop-shadow-md">
               Scroll
             </p>
             <m.div
-              className="w-px h-8 bg-[#0F172A]/20"
+              className="w-px h-8 bg-white/50 shadow-[0_0_10px_rgba(0,0,0,0.5)]"
               animate={{ scaleY: [1, 0.3, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             />
