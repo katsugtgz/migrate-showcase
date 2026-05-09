@@ -8,12 +8,13 @@
 > - Secure dev-only Firecrawl reference tooling and local asset/reference inventory.
 > - Ifalf-style hero clock, dual marquees, tech-logo marquee, project filters, quote/contact/footer polish.
 > - Exact local asset set where permitted, never hotlinked.
+> - Fariz wordmark/logo asset replacing Ifalf's `aldome.svg` role in nav/footer.
 > - Mobile/performance hardening for SequenceScroll, ID card physics, cursor, hover alternatives, and heavy assets.
 > - Vercel Analytics, Vitest baseline, Playwright visual/E2E smoke checks, and mandatory agent QA evidence.
 >
 > **Estimated Effort**: Large
 > **Parallel Execution**: YES - 4 implementation waves + final verification
-> **Critical Path**: T1 security/reference inventory → T2 test infra → T5 content model → T8 hero/scroll integration → T13 mobile/performance → Final QA
+> **Critical Path**: T0 baseline → T1 security/reference inventory → T2 test infra → T5 content model → T8b section order → T13 mobile/performance → Final QA
 
 ---
 
@@ -34,6 +35,8 @@ User asked to plan filling the current state missing pieces compared to the orig
 ### Research Findings
 - `.firecrawl/ifalf.md`, `.firecrawl/ifalf-main.md`, `.firecrawl/ifalf/index.md`: rich full-page scrape.
 - `.firecrawl/ifalf/projects/index.md`: full project listing with 17 projects and categories.
+- Additional local reference inputs to inspect before implementation: `ifalf_head.html`, `ifalf_home.html`, and `ifalf_snapshot.txt` if present in the repository.
+- Reference homepage order: **Hero → DualMarquee → About → TechLogos → ProjectHighlights → Quote → Contact → Footer**.
 - Ifalf sections: live-clock hero, scroll CTA, dual role marquee, About glitch/duplicate-text effect, tech-logo marquee, project highlights/grid filters, quote, contact CTA, footer.
 - Tech assets: `htmlnime.webp`, `cssnime.webp`, `vsnime.webp`, `tsnime.webp`, `pynime.webp`, `reactnime.webp`, `nextnime.webp`, `twnime.webp`, `nodenime.webp`, `laranime.webp`, `figmanime.webp`, `bunime.webp`.
 - Project thumbnails: `aernstore.webp`, `breakthrough.webp`, `cultrahub.webp`, `roast.webp`, `keluhkesah.webp`, `nusadaya.webp`, `bhinneka.webp`, `butterfly.webp`, `daily.webp`, `tools.webp`, `aldonime.webp`, `xpdc.webp`, `begone.webp`, `gfx.webp`, `frame.webp`, `feed.webp`, `logo.webp`.
@@ -63,6 +66,8 @@ Transform the portfolio into a near-clone of Ifalf's visual and interaction syst
 - Dual counter-moving role marquee.
 - Anime/VTuber tech logo marquee.
 - Filterable project grid with local thumbnails and touch-friendly interactions.
+- Full `/projects` index page matching the reference's filter-page concept, plus homepage highlights.
+- `/about` route or explicit placeholder matching the reference navigation expectation.
 - Quote, contact CTA, footer parity sections.
 - ID card physics/mobile/reduced-motion polish.
 - Preloader/SequenceScroll/Lenis coordination.
@@ -78,9 +83,13 @@ Transform the portfolio into a near-clone of Ifalf's visual and interaction syst
 - [ ] Playwright mobile and desktop evidence exists under `.sisyphus/evidence/`.
 - [ ] No hardcoded Firecrawl key remains in tracked files.
 - [ ] No production endpoint exposes Firecrawl scraping.
+- [ ] Baseline build/lint evidence exists before implementation begins.
 
 ### Must Have
 - Near-clone Ifalf visual structure while preserving Fariz identity.
+- Homepage section order must match Ifalf's reference order unless a task explicitly documents placement for Fariz-only additions.
+- Hero must include stacked/oversized Fariz name treatment plus two clocks: site/reference timezone and viewer local time.
+- Homepage projects must be highlights; full project/filter experience must be handled separately on `/projects`.
 - Local assets only; no runtime hotlinks to `ifalf.com`.
 - All new motion respects `prefers-reduced-motion`.
 - Mobile target: 375px, 428px, 768px, and desktop 1440px.
@@ -93,6 +102,8 @@ Transform the portfolio into a near-clone of Ifalf's visual and interaction syst
 - Do not hotlink Ifalf assets.
 - Do not copy Ifalf personal identity/socials as final content.
 - Do not build a CMS, admin panel, auth, i18n, payments, blog engine, search, pagination, or project detail pages.
+- Do not build the `Open IfalAI` floating/chat widget.
+- Do not copy Ifalf project thumbnails/brand assets unless permission/provenance is documented; use Fariz-branded placeholders as the default fallback.
 - Do not use `as any`, `@ts-ignore`, or eslint-disable comments.
 - Do not break section stacking convention: post-SequenceScroll sections use `-mt-[100vh] relative z-10` unless intentionally replaced with verified equivalent.
 
@@ -118,6 +129,9 @@ Every task below includes executable QA scenarios. Evidence must be saved to `.s
 ### Parallel Execution Waves
 
 ```
+Wave 0 (Pre-flight):
+└── T0 Baseline build/lint evidence [quick]
+
 Wave 1 (Foundation):
 ├── T1 Secure Firecrawl + reference inventory [quick]
 ├── T2 Test/tooling baseline [unspecified-high]
@@ -129,11 +143,14 @@ Wave 2 (Core parity sections):
 ├── T6 Live clock + hero overlay [visual-engineering]
 ├── T7 Dual counter-row marquee [visual-engineering]
 ├── T9 Tech-logo marquee [visual-engineering]
-├── T10 Project filter grid [visual-engineering]
-└── T11 Quote/contact/footer parity [visual-engineering]
+├── T10 Homepage project highlights [visual-engineering]
+├── T10b Full /projects and /about route parity [visual-engineering]
+├── T11 Quote/contact/footer parity [visual-engineering]
+└── T11b About glitch/duplicate-text treatment [visual-engineering]
 
 Wave 3 (Integration + polish):
 ├── T8 SequenceScroll/preloader/Lenis coordination [deep]
+├── T8b Section ordering + Fariz-only placement reconciliation [deep]
 ├── T12 ID card physics polish [deep]
 ├── T13 Mobile/performance hardening [deep]
 ├── T14 Vercel Analytics + metadata [quick]
@@ -153,26 +170,89 @@ Wave FINAL:
 
 ### Dependency Matrix
 
+- **T0**: blocks all implementation tasks; establishes baseline only
 - **T1**: blocks T3, T14, T15
 - **T2**: blocks T16, T17
-- **T3**: blocks T9, T10, T11
-- **T4**: blocks T6, T7, T9, T10, T11
-- **T5**: blocks T6, T7, T9, T10, T11, T18
-- **T6-T11**: block T8, T13, T17
+- **T3**: blocks T9, T10, T10b, T11
+- **T4**: blocks T6, T7, T9, T10, T10b, T11, T11b
+- **T5**: blocks T6, T7, T9, T10, T10b, T11, T11b, T18
+- **T6-T11b**: block T8, T8b, T13, T17
+- **T8b**: blocks T13, T17
 - **T12**: blocks T13, T17
 - **T13-T15**: block T17 and final verification
 - **T16-T18**: block final verification
 
 ### Agent Dispatch Summary
+- Wave 0: 1 quick baseline agent.
 - Wave 1: 5 parallel agents — quick/unspecified-high/visual-engineering.
-- Wave 2: 5 parallel visual-engineering agents.
-- Wave 3: 5 parallel agents — deep/quick.
+- Wave 2: 7 parallel visual-engineering agents.
+- Wave 3: 6 parallel agents — deep/quick.
 - Wave 4: 3 parallel agents — unspecified-high/writing.
 - Final: 4 parallel review agents.
 
 ---
 
 ## TODOs
+
+- [ ] 0. Capture pre-flight baseline build and lint evidence
+
+  **What to do**:
+  - Before implementation, run the current verification commands that already exist.
+  - Do not run `npm run type-check`, `npm run test`, or `npm run test:e2e` in this task unless those scripts already exist before T2; T2 is responsible for adding them.
+  - Capture whether the repository starts green or red.
+  - If baseline is red, record exact failures as inherited baseline issues so later tasks do not hide regressions.
+
+  **Must NOT do**:
+  - Do not fix baseline failures in this task.
+  - Do not treat inherited failures as implementation failures unless a later task worsens them.
+
+  **Recommended Agent Profile**:
+  - **Category**: `quick` — command-only baseline evidence.
+  - **Skills**: []
+  - **Skills Evaluated but Omitted**: `diagnose` — no fix attempt should happen here.
+
+  **Parallelization**:
+  - **Can Run In Parallel**: NO
+  - **Parallel Group**: Wave 0
+  - **Blocks**: All implementation tasks
+  - **Blocked By**: None
+
+  **References**:
+  - `package.json` — existing scripts: `dev`, `build`, `start`, `lint`.
+  - `README.md` — stale docs to compare later in T18.
+
+  **Acceptance Criteria**:
+  - [ ] Baseline `npm run build` output captured.
+  - [ ] Baseline `npm run lint` output captured.
+  - [ ] Evidence explicitly states that type-check/test/e2e scripts are skipped until T2 unless already present.
+  - [ ] Evidence file states whether baseline is green or red.
+
+  **QA Scenarios**:
+  ```
+  Scenario: Baseline commands are captured
+    Tool: Bash
+    Preconditions: Clean working tree state as provided to executor
+    Steps:
+      1. Run npm run build and capture full output/exit code
+      2. Run npm run lint and capture full output/exit code
+      3. Save results with timestamp
+    Expected Result: Baseline status is documented before edits
+    Evidence: .sisyphus/evidence/task-0-baseline.txt
+
+  Scenario: Baseline evidence distinguishes inherited failures
+    Tool: Bash
+    Preconditions: Baseline commands completed
+    Steps:
+      1. Read .sisyphus/evidence/task-0-baseline.txt
+      2. Assert it contains `BASELINE: GREEN` or `BASELINE: RED`
+    Expected Result: Future agents can distinguish regressions from inherited failures
+    Evidence: .sisyphus/evidence/task-0-baseline-classification.txt
+  ```
+
+  **Commit**: NO
+  - Message: N/A
+  - Files: `.sisyphus/evidence/task-0-baseline.txt`
+  - Pre-commit: N/A
 
 - [ ] 1. Secure Firecrawl dev-only tooling and reference inventory
 
@@ -299,8 +379,9 @@ Wave FINAL:
 - [ ] 3. Acquire/localize Ifalf reference assets with provenance manifest
 
   **What to do**:
-  - Download or otherwise localize permitted exact assets into a clear public asset directory.
-  - Include logo SVG, 12 tech-logo webps, and relevant project thumbnail webps.
+  - Download or otherwise localize permitted exact assets into a clear public asset directory using an explicit URL list from `.firecrawl/ifalf-main.md` and `.firecrawl/ifalf/projects/index.md`.
+  - Default policy: use Fariz-branded placeholders unless asset permission/provenance is documented; exact Ifalf-derived assets require explicit provenance notes.
+  - Include/produce a Fariz wordmark SVG to replace Ifalf's `/aldome.svg` role in nav/footer, plus 12 tech-logo webps and relevant project thumbnail webps or placeholders.
   - Record source URL, local path, intended use, and permission/provenance status in markdown.
   - If an asset is not permitted or unavailable, create a documented placeholder path and mark for replacement.
 
@@ -311,21 +392,23 @@ Wave FINAL:
   **Recommended Agent Profile**:
   - **Category**: `quick` — asset inventory/localization task.
   - **Skills**: []
-  - **Skills Evaluated but Omitted**: `firecrawl-download` — only use if executor must bulk-download from the live site; local scrape already lists assets.
+  - **Skills Evaluated but Omitted**: none — `firecrawl-download` or direct `curl` may be used only for permitted/public assets from the explicit URL list; otherwise create placeholders.
 
   **Parallelization**:
   - **Can Run In Parallel**: YES after T1 for provenance structure
   - **Parallel Group**: Wave 1
-  - **Blocks**: T9, T10, T11
+  - **Blocks**: T9, T10, T10b, T11
   - **Blocked By**: T1
 
   **References**:
   - `.firecrawl/ifalf-main.md` — homepage assets and sections.
   - `.firecrawl/ifalf/projects/index.md` — project thumbnails and categories.
   - `public/sequence/` — existing asset organization precedent.
+  - `https://ifalf.com/<asset-name>` URL pattern — source pattern for explicitly permitted assets only.
 
   **Acceptance Criteria**:
   - [ ] All referenced local asset paths either exist or are explicitly marked as placeholders.
+  - [ ] Fariz wordmark SVG exists locally and is referenced by nav/footer tasks instead of `/aldome.svg`.
   - [ ] No component references `ifalf.com` directly.
   - [ ] Manifest documents provenance and replacement status.
 
@@ -335,7 +418,7 @@ Wave FINAL:
     Tool: Bash
     Preconditions: Asset task completed
     Steps:
-      1. Check local paths for aldome.svg, 12 *nime.webp files, and selected project thumbnails
+      1. Check local paths for Fariz wordmark SVG, 12 *nime.webp files, and selected project thumbnails/placeholders
       2. Assert each exists or is listed as placeholder in manifest
     Expected Result: No undocumented missing assets
     Evidence: .sisyphus/evidence/task-3-asset-inventory.txt
@@ -359,6 +442,8 @@ Wave FINAL:
 
   **What to do**:
   - Identify and apply closer display/body font choices using `next/font` or local font files.
+  - Inspect `ifalf_head.html` if present for real font/CSS clues before choosing fonts.
+  - If no font metadata is available, choose from these close candidates and document rationale: `Bebas Neue` or `Anton` for giant display headings; `Outfit` or `Inter Tight` for body/UI.
   - Extend `app/globals.css` Tailwind v4 `@theme` and CSS variables for Ifalf-like dark/bold typography, selection color, transition tokens, and section spacing.
   - Preserve existing dark mode CSS vars and custom cursor conventions.
 
@@ -374,13 +459,14 @@ Wave FINAL:
   **Parallelization**:
   - **Can Run In Parallel**: YES
   - **Parallel Group**: Wave 1
-  - **Blocks**: T6, T7, T9, T10, T11
+  - **Blocks**: T6, T7, T9, T10, T10b, T11, T11b
   - **Blocked By**: None
 
   **References**:
   - `app/globals.css` — current Tailwind v4 theme and CSS vars.
   - `app/layout.tsx` — current Outfit font and ThemeProvider.
   - `.firecrawl/ifalf-main.md` — typography hierarchy clues from headings/section order.
+  - `ifalf_head.html` — additional local reference for imported fonts/CSS if present.
 
   **Acceptance Criteria**:
   - [ ] Global typography visibly changes from default Inter-like baseline.
@@ -435,7 +521,7 @@ Wave FINAL:
   **Parallelization**:
   - **Can Run In Parallel**: YES
   - **Parallel Group**: Wave 1
-  - **Blocks**: T6, T7, T9, T10, T11, T18
+  - **Blocks**: T6, T7, T9, T10, T10b, T11, T11b, T18
   - **Blocked By**: None
 
   **References**:
@@ -478,7 +564,9 @@ Wave FINAL:
 
   **What to do**:
   - Add a client live clock component with stable hydration behavior.
-  - Integrate clock, Fariz display name treatment, and scroll CTA into hero/SequenceScroll overlay.
+  - Integrate two clock readouts: reference/site time (Jakarta by default) and viewer local time (`Your time: HH:MM:SS`).
+  - Integrate stacked oversized Fariz display-name treatment equivalent to Ifalf's `IFALFAHRIA` / spaced-line composition, adapted to Fariz identity.
+  - Integrate scroll CTA into hero/SequenceScroll overlay.
   - Use Ifalf's clock/CTA concept without removing 192-frame scrollytelling.
 
   **Must NOT do**:
@@ -498,11 +586,12 @@ Wave FINAL:
 
   **References**:
   - `components/SequenceScroll.tsx` — current hero/canvas overlay and frame loading.
-  - `.firecrawl/ifalf-main.md` — live clock and scroll CTA reference.
+  - `.firecrawl/ifalf-main.md` — live clock, dual-clock, stacked-name, and scroll CTA reference.
   - `app/HomeClient.tsx` — section composition.
 
   **Acceptance Criteria**:
-  - [ ] Clock updates every second after hydration.
+  - [ ] Site/reference clock and viewer-local clock both render and update every second after hydration.
+  - [ ] Hero renders stacked/oversized Fariz display-name treatment.
   - [ ] Scroll CTA visible in hero and does not block canvas.
   - [ ] SequenceScroll still renders frames.
 
@@ -513,9 +602,9 @@ Wave FINAL:
     Preconditions: Dev server running
     Steps:
       1. Navigate to http://localhost:3000
-      2. Read `[data-testid="live-clock"]` text
+      2. Read `[data-testid="site-clock"]` and `[data-testid="viewer-clock"]` text
       3. Wait 1200ms
-      4. Assert clock text changed or seconds incremented
+      4. Assert both clock texts changed or seconds incremented
       5. Capture screenshot
     Expected Result: Live clock updates without hydration warning
     Evidence: .sisyphus/evidence/task-6-live-clock.png
@@ -617,7 +706,7 @@ Wave FINAL:
   - **Can Run In Parallel**: NO
   - **Parallel Group**: Wave 3
   - **Blocks**: T13, T17
-  - **Blocked By**: T6, T7, T9, T10, T11
+  - **Blocked By**: T6, T7, T9, T10, T10b, T11, T11b
 
   **References**:
   - `components/Preloader.tsx` — timed clip-path preloader.
@@ -659,6 +748,66 @@ Wave FINAL:
   - Message: `fix(scroll): coordinate preloader lenis and sequence frames`
   - Files: `components/Preloader.tsx`, `components/SequenceScroll.tsx`, `hooks/useLenis.ts`, `app/HomeClient.tsx`
   - Pre-commit: `npm run test:e2e`
+
+- [ ] 8b. Reorder homepage sections to match Ifalf reference and place Fariz-only additions intentionally
+
+  **What to do**:
+  - Update `app/HomeClient.tsx` composition to match reference order: Hero/SequenceScroll → DualMarquee → About → TechLogos → ProjectHighlights → Quote → Contact → Footer.
+  - Decide Fariz-only placement for IDCard and Services in-code: either integrate IDCard as a Fariz-only insert between TechLogos and ProjectHighlights, move Services off the primary homepage flow, or document intentional omission from homepage.
+  - Preserve required stacking classes or verified equivalent for sections following SequenceScroll.
+
+  **Must NOT do**:
+  - Do not leave current order (`SequenceScroll → Projects → IDCard → About → VTuberLogos → Marquee → Services → Contact → Footer`) unchanged.
+  - Do not remove IDCard/Services silently without documenting the clone-fidelity reason.
+
+  **Recommended Agent Profile**:
+  - **Category**: `deep` — cross-section integration and fidelity decision.
+  - **Skills**: [`frontend-ui-ux`]
+  - **Skills Evaluated but Omitted**: `prototype` — final ordering decision, not exploratory variants.
+
+  **Parallelization**:
+  - **Can Run In Parallel**: NO
+  - **Parallel Group**: Wave 3
+  - **Blocks**: T13, T17
+  - **Blocked By**: T6, T7, T9, T10, T10b, T11, T11b
+
+  **References**:
+  - `app/HomeClient.tsx` — current section composition.
+  - `.firecrawl/ifalf-main.md` — target homepage section order.
+  - `components/IDCard.tsx` and `components/Services.tsx` if present — Fariz-only additions needing explicit placement.
+
+  **Acceptance Criteria**:
+  - [ ] Homepage rendered section order matches reference order, with any Fariz-only inserts explicitly commented/documented.
+  - [ ] IDCard and Services placement/removal decision is visible in code comments or docs.
+  - [ ] No canvas bleed-through after reorder.
+
+  **QA Scenarios**:
+  ```
+  Scenario: Homepage sections appear in reference order
+    Tool: Playwright
+    Preconditions: Dev server running
+    Steps:
+      1. Navigate to homepage
+      2. Collect vertical positions for `[data-section="hero"]`, `[data-section="marquee"]`, `[data-section="about"]`, `[data-section="tech-logos"]`, `[data-section="projects"]`, `[data-section="quote"]`, `[data-section="contact"]`, and `footer`
+      3. Assert positions are strictly increasing in the reference order
+    Expected Result: Homepage follows Ifalf section order with documented Fariz-only insertions
+    Evidence: .sisyphus/evidence/task-8b-section-order.txt
+
+  Scenario: Fariz-only additions do not disrupt clone flow
+    Tool: Playwright
+    Preconditions: Dev server running at 1440x1000
+    Steps:
+      1. Navigate through homepage top-to-bottom
+      2. Assert IDCard/Services are either absent from primary flow or appear at documented placement
+      3. Capture full-page screenshot
+    Expected Result: Sequence of reference sections remains understandable and uninterrupted
+    Evidence: .sisyphus/evidence/task-8b-fariz-additions.png
+  ```
+
+  **Commit**: YES
+  - Message: `feat(layout): align homepage section order with ifalf reference`
+  - Files: `app/HomeClient.tsx`, affected section components
+  - Pre-commit: `npm run lint && npm run test:e2e`
 
 - [ ] 9. Add anime/VTuber tech logo marquee
 
@@ -722,13 +871,13 @@ Wave FINAL:
   - Files: `components/VTuberLogos.tsx`, `lib/constants.ts`, `public/**`
   - Pre-commit: `npm run test:e2e`
 
-- [ ] 10. Build filterable Ifalf-style project showcase with Fariz content
+- [ ] 10. Build homepage project highlights with Fariz content
 
   **What to do**:
-  - Convert projects to Ifalf-style card grid with categories/tabs.
+  - Convert homepage projects to Ifalf-style 5-card highlight section.
   - Use Fariz projects where available and local thumbnails from T3 or placeholders.
   - Add hover image reveal for desktop and tap/focus reveal for touch/keyboard.
-  - Filter tabs should only show categories with projects unless an empty state is explicitly designed.
+  - Keep homepage highlights separate from the full `/projects` filter page handled in T10b.
 
   **Must NOT do**:
   - Do not build project detail pages, search, pagination, or CMS.
@@ -748,26 +897,26 @@ Wave FINAL:
   **References**:
   - `components/Projects.tsx` — current project rendering.
   - `lib/constants.ts` — current `PROJECTS` data.
-  - `.firecrawl/ifalf/projects/index.md` — filters and card structure reference.
+  - `.firecrawl/ifalf-main.md` — homepage 5-highlight reference.
+  - `.firecrawl/ifalf/projects/index.md` — full project list to avoid conflating surfaces.
 
   **Acceptance Criteria**:
-  - [ ] Filter tabs render for available categories.
-  - [ ] Clicking a category changes visible cards.
+  - [ ] Homepage renders 5 or fewer intentionally highlighted Fariz project cards.
+  - [ ] Homepage includes a `SEE MORE`/projects CTA when full route exists.
   - [ ] Touch/mobile has a non-hover reveal path.
 
   **QA Scenarios**:
   ```
-  Scenario: Project filters update visible cards
+  Scenario: Homepage highlights render separately from full projects
     Tool: Playwright
     Preconditions: Dev server running
     Steps:
       1. Navigate to homepage
-      2. Click `[data-testid="project-filter-web"]` or first non-ALL category
-      3. Assert all visible `[data-testid="project-card"]` have matching category text
-      4. Click `[data-testid="project-filter-all"]`
-      5. Assert all cards return
-    Expected Result: Filters are functional and deterministic
-    Evidence: .sisyphus/evidence/task-10-project-filters.png
+      2. Scroll to homepage projects
+      3. Assert `[data-testid="project-card"]` count is between 1 and 5
+      4. Assert `[data-testid="projects-see-more"]` points to `/projects`
+    Expected Result: Homepage projects are highlights, not the full 17-project list
+    Evidence: .sisyphus/evidence/task-10-home-highlights.png
 
   Scenario: Mobile project reveal works without hover
     Tool: Playwright
@@ -782,16 +931,79 @@ Wave FINAL:
   ```
 
   **Commit**: YES
-  - Message: `feat(projects): add ifalf-style filtered showcase`
+  - Message: `feat(projects): add ifalf-style homepage highlights`
   - Files: `components/Projects.tsx`, `lib/constants.ts`, `public/**`
   - Pre-commit: `npm run test:e2e`
+
+- [ ] 10b. Add `/projects` filter index and `/about` route parity
+
+  **What to do**:
+  - Add an App Router `/projects` page that mirrors the reference full projects page concept: all projects plus category filters `ALL`, `WEB APP`, `WEBSITE`, `UI/UX`, `GRAPHIC` where Fariz data exists.
+  - Add an `/about` route or explicit lightweight about page so `MORE ABOUT ME` navigation does not dead-end.
+  - Reuse the homepage project card system without adding project detail pages, search, pagination, or CMS.
+
+  **Must NOT do**:
+  - Do not build per-project detail routes.
+  - Do not fabricate a 17-project Fariz portfolio if Fariz content is unavailable; use fewer real Fariz projects or documented placeholders.
+
+  **Recommended Agent Profile**:
+  - **Category**: `visual-engineering`
+  - **Skills**: [`frontend-ui-ux`]
+  - **Skills Evaluated but Omitted**: `writing` — route copy should come from constants.
+
+  **Parallelization**:
+  - **Can Run In Parallel**: YES
+  - **Parallel Group**: Wave 2
+  - **Blocks**: T8b, T13, T17
+  - **Blocked By**: T3, T4, T5
+
+  **References**:
+  - `.firecrawl/ifalf/projects/index.md` — full project page categories and listing.
+  - `.firecrawl/ifalf/about/index.md` — route existence reference, noting scrape may be client-side/error-limited.
+  - `app/page.tsx` and `app/HomeClient.tsx` — App Router page/client-boundary pattern.
+  - `components/Projects.tsx` and `lib/constants.ts` — shared project UI/data.
+
+  **Acceptance Criteria**:
+  - [ ] `/projects` route renders successfully with filter tabs.
+  - [ ] `/about` route renders successfully or clearly documented placeholder content.
+  - [ ] No project detail routes are created.
+
+  **QA Scenarios**:
+  ```
+  Scenario: Projects index route filters cards
+    Tool: Playwright
+    Preconditions: Dev server running
+    Steps:
+      1. Navigate to http://localhost:3000/projects
+      2. Assert `[data-testid="project-filter-all"]` is visible
+      3. Click first non-ALL project filter
+      4. Assert visible project cards match the selected category
+    Expected Result: `/projects` provides full filtered project index behavior
+    Evidence: .sisyphus/evidence/task-10b-projects-route.png
+
+  Scenario: About route resolves
+    Tool: Playwright
+    Preconditions: Dev server running
+    Steps:
+      1. Navigate to http://localhost:3000/about
+      2. Assert response status is 200
+      3. Assert page contains Fariz-branded about text, not Ifalf personal identity
+    Expected Result: `/about` exists and is Fariz-branded
+    Evidence: .sisyphus/evidence/task-10b-about-route.png
+  ```
+
+  **Commit**: YES
+  - Message: `feat(routes): add projects and about parity pages`
+  - Files: `app/projects/**`, `app/about/**`, `components/Projects.tsx`, `lib/constants.ts`
+  - Pre-commit: `npm run lint && npm run test:e2e`
 
 - [ ] 11. Add quote, contact CTA, and footer parity sections
 
   **What to do**:
   - Add/adjust quote section inspired by Ifalf's quote area, using Fariz-appropriate text.
+  - Create `components/Quote.tsx` if no dedicated quote component exists.
   - Update contact section to strong `LET'S MAKE SOMETHING GREAT`-style CTA while preserving Fariz links.
-  - Update footer with logo/tagline/nav/social/copyright parity.
+  - Update footer with Fariz wordmark/logo (from T3), tagline, nav, socials, and copyright parity.
 
   **Must NOT do**:
   - Do not add a contact backend unless already existing.
@@ -811,6 +1023,7 @@ Wave FINAL:
   **References**:
   - `components/Contact.tsx` — existing contact section.
   - `components/Footer.tsx` — existing footer.
+  - `public/**` Fariz wordmark SVG from T3 — nav/footer logo replacement for `aldome.svg`.
   - `lib/constants.ts` — socials/nav/identity.
   - `.firecrawl/ifalf-main.md` — quote/contact/footer reference.
 
@@ -844,7 +1057,68 @@ Wave FINAL:
 
   **Commit**: YES
   - Message: `feat(sections): add quote contact and footer parity`
-  - Files: `components/Contact.tsx`, `components/Footer.tsx`, possible new quote component, `lib/constants.ts`
+  - Files: `components/Contact.tsx`, `components/Footer.tsx`, `components/Quote.tsx`, `lib/constants.ts`
+  - Pre-commit: `npm run lint && npm run test:e2e`
+
+- [ ] 11b. Add Ifalf-style About glitch/duplicate-text treatment
+
+  **What to do**:
+  - Update `components/About.tsx` to emulate Ifalf's doubled/offset word-glitch treatment, adapted to Fariz copy.
+  - Keep semantic readable text available for screen readers.
+  - Provide reduced-motion/static fallback so duplicate text does not become illegible.
+
+  **Must NOT do**:
+  - Do not duplicate Ifalf's personal biography as final copy.
+  - Do not make the visible/glitch text inaccessible or unreadable at mobile sizes.
+
+  **Recommended Agent Profile**:
+  - **Category**: `visual-engineering`
+  - **Skills**: [`frontend-ui-ux`]
+  - **Skills Evaluated but Omitted**: `artistry` — specific reference effect, not open-ended creative exploration.
+
+  **Parallelization**:
+  - **Can Run In Parallel**: YES
+  - **Parallel Group**: Wave 2
+  - **Blocks**: T8b, T13, T17
+  - **Blocked By**: T4, T5
+
+  **References**:
+  - `components/About.tsx` — current About section.
+  - `.firecrawl/ifalf-main.md` — doubled About text pattern (`Hi,Hi,I'mI'm...`).
+  - `lib/constants.ts` — Fariz About copy source.
+
+  **Acceptance Criteria**:
+  - [ ] About section renders visible duplicated/offset glitch treatment on desktop.
+  - [ ] A screen-reader-friendly Fariz About text exists without duplicated gibberish.
+  - [ ] Reduced motion/mobile fallback remains readable.
+
+  **QA Scenarios**:
+  ```
+  Scenario: About glitch effect renders with readable fallback
+    Tool: Playwright
+    Preconditions: Dev server running
+    Steps:
+      1. Navigate to homepage and scroll to about
+      2. Assert `[data-testid="about-glitch-text"]` is visible
+      3. Assert `[data-testid="about-readable-text"]` contains Fariz-branded copy
+      4. Capture screenshot
+    Expected Result: About visually echoes Ifalf's duplicate/glitch treatment while preserving readability
+    Evidence: .sisyphus/evidence/task-11b-about-glitch.png
+
+  Scenario: Reduced motion disables animated glitch
+    Tool: Playwright
+    Preconditions: Reduced motion emulated
+    Steps:
+      1. Navigate to homepage and scroll to about
+      2. Read computed animation-name for `[data-testid="about-glitch-text"]`
+      3. Assert animation is `none` or static fallback is visible
+    Expected Result: Motion-sensitive users see a stable readable About section
+    Evidence: .sisyphus/evidence/task-11b-about-reduced-motion.txt
+  ```
+
+  **Commit**: YES
+  - Message: `feat(about): add ifalf-style duplicate text treatment`
+  - Files: `components/About.tsx`, `lib/constants.ts`, `app/globals.css`
   - Pre-commit: `npm run lint && npm run test:e2e`
 
 - [ ] 12. Polish ID card physics, mobile behavior, and dark-mode texture
@@ -1218,6 +1492,7 @@ Wave FINAL:
 
   **What to do**:
   - Replace Create Next App boilerplate README with project-specific instructions.
+  - Fix stale `CLAUDE.md` references that still point to `src/...`, stale Next.js version guidance, or old `@studio-freight/lenis` naming.
   - Document dev commands, env vars, Firecrawl dev-only behavior, asset provenance policy, testing commands, and deployment notes.
   - Mention Next.js 16 docs caveat from AGENTS.md.
 
@@ -1237,12 +1512,14 @@ Wave FINAL:
 
   **References**:
   - `README.md` — stale boilerplate.
+  - `CLAUDE.md` — stale path/version/dependency guidance that may mislead future agents.
   - `package.json` — commands.
   - Asset/provenance markdown inventory if created.
   - `AGENTS.md` — Next.js 16 caveat.
 
   **Acceptance Criteria**:
   - [ ] README accurately lists commands and env vars.
+  - [ ] CLAUDE.md no longer directs agents to stale `src/` paths or deprecated dependency names.
   - [ ] README explains Firecrawl route is dev-only.
   - [ ] README contains no secrets.
 
@@ -1265,11 +1542,20 @@ Wave FINAL:
       2. Assert zero matches
     Expected Result: Documentation has no secrets
     Evidence: .sisyphus/evidence/task-18-readme-no-secrets.txt
+
+  Scenario: CLAUDE path guidance matches current app structure
+    Tool: Bash
+    Preconditions: CLAUDE.md updated if present
+    Steps:
+      1. Search CLAUDE.md for stale `src/` path guidance, `Next.js 15`, and `@studio-freight/lenis`
+      2. Assert no stale guidance remains unless explicitly marked as historical
+    Expected Result: Future agents receive current root `app/`, `components/`, `lib/`, Next.js 16 guidance
+    Evidence: .sisyphus/evidence/task-18-claude-current.txt
   ```
 
   **Commit**: YES
   - Message: `docs(readme): document near-clone portfolio workflow`
-  - Files: `README.md`
+  - Files: `README.md`, `CLAUDE.md`
   - Pre-commit: documentation review + `npm run lint`
 
 ---
@@ -1285,7 +1571,7 @@ Wave FINAL:
   Run `npm run type-check`, `npm run lint`, `npm run test`, `npm run test:e2e`, and `npm run build`. Review changed files for type suppressions, empty catches, console logs, dead comments, unused imports, and AI slop. Output: `Build [PASS/FAIL] | Lint [PASS/FAIL] | Tests [N pass/N fail] | Files [N clean/N issues] | VERDICT`.
 
 - [ ] F3. **Real Manual QA by Agent** — `unspecified-high` + `playwright`
-  Execute every QA scenario from tasks T1-T18 on desktop and mobile where relevant. Capture screenshots/terminal output under `.sisyphus/evidence/final-qa/`. Output: `Scenarios [N/N pass] | Integration [N/N] | Edge Cases [N tested] | VERDICT`.
+  Execute every QA scenario from tasks T0-T18 including lettered tasks T8b, T10b, and T11b on desktop and mobile where relevant. Capture screenshots/terminal output under `.sisyphus/evidence/final-qa/`. Output: `Scenarios [N/N pass] | Integration [N/N] | Edge Cases [N tested] | VERDICT`.
 
 - [ ] F4. **Scope Fidelity Check** — `deep`
   Compare final diff to this plan. Verify no audio, no CMS, no Ifalf personal identity as final content, no hotlinks, no public Firecrawl route, no extra blog/detail pages. Output: `Tasks [N/N compliant] | Contamination [CLEAN/N issues] | Unaccounted [CLEAN/N files] | VERDICT`.
@@ -1295,8 +1581,8 @@ Wave FINAL:
 ## Commit Strategy
 
 - **Wave 1**: `fix(security): harden firecrawl reference tooling`; `test(setup): add vitest and playwright smoke baseline`; `chore(assets): localize ifalf reference assets`; `style(theme): align typography with ifalf reference`; `feat(content): add ifalf-style fariz section data`.
-- **Wave 2**: commit by section/component: hero, marquee, skills, projects, contact/footer.
-- **Wave 3**: commit by integration concern: scroll coordination, ID card, mobile performance, analytics, cleanup.
+- **Wave 2**: commit by section/component: hero, marquee, skills, homepage projects, `/projects`/`/about` routes, quote/contact/footer, about glitch.
+- **Wave 3**: commit by integration concern: scroll coordination, homepage section order, ID card, mobile performance, analytics, cleanup.
 - **Wave 4**: tests and docs commits.
 - Do not push unless user explicitly asks.
 
@@ -1315,9 +1601,13 @@ npm run build      # Expected: pass
 
 ### Final Checklist
 - [ ] Ifalf-style live clock/CTA present while SequenceScroll remains functional.
+- [ ] Hero includes both site/reference and viewer-local clocks plus stacked Fariz name treatment.
+- [ ] Homepage section order follows Hero → DualMarquee → About → TechLogos → ProjectHighlights → Quote → Contact → Footer, with Fariz-only insertions documented.
+- [ ] About section includes duplicate/glitch treatment with accessible fallback.
 - [ ] Dual counter-moving marquee present and reduced-motion-safe.
 - [ ] Tech logo marquee uses local assets.
-- [ ] Project grid has categories and touch-friendly reveal.
+- [ ] Homepage project highlights and `/projects` full filter page are separate surfaces.
+- [ ] `/about` and `/projects` routes resolve without project detail pages.
 - [ ] Quote/contact/footer sections match Ifalf structure with Fariz identity.
 - [ ] ID card works or degrades safely on mobile/reduced-motion.
 - [ ] Vercel Analytics installed, no PostHog.
