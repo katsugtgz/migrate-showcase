@@ -85,7 +85,7 @@ export function IDCardScene({ isMobile = false, isDark = false }: IDCardScenePro
       aria-label="Interactive 3D ID card — use rotation buttons to interact"
     >
       <Canvas
-        camera={{ position: [0, 0.8, 5], fov: 50 }}
+        camera={{ position: [0, -0.25, 4], fov: 46 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
         style={{ position: "absolute", inset: 0 }}
