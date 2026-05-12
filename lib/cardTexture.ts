@@ -1,8 +1,7 @@
-import { IDENTITY } from "@/lib/constants";
-
 const CARD_WIDTH = 320;
 const CARD_HEIGHT = 512;
 const CORNER_RADIUS = 12;
+const CARD_NAME = "Spellshand";
 
 const COLORS = {
   bg: "#0a0a0a",
@@ -54,20 +53,20 @@ export function generateCardTexture(_isDark = false): HTMLCanvasElement {
   ctx.font = "bold 28px system-ui, -apple-system, sans-serif";
   ctx.textBaseline = "top";
   ctx.textAlign = "left";
-  ctx.fillText("F", pad, pad);
+    ctx.fillText("S", pad, pad);
 
-  // Huge "FARIZ" rotated 90° counterclockwise along right edge,
+  // Huge "SPELLSHAND" rotated 90° counterclockwise along right edge,
   // partially overflowing the right side like a watermark.
   ctx.save();
   // Position pivot near right edge, vertically centered
   ctx.translate(CARD_WIDTH - 40, CARD_HEIGHT / 2);
   ctx.rotate(-Math.PI / 2);
   ctx.fillStyle = COLORS.name;
-  ctx.font = "900 180px system-ui, -apple-system, sans-serif";
+  ctx.font = "900 84px system-ui, -apple-system, sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   // Bleed off the right side: shift text upward (which after rotation is to the right)
-  ctx.fillText("FARIZ", 40, 0);
+  ctx.fillText(CARD_NAME.toUpperCase(), 22, 0);
   ctx.restore();
 
   // Bottom-left identity block
@@ -89,17 +88,17 @@ export function generateCardTexture(_isDark = false): HTMLCanvasElement {
   // Alias
   ctx.fillStyle = COLORS.alias;
   ctx.font = "400 14px system-ui, -apple-system, sans-serif";
-  ctx.fillText(`A.K.A. ${IDENTITY.alias.toUpperCase()}`, pad, barY - 10);
+  ctx.fillText("VERCEL SHIP 2024", pad, barY - 10);
 
   // Name
   ctx.fillStyle = COLORS.name;
   ctx.font = "bold 22px system-ui, -apple-system, sans-serif";
-  ctx.fillText(IDENTITY.name, pad, barY - 32);
+  ctx.fillText(CARD_NAME, pad, barY - 32);
 
   // Role above name
   ctx.fillStyle = COLORS.muted;
   ctx.font = "500 11px system-ui, -apple-system, sans-serif";
-  ctx.fillText(IDENTITY.role.toUpperCase(), pad, barY - 56);
+  ctx.fillText("INTERACTIVE BADGE", pad, barY - 56);
 
   return canvas;
 }

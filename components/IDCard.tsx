@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
-import { IDENTITY } from "@/lib/constants";
+
+const CARD_NAME = "Spellshand";
 
 const IDCardScene = dynamic(
   () =>
@@ -35,35 +36,35 @@ function StaticCard({ isDark }: { isDark: boolean }) {
             isDark ? "text-slate-50" : "text-stone-900"
           }`}
         >
-          {IDENTITY.name}
+          {CARD_NAME}
         </h3>
         <p
           className={`text-sm mt-1 ${
             isDark ? "text-slate-400" : "text-stone-500"
           }`}
         >
-          a.k.a. {IDENTITY.alias}
+          Vercel Ship 2024 style badge
         </p>
         <p
           className={`text-sm tracking-widest uppercase mt-2 ${
             isDark ? "text-slate-300" : "text-stone-700"
           }`}
         >
-          {IDENTITY.role}
+          Interactive Badge
         </p>
         <p
           className={`text-xs italic mt-4 sm:mt-6 ${
             isDark ? "text-slate-500" : "text-stone-400"
           }`}
         >
-          &ldquo;{IDENTITY.motto}&rdquo;
+          &ldquo;Drag the badge; rope and card follow physics.&rdquo;
         </p>
         <p
           className={`text-xs mt-1.5 ${
             isDark ? "text-slate-500" : "text-stone-400"
           }`}
         >
-          {IDENTITY.email}
+          {CARD_NAME.toLowerCase()}
         </p>
       </div>
       <p className="sr-only">Interactive 3D card is available on larger screens without reduced motion preference.</p>
