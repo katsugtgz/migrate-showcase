@@ -1,16 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function CursorToggle() {
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem("cursor-opt-out") !== "true";
+  });
+
+  // Snapshot the initial enabled value so the mount-only effect can read it
+  // without re-running on every state change (react-doctor/no-event-handler).
+  const enabledRef = useRef(enabled);
 
   useEffect(() => {
-    const stored = localStorage.getItem("cursor-opt-out");
-    const isOptedOut = stored === "true";
-    setEnabled(!isOptedOut);
-
-    if (!isOptedOut) {
+    // Mount-only: set initial attribute based on the value at first render.
+    // Subsequent toggles are handled by the `toggle` event handler below.
+    if (enabledRef.current) {
       document.documentElement.setAttribute("data-cursor", "custom");
     }
   }, []);
@@ -29,6 +34,7 @@ export default function CursorToggle() {
 
   return (
     <button
+      type="button"
       onClick={toggle}
       aria-pressed={enabled}
       aria-label={enabled ? "Disable custom cursor" : "Enable custom cursor"}
