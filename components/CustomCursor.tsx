@@ -2,19 +2,21 @@
 import { useEffect, useRef, useState } from "react";
 import { LazyMotion, domAnimation, m, useMotionValue, useSpring } from "motion/react";
 
+const springConfig = { damping: 25, stiffness: 700 };
+
 export default function CustomCursor() {
-  const cursorOptOutRef = useRef(false);
+  // Single lazy localStorage read seeds both the visibility state and the
+  // ref the keydown handler mutates. Avoids duplicate getItem calls flagged
+  // by react-doctor/js-cache-storage.
   const [hidden, setHidden] = useState(() => {
     if (typeof window === "undefined") return true;
-    const opted = localStorage.getItem("cursor-opt-out") === "true";
-    cursorOptOutRef.current = opted;
-    return opted;
+    return localStorage.getItem("cursor-opt-out") === "true";
   });
+  const cursorOptOutRef = useRef(hidden);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 25, stiffness: 700 };
   const dotX = useSpring(cursorX, { damping: 40, stiffness: 900 });
   const dotY = useSpring(cursorY, { damping: 40, stiffness: 900 });
   const ringX = useSpring(cursorX, springConfig);
