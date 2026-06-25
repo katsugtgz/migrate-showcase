@@ -85,6 +85,7 @@ export function IDCardScene({ isMobile = false, isDark = false }: IDCardScenePro
   return (
     <div
       className="relative w-full h-full"
+      // react-doctor-disable-next-line react-doctor/prefer-tag-over-role
       role="img"
       aria-label="Interactive 3D Spellshand badge"
     >
@@ -112,6 +113,7 @@ export function IDCardScene({ isMobile = false, isDark = false }: IDCardScenePro
         </Suspense>
       </Canvas>
       <button
+        type="button"
         onClick={() => handleRef.current?.resetRotation()}
         aria-label="Reset Spellshand badge position"
         className="sr-only focus:not-sr-only focus:absolute focus:bottom-6 focus:left-1/2 focus:z-20 focus:-translate-x-1/2 focus:rounded-full focus:bg-black/80 focus:px-4 focus:py-2 focus:text-xs focus:font-body focus:text-white focus:outline-2 focus:outline-offset-2 focus:outline-[var(--accent)]"
