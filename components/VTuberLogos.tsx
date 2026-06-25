@@ -71,6 +71,7 @@ export default function VTuberLogos() {
           onBlur={handleFocusOut}
         >
           <button
+            type="button"
             onClick={() => setIsPaused((p) => !p)}
             className="absolute top-2 right-2 z-20 size-8 rounded-full border border-[var(--border)] bg-[var(--bg)]/80 flex items-center justify-center text-[var(--fg)] text-xs hover:border-[var(--accent)] transition-colors backdrop-blur-sm"
             aria-label={isPaused ? "Play animation" : "Pause animation"}

@@ -94,6 +94,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <ThemeToggle />
           <button
+            type="button"
             ref={hamburgerRef}
             onClick={() => setOpen(true)}
             className="pointer-events-auto size-11 rounded-full border border-white/20 flex items-center justify-center hover:border-white/60 transition-colors"
@@ -133,6 +134,7 @@ export default function Navbar() {
                 {IDENTITY.alias}
               </span>
               <button
+                type="button"
                 ref={closeBtnRef}
                 onClick={() => setOpen(false)}
                 className="size-11 rounded-full border border-[var(--border)] flex items-center justify-center hover:border-[var(--fg)]/60 transition-colors text-[var(--fg)] text-xl"

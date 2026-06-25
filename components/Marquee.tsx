@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { LazyMotion, domAnimation, m } from "motion/react";
 import { MARQUEE_ROWS } from "@/lib/constants";
 
@@ -60,12 +60,10 @@ function MarqueeRow({
 
 export default function Marquee() {
   const allRoles = MARQUEE_ROWS.flat().join(", ");
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "true") setIsPaused(true);
-  }, []);
+  const [isPaused, setIsPaused] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem(STORAGE_KEY) === "true";
+  });
 
   const togglePause = useCallback(() => {
     const next = !isPaused;
@@ -92,6 +90,7 @@ export default function Marquee() {
         <span className="sr-only">Skills: {allRoles}</span>
 
         <button
+          type="button"
           onClick={togglePause}
           className="absolute top-2 right-3 z-20 text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors text-xs tracking-wider uppercase opacity-60 hover:opacity-100"
           aria-label={isPaused ? "Play scrolling text" : "Pause scrolling text"}
