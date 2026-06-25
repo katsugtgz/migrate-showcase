@@ -42,6 +42,19 @@ function copyBodyPosition(
   return true;
 }
 
+/**
+ * Lazily initialize a ref so an expensive factory (e.g. `new THREE.Vector3`)
+ * only runs once instead of every render. The `as { current: T }` cast is
+ * structural and safe because we always populate `ref.current` before returning.
+ */
+function useLazyRef<T>(factory: () => T): { current: T } {
+  const ref = useRef<T | null>(null);
+  if (ref.current === null) {
+    ref.current = factory();
+  }
+  return ref as { current: T };
+}
+
 export default function IDCardLanyard({
   anchorRef,
   chainRef1,
@@ -52,8 +65,8 @@ export default function IDCardLanyard({
 }: IDCardLanyardProps) {
   const geometryRef = useRef<MeshLineGeometry>(null);
   const frameCount = useRef(0);
-  const lerpedJointOne = useRef(new THREE.Vector3(0, 2.15, 0));
-  const lerpedJointTwo = useRef(new THREE.Vector3(0, 1.25, 0));
+  const lerpedJointOne = useLazyRef(() => new THREE.Vector3(0, 2.15, 0));
+  const lerpedJointTwo = useLazyRef(() => new THREE.Vector3(0, 1.25, 0));
   const curve = useMemo(() => new THREE.CatmullRomCurve3(_curvePoints), []);
   const geometry = useMemo(() => new MeshLineGeometry(), []);
   const resolution = useMemo(() => new THREE.Vector2(1024, 1024), []);
