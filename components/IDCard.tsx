@@ -1,8 +1,8 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
+import { useViewportState } from "@/hooks/useViewportState";
 
 const CARD_NAME = "Spellshand";
 
@@ -13,41 +13,6 @@ const IDCardScene = dynamic(
     })),
   { ssr: false },
 );
-
-const SMALL_VIEWPORT_PX = 640;
-
-const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
-
-type ViewportState = {
-  prefersReducedMotion: boolean;
-  isSmallViewport: boolean;
-};
-
-const SERVER_VIEWPORT: ViewportState = {
-  prefersReducedMotion: false,
-  isSmallViewport: false,
-};
-
-function subscribeViewport(callback: () => void): () => void {
-  const motionMq = window.matchMedia(REDUCED_MOTION_QUERY);
-  motionMq.addEventListener("change", callback);
-  window.addEventListener("resize", callback);
-  return () => {
-    motionMq.removeEventListener("change", callback);
-    window.removeEventListener("resize", callback);
-  };
-}
-
-function getViewportSnapshot(): ViewportState {
-  return {
-    prefersReducedMotion: window.matchMedia(REDUCED_MOTION_QUERY).matches,
-    isSmallViewport: window.innerWidth < SMALL_VIEWPORT_PX,
-  };
-}
-
-function getServerViewportSnapshot(): ViewportState {
-  return SERVER_VIEWPORT;
-}
 
 function StaticCard({ isDark }: { isDark: boolean }) {
   return (
@@ -109,11 +74,7 @@ export default function IDCard() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
-  const { prefersReducedMotion, isSmallViewport } = useSyncExternalStore(
-    subscribeViewport,
-    getViewportSnapshot,
-    getServerViewportSnapshot,
-  );
+  const { prefersReducedMotion, isSmallViewport } = useViewportState();
 
   const useStaticCard = prefersReducedMotion || isSmallViewport;
 
