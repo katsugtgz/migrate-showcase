@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
 
@@ -15,6 +15,39 @@ const IDCardScene = dynamic(
 );
 
 const SMALL_VIEWPORT_PX = 640;
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+type ViewportState = {
+  prefersReducedMotion: boolean;
+  isSmallViewport: boolean;
+};
+
+const SERVER_VIEWPORT: ViewportState = {
+  prefersReducedMotion: false,
+  isSmallViewport: false,
+};
+
+function subscribeViewport(callback: () => void): () => void {
+  const motionMq = window.matchMedia(REDUCED_MOTION_QUERY);
+  motionMq.addEventListener("change", callback);
+  window.addEventListener("resize", callback);
+  return () => {
+    motionMq.removeEventListener("change", callback);
+    window.removeEventListener("resize", callback);
+  };
+}
+
+function getViewportSnapshot(): ViewportState {
+  return {
+    prefersReducedMotion: window.matchMedia(REDUCED_MOTION_QUERY).matches,
+    isSmallViewport: window.innerWidth < SMALL_VIEWPORT_PX,
+  };
+}
+
+function getServerViewportSnapshot(): ViewportState {
+  return SERVER_VIEWPORT;
+}
 
 function StaticCard({ isDark }: { isDark: boolean }) {
   return (
@@ -76,35 +109,11 @@ export default function IDCard() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
-  const [viewport, setViewport] = useState<{
-    prefersReducedMotion: boolean;
-    isSmallViewport: boolean;
-  } | null>(null);
-
-  useEffect(() => {
-    const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const checkSize = () =>
-      setViewport({
-        prefersReducedMotion: motionMq.matches,
-        isSmallViewport: window.innerWidth < SMALL_VIEWPORT_PX,
-      });
-
-    checkSize();
-
-    const onMotionChange = (e: MediaQueryListEvent) =>
-      setViewport((prev) => prev ? { ...prev, prefersReducedMotion: e.matches } : prev);
-
-    motionMq.addEventListener("change", onMotionChange);
-    window.addEventListener("resize", checkSize);
-
-    return () => {
-      motionMq.removeEventListener("change", onMotionChange);
-      window.removeEventListener("resize", checkSize);
-    };
-  }, []);
-
-  const prefersReducedMotion = viewport?.prefersReducedMotion ?? false;
-  const isSmallViewport = viewport?.isSmallViewport ?? false;
+  const { prefersReducedMotion, isSmallViewport } = useSyncExternalStore(
+    subscribeViewport,
+    getViewportSnapshot,
+    getServerViewportSnapshot,
+  );
 
   const useStaticCard = prefersReducedMotion || isSmallViewport;
 
