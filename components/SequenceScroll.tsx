@@ -17,7 +17,10 @@ export default function SequenceScroll() {
   const drawRef = useRef<(index: number) => void>(() => {});
   const [loaded, setLoaded] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -30,10 +33,9 @@ export default function SequenceScroll() {
     [0, TOTAL_FRAMES - 1]
   );
 
-  // Preload all frames
+  // Listen for reduced-motion changes
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
     const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
@@ -102,7 +104,9 @@ export default function SequenceScroll() {
     const unsubscribe = frameIndex.on("change", draw);
     draw(frameIndex.get());
 
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+    };
   }, [loaded, frameIndex]);
 
   // Resize canvas
@@ -150,7 +154,7 @@ export default function SequenceScroll() {
       <div ref={containerRef} className="relative h-[500vh]">
         {/* Loading overlay */}
         {!loaded && (
-          <div role="status" aria-live="polite" className="fixed inset-0 z-50 bg-[var(--bg)] flex flex-col items-center justify-center">
+          <output aria-live="polite" className="fixed inset-0 z-50 bg-[var(--bg)] flex flex-col items-center justify-center">
             <p className="font-heading font-bold text-[var(--fg)] text-6xl mb-4">{loadProgress}</p>
             <div className="w-48 h-px bg-[var(--border)] relative overflow-hidden">
               <div
@@ -159,7 +163,7 @@ export default function SequenceScroll() {
               />
             </div>
             <span className="sr-only">Loading: {loadProgress}%</span>
-          </div>
+          </output>
         )}
 
         {/* Sticky canvas */}
