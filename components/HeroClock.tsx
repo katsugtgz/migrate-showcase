@@ -26,9 +26,12 @@ export default function HeroClock() {
   }, []);
 
   useEffect(() => {
-    tick();
+    const initialTick = setTimeout(tick, 0);
     const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+    return () => {
+      clearTimeout(initialTick);
+      clearInterval(id);
+    };
   }, [tick]);
 
   const alias = IDENTITY.alias.toUpperCase();

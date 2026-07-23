@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useSyncExternalStore } from "react";
 import { LazyMotion, domAnimation, m, AnimatePresence } from "motion/react";
 import { IDENTITY } from "@/lib/constants";
 
@@ -15,19 +15,27 @@ function reducer(state: State, action: Action): State {
 
 const initialState: State = { count: 0, visible: true };
 
+function subscribeToReducedMotion(onChange: () => void) {
+  const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+function getReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 interface PreloaderProps {
   onComplete?: () => void;
 }
 
 export default function Preloader({ onComplete }: PreloaderProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [reducedExit, setReducedExit] = useState(false);
-
-  // Detect reduced motion once
-  useEffect(() => {
-    const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedExit(motionMq.matches);
-  }, []);
+  const reducedExit = useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotion,
+    () => false,
+  );
 
   // Lock body scroll while preloader is visible (only if no reduced motion)
   useEffect(() => {

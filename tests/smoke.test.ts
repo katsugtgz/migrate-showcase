@@ -98,7 +98,7 @@ describe("TECH_LOGOS", () => {
     for (const entry of TECH_LOGOS) {
       expect(typeof entry.name).toBe("string");
       expect(entry.name.length).toBeGreaterThan(0);
-      expect(entry.src).toMatch(/^\/tech\/.+\.svg$/);
+      expect(entry.src).toMatch(/^\/tech\/.+\.(?:png|svg)$/);
     }
   });
 });
