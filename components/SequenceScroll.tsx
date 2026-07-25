@@ -75,14 +75,12 @@ export default function SequenceScroll() {
   // Draw frame on scroll
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !loaded) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const ctx = canvas && loaded ? canvas.getContext("2d") : null;
 
     let lastIndex = -1;
 
     const draw = (index: number) => {
+      if (!canvas || !ctx) return;
       const rounded = Math.round(index);
       if (rounded === lastIndex) return;
       lastIndex = rounded;
@@ -101,12 +99,10 @@ export default function SequenceScroll() {
     };
 
     drawRef.current = draw;
-    const unsubscribe = frameIndex.on("change", draw);
+    const unsubscribe = frameIndex.onChange(draw);
     draw(frameIndex.get());
 
-    return () => {
-      unsubscribe();
-    };
+    return unsubscribe;
   }, [loaded, frameIndex]);
 
   // Resize canvas
