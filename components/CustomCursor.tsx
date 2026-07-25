@@ -25,13 +25,23 @@ export default function CustomCursor() {
   const ringScale = useMotionValue(1);
   const ringScaleSpring = useSpring(ringScale, { damping: 20, stiffness: 300 });
 
-  const prefersReducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [hasFinePointer, setHasFinePointer] = useState(false);
 
-  const hasFinePointer =
-    typeof window !== "undefined" &&
-    window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  useEffect(() => {
+    const reduceMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const fineMq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    setPrefersReducedMotion(reduceMq.matches);
+    setHasFinePointer(fineMq.matches);
+    const onReduceChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    const onFineChange = (e: MediaQueryListEvent) => setHasFinePointer(e.matches);
+    reduceMq.addEventListener("change", onReduceChange);
+    fineMq.addEventListener("change", onFineChange);
+    return () => {
+      reduceMq.removeEventListener("change", onReduceChange);
+      fineMq.removeEventListener("change", onFineChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (prefersReducedMotion || !hasFinePointer) return;
