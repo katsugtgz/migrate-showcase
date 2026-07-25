@@ -1,0 +1,23 @@
+components/SequenceScroll.tsx
+  s_42e348758c390d::t_71a8f6190f3547 78
+  s_42e348758c390d::t_836b6be33d6a4b 83
+  s_42e348758c390d::t_a50f1f097bfc3a 102,105
+components/CustomCursor.tsx
+  s_42e348758c390d::t_eb8cdb4701f614 28-29,31-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "06907c53e0a7ccfd5031a8cf68b44e2e733676e3",
+  "prompts": {},
+  "sessions": {
+    "s_42e348758c390d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_066cf05e0ffeJnnRK24ADn0qnO",
+        "model": "glm-5.2"
+      },
+      "human_author": "Muhammad Naufal Mahdi <053792227@ecampus.ut.ac.id>"
+    }
+  }
+}
