@@ -40,17 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# claude worktrees
-.claude/worktrees/
-*.png
-.playwright-mcp/*.yml
-.playwright-mcp/*.log
-app/api/scrape-ifalf/route.ts
-.firecrawl/*
+# local tooling
+.claude/
+*.log
 
 # test output
 playwright-report/
 test-results/
-
-# temp files
-fix9may.md
