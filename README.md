@@ -58,7 +58,7 @@ npm run test:e2e    # playwright e2e tests
 ```
 app/          Layout, page, client boundary, Tailwind v4 theme (globals.css)
 components/   SequenceScroll, IDCard scene/model/lanyard, Navbar, sections
-hooks/        useLenis (smooth scroll), useCardPhysics (Rapier)
+hooks/        useCardPhysics (Rapier), useViewportState (reduced motion / viewport size)
 lib/          Site content constants, canvas texture generation
 public/       192-frame sequence, SVG logos and project thumbnails
 tests/        Vitest unit tests
