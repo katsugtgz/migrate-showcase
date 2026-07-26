@@ -1,0 +1,23 @@
+README.md
+  s_038d67559c775f::t_5c3e84835e9ab6 1,3-15,19-26,30-31,37,39,41-46,51-54,56,59-64,67,69
+.gitignore
+  s_038d67559c775f::t_91e082605942ef 43-45,49
+LICENSE
+  s_038d67559c775f::t_697a2e502c357d 1-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "f7b956983dfd622f83fe95278fc688d173260adb",
+  "prompts": {},
+  "sessions": {
+    "s_038d67559c775f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8ac43211-929f-4887-90cb-9d4473d7cf07",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Muhammad Naufal Mahdi <053792227@ecampus.ut.ac.id>"
+    }
+  }
+}
