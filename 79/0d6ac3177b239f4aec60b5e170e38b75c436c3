@@ -1,0 +1,19 @@
+README.md
+  s_038d67559c775f::t_d4af3206fbaa7a 61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "790d6ac3177b239f4aec60b5e170e38b75c436c3",
+  "prompts": {},
+  "sessions": {
+    "s_038d67559c775f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8ac43211-929f-4887-90cb-9d4473d7cf07",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Muhammad Naufal Mahdi <053792227@ecampus.ut.ac.id>"
+    }
+  }
+}
