@@ -39,14 +39,19 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
   // Lock body scroll while preloader is visible (only if no reduced motion)
   useEffect(() => {
+    if (!state.visible) return;
+
     const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!motionMq.matches) {
-      document.documentElement.style.overflow = "hidden";
-    }
+    if (motionMq.matches) return;
+
+    const root = document.documentElement;
+    const previousOverflow = root.style.overflow;
+    root.style.overflow = "hidden";
+
     return () => {
-      document.documentElement.style.overflow = "";
+      root.style.overflow = previousOverflow;
     };
-  }, []);
+  }, [state.visible]);
 
   useEffect(() => {
     const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");

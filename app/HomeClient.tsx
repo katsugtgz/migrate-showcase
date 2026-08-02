@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import SequenceScroll from "@/components/SequenceScroll";
@@ -19,8 +19,11 @@ import Lenis from "lenis";
 
 export default function HomeClient() {
   const lenisRef = useRef<Lenis | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
 
-  const handlePreloaderComplete = () => {
+  const handlePreloaderComplete = useCallback(() => {
+    if (lenisRef.current) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -30,10 +33,21 @@ export default function HomeClient() {
 
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      animationFrameRef.current = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
-  };
+    animationFrameRef.current = requestAnimationFrame(raf);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+      lenisRef.current?.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
 
   return (
     <>
