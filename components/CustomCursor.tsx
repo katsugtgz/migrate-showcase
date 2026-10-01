@@ -87,7 +87,9 @@ export default function CustomCursor() {
         try {
           localStorage.setItem("cursor-opt-out", "true");
         } catch {
-          // Storage blocked: preference won't persist, still apply for this session.
+          // Storage blocked: the preference snapshot won't flip, so hide the
+          // custom cursor for this session directly.
+          document.documentElement.removeAttribute("data-cursor");
         }
         // Preference event flips `hidden`, which re-runs this effect; its
         // hidden branch removes data-cursor and tears the listeners down.

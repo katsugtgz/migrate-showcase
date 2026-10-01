@@ -79,15 +79,21 @@ export default function Marquee() {
     () => false,
   );
   const [focusPaused, setFocusPaused] = useState(false);
-  const isPaused = storedPaused || focusPaused;
+  // Session-only pause used when localStorage writes fail (blocked storage):
+  // keeps the toggle working even though the preference can't persist.
+  const [sessionPaused, setSessionPaused] = useState(false);
+  const isPaused = storedPaused || focusPaused || sessionPaused;
 
   const togglePause = useCallback(() => {
     const next = !isPaused;
+    let persisted = false;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      persisted = true;
     } catch {
-      // Storage blocked: preference won't persist, still apply for this session.
+      // Storage blocked: fall back to session-only state below.
     }
+    setSessionPaused(persisted ? false : next);
     if (!next) setFocusPaused(false);
     window.dispatchEvent(new StorageEvent("storage", { key: STORAGE_KEY }));
   }, [isPaused]);
