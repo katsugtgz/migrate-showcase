@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 import * as THREE from "three";
 import type { RapierRigidBody } from "@react-three/rapier";
+import { CARD_ATTACHMENT_HEIGHT } from "@/hooks/useCardPhysics";
 
 interface IDCardLanyardProps {
   anchorRef: React.RefObject<RapierRigidBody | null>;
@@ -26,6 +27,8 @@ const _jointOnePoint = new THREE.Vector3();
 const _jointTwoPoint = new THREE.Vector3();
 const _jointThreePoint = new THREE.Vector3();
 const _cardAttachmentPoint = new THREE.Vector3();
+const _cardQuat = new THREE.Quaternion();
+const _attachmentOffset = new THREE.Vector3();
 const _curvePoints: THREE.Vector3[] = [
   _cardAttachmentPoint,
   _jointThreePoint,
@@ -42,6 +45,26 @@ function copyBodyPosition(
   if (!body) return false;
   const pos = body.translation();
   target.set(pos.x, pos.y, pos.z);
+  return true;
+}
+
+/**
+ * World-space position of the card's strap attachment: body origin plus the
+ * card-local attachment offset rotated by the body's current orientation, so
+ * the band start tracks the physics joint anchor (card-local
+ * (0, CARD_ATTACHMENT_HEIGHT, 0)) while the badge swings and tilts.
+ */
+function copyCardAttachment(
+  ref: React.RefObject<RapierRigidBody | null>,
+  target: THREE.Vector3,
+): boolean {
+  const body = ref.current;
+  if (!body) return false;
+  const pos = body.translation();
+  const rot = body.rotation();
+  _cardQuat.set(rot.x, rot.y, rot.z, rot.w);
+  _attachmentOffset.set(0, CARD_ATTACHMENT_HEIGHT, 0).applyQuaternion(_cardQuat);
+  target.set(pos.x + _attachmentOffset.x, pos.y + _attachmentOffset.y, pos.z + _attachmentOffset.z);
   return true;
 }
 
@@ -117,8 +140,7 @@ export default function IDCardLanyard({
     if (!copyBodyPosition(chainRef1, _jointOnePoint)) return;
     if (!copyBodyPosition(chainRef2, _jointTwoPoint)) return;
     if (!copyBodyPosition(chainRef3, _jointThreePoint)) return;
-    if (!copyBodyPosition(cardRef, _cardAttachmentPoint)) return;
-    _cardAttachmentPoint.y += 1.09;
+    if (!copyCardAttachment(cardRef, _cardAttachmentPoint)) return;
 
     for (const [target, source] of [
       [lerpedJointOne, _jointOnePoint],

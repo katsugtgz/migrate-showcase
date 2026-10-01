@@ -60,7 +60,7 @@ export default function Projects() {
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     {/* Project image — scales in and fades up, blurred so SVG text doesn't compete */}
                     <div
-                      className="absolute inset-0 scale-125 opacity-0 transition-[opacity,transform] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100 motion-reduce:transition-none"
+                      className="absolute inset-0 scale-125 opacity-0 transition-[opacity,scale] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100 motion-reduce:transition-none"
                       style={{
                         backgroundImage: `url(${project.imageUrl})`,
                         backgroundSize: "cover",
@@ -79,7 +79,7 @@ export default function Projects() {
                     className="absolute z-20 pointer-events-none hidden md:block"
                     style={{ top: "50%", left: "65%", transform: "translateY(-50%)" }}
                   >
-                    <div className="scale-0 -rotate-12 opacity-0 transition-[opacity,transform] duration-300 ease-out group-hover:scale-100 group-hover:-rotate-6 group-hover:opacity-100 motion-reduce:transition-none">
+                    <div className="scale-0 -rotate-12 opacity-0 transition-[opacity,scale,rotate] duration-300 ease-out group-hover:scale-100 group-hover:-rotate-6 group-hover:opacity-100 motion-reduce:transition-none">
                       <Image
                         src={thumbnailSrc}
                         alt=""
@@ -110,7 +110,7 @@ export default function Projects() {
                   {/* Arrow — slides in from right on hover */}
                   <span
                     aria-hidden="true"
-                    className="relative z-10 hidden md:block text-3xl text-[var(--fg)] group-hover:text-white md:opacity-0 md:group-hover:opacity-100 md:translate-x-6 md:group-hover:translate-x-0 transition-[color,opacity,transform] duration-300 motion-reduce:transition-none"
+                    className="relative z-10 hidden md:block text-3xl text-[var(--fg)] group-hover:text-white md:opacity-0 md:group-hover:opacity-100 md:translate-x-6 md:group-hover:translate-x-0 transition-[color,opacity,translate] duration-300 motion-reduce:transition-none"
                   >
                     →
                   </span>

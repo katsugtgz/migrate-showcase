@@ -68,14 +68,18 @@ test.describe("Homepage Smoke", () => {
   });
 
   test("desktop 3D badge renders instead of the fallback", async ({ page }) => {
+    test.setTimeout(30_000); // WebGL scene: cold shader compile on CI can be slow
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
-    await page.waitForTimeout(3200);
-    await page.locator("#id-card").scrollIntoViewIfNeeded();
 
+    // Fallback copy only renders while WebGL is unavailable/unmounted.
+    const fallbackCopy = page.getByText("Drag the badge; rope and card follow physics.");
+    await expect(fallbackCopy).toHaveCount(0, { timeout: 15_000 });
+
+    await page.locator("#id-card").scrollIntoViewIfNeeded();
+    const canvas = page.locator("#id-card canvas");
+    await expect(canvas).toHaveCount(1, { timeout: 15_000 });
     await expect(page.getByTestId("id-card-3d")).toBeVisible();
-    await expect(page.locator("#id-card canvas")).toHaveCount(1);
-    await expect(page.getByText("Drag the badge; rope and card follow physics.")).toHaveCount(0);
   });
 
   test("project cards are present on homepage", async ({ page }) => {

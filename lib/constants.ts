@@ -113,6 +113,10 @@ export const ABOUT_COPY = {
   ],
 } as const;
 
+// ── Site URL ────────────────────────────────────────────────
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://migrate-two.vercel.app";
+
 // ── Tech Logos ──────────────────────────────────────────────
 export const TECH_LOGOS = [
   { name: "HTML", mark: "HTML", color: "#e34f26" },
@@ -121,12 +125,12 @@ export const TECH_LOGOS = [
   { name: "TypeScript", mark: "TS", color: "#3178c6" },
   { name: "Python", mark: "PY", color: "#3776ab" },
   { name: "React", mark: "R", color: "#149eca" },
-  { name: "Next.js", mark: "N", color: "#111111" },
+  { name: "Next.js", mark: "N", color: "#2b2b2b" },
   { name: "Tailwind CSS", mark: "TW", color: "#0e7490" },
   { name: "Node.js", mark: "JS", color: "#5fa04e" },
   { name: "Laravel", mark: "L", color: "#ff2d20" },
   { name: "Figma", mark: "F", color: "#f24e1e" },
-  { name: "Bun", mark: "B", color: "#141414" },
+  { name: "Bun", mark: "B", color: "#3b3b3b" },
 ] as const;
 
 // ── Project Categories ──────────────────────────────────────

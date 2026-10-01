@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 const CURSOR_PREFERENCE_EVENT = "cursor-preference-change";
 
@@ -28,6 +28,16 @@ export default function CursorToggle() {
     () => true,
   );
 
+  // Mirror the live preference onto data-cursor so cross-tab storage events
+  // also tear down (or restore) the custom cursor in this tab.
+  useEffect(() => {
+    if (enabled) {
+      document.documentElement.setAttribute("data-cursor", "custom");
+    } else {
+      document.documentElement.removeAttribute("data-cursor");
+    }
+  }, [enabled]);
+
   const toggle = () => {
     const next = !enabled;
     try {
@@ -36,12 +46,6 @@ export default function CursorToggle() {
       // Storage blocked: preference won't persist, still apply for this session.
     }
     window.dispatchEvent(new Event(CURSOR_PREFERENCE_EVENT));
-
-    if (next) {
-      document.documentElement.setAttribute("data-cursor", "custom");
-    } else {
-      document.documentElement.removeAttribute("data-cursor");
-    }
   };
 
   return (

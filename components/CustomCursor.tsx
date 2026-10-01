@@ -73,9 +73,13 @@ export default function CustomCursor() {
   useEffect(() => {
     if (prefersReducedMotion || !hasFinePointer) return;
 
-    if (hidden) return;
-
-    // Set data-cursor attribute on mount
+    // Single owner for data-cursor: sync on every preference/pointer/motion
+    // change, including cross-tab storage events, so `cursor: none` never
+    // outlives the custom cursor.
+    if (hidden) {
+      document.documentElement.removeAttribute("data-cursor");
+      return;
+    }
     document.documentElement.setAttribute("data-cursor", "custom");
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -85,8 +89,9 @@ export default function CustomCursor() {
         } catch {
           // Storage blocked: preference won't persist, still apply for this session.
         }
+        // Preference event flips `hidden`, which re-runs this effect; its
+        // hidden branch removes data-cursor and tears the listeners down.
         window.dispatchEvent(new Event(CURSOR_PREFERENCE_EVENT));
-        document.documentElement.removeAttribute("data-cursor");
       }
     };
 

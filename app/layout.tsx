@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Bebas_Neue } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/react";
+import { SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -25,20 +26,17 @@ const outfitBody = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://migrate-two.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: "Fariz — Software Engineer",
   description:
     "Software engineer passionate about building innovative solutions and developer tools. Explore my projects and free online utilities.",
   keywords: ["fariz", "software engineer", "backend developer", "typescript", "svelte"],
   authors: [{ name: "Nizar Alfarizi Akbar" }],
-  alternates: {
-    canonical: "https://migrate-two.vercel.app/",
-  },
   openGraph: {
     title: "Fariz — Software Engineer",
     description:
       "Software engineer passionate about building innovative solutions and developer tools. Explore my projects and free online utilities.",
-    url: "https://migrate-two.vercel.app",
+    url: SITE_URL,
     siteName: "Fariz",
     locale: "en_US",
     type: "website",
