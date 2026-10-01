@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, type RefObject } from "react";
+import { useEffect, useMemo, type RefObject } from "react";
 import {
   BallCollider,
   CuboidCollider,
@@ -33,6 +33,8 @@ export function IDCardModel({
     tex.colorSpace = THREE.SRGBColorSpace;
     return tex;
   }, [isDark]);
+
+  useEffect(() => () => texture.dispose(), [texture]);
 
   return (
     <RigidBody

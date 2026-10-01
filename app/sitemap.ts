@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://fariz.dev";
+  const baseUrl = "https://migrate-two.vercel.app";
 
   return [
     {

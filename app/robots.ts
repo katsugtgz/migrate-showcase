@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://fariz.dev/sitemap.xml",
+    sitemap: "https://migrate-two.vercel.app/sitemap.xml",
   };
 }

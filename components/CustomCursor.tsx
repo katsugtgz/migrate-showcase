@@ -1,17 +1,53 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { LazyMotion, domAnimation, m, useMotionValue, useSpring } from "motion/react";
 
 const springConfig = { damping: 25, stiffness: 700 };
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+const FINE_POINTER_QUERY = "(hover: hover) and (pointer: fine)";
+const CURSOR_PREFERENCE_EVENT = "cursor-preference-change";
+
+function subscribeToCursorPreference(onChange: () => void) {
+  window.addEventListener(CURSOR_PREFERENCE_EVENT, onChange);
+  window.addEventListener("storage", onChange);
+  return () => {
+    window.removeEventListener(CURSOR_PREFERENCE_EVENT, onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+
+function getCursorPreference() {
+  return localStorage.getItem("cursor-opt-out") === "true";
+}
+
+function subscribeToMediaQueries(onChange: () => void) {
+  const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
+  const finePointer = window.matchMedia(FINE_POINTER_QUERY);
+  reducedMotion.addEventListener("change", onChange);
+  finePointer.addEventListener("change", onChange);
+  return () => {
+    reducedMotion.removeEventListener("change", onChange);
+    finePointer.removeEventListener("change", onChange);
+  };
+}
+
+function getMediaQuerySnapshot() {
+  return `${window.matchMedia(REDUCED_MOTION_QUERY).matches}:${window.matchMedia(FINE_POINTER_QUERY).matches}`;
+}
+
+function getServerMediaQuerySnapshot() {
+  return "false:false";
+}
 
 export default function CustomCursor() {
   // Single lazy localStorage read seeds both the visibility state and the
   // ref the keydown handler mutates. Avoids duplicate getItem calls flagged
   // by react-doctor/js-cache-storage.
-  const [hidden, setHidden] = useState(() => {
-    if (typeof window === "undefined") return true;
-    return localStorage.getItem("cursor-opt-out") === "true";
-  });
+  const hidden = useSyncExternalStore(
+    subscribeToCursorPreference,
+    getCursorPreference,
+    () => true,
+  );
   const cursorOptOutRef = useRef(hidden);
 
   const cursorX = useMotionValue(-100);
@@ -25,23 +61,12 @@ export default function CustomCursor() {
   const ringScale = useMotionValue(1);
   const ringScaleSpring = useSpring(ringScale, { damping: 20, stiffness: 300 });
 
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [hasFinePointer, setHasFinePointer] = useState(false);
-
-  useEffect(() => {
-    const reduceMq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const fineMq = window.matchMedia("(hover: hover) and (pointer: fine)");
-    setPrefersReducedMotion(reduceMq.matches);
-    setHasFinePointer(fineMq.matches);
-    const onReduceChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    const onFineChange = (e: MediaQueryListEvent) => setHasFinePointer(e.matches);
-    reduceMq.addEventListener("change", onReduceChange);
-    fineMq.addEventListener("change", onFineChange);
-    return () => {
-      reduceMq.removeEventListener("change", onReduceChange);
-      fineMq.removeEventListener("change", onFineChange);
-    };
-  }, []);
+  const mediaQuerySnapshot = useSyncExternalStore(
+    subscribeToMediaQueries,
+    getMediaQuerySnapshot,
+    getServerMediaQuerySnapshot,
+  );
+  const [prefersReducedMotion, hasFinePointer] = mediaQuerySnapshot.split(":").map(Boolean);
 
   useEffect(() => {
     if (prefersReducedMotion || !hasFinePointer) return;
@@ -54,9 +79,9 @@ export default function CustomCursor() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Tab" && !cursorOptOutRef.current) {
         localStorage.setItem("cursor-opt-out", "true");
+        window.dispatchEvent(new Event(CURSOR_PREFERENCE_EVENT));
         document.documentElement.removeAttribute("data-cursor");
         cursorOptOutRef.current = true;
-        setHidden(true);
       }
     };
 

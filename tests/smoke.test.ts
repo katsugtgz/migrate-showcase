@@ -93,12 +93,14 @@ describe("ABOUT_COPY", () => {
 // ── TECH_LOGOS ────────────────────────────────────────────────
 
 describe("TECH_LOGOS", () => {
-  it("is a non-empty array with name and valid /tech/ src paths", () => {
+  it("is a non-empty array with accessible local marks", () => {
     expect(TECH_LOGOS.length).toBeGreaterThan(0);
     for (const entry of TECH_LOGOS) {
       expect(typeof entry.name).toBe("string");
       expect(entry.name.length).toBeGreaterThan(0);
-      expect(entry.src).toMatch(/^\/tech\/.+\.(?:png|svg)$/);
+      expect(typeof entry.mark).toBe("string");
+      expect(entry.mark.length).toBeGreaterThan(0);
+      expect(entry.color).toMatch(/^#[0-9a-f]{6}$/i);
     }
   });
 });

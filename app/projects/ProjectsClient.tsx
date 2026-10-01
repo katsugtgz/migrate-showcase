@@ -65,7 +65,7 @@ export default function ProjectsClient() {
                 key={cat}
                 onClick={() => setActive(cat)}
                 data-testid={`filter-${cat.toLowerCase().replace(/\//g, "-")}`}
-                className={`rounded-full px-5 py-2 font-body text-xs tracking-[0.2em] uppercase border transition-all duration-[var(--duration-fast)] ${
+                className={`rounded-full px-5 py-2 font-body text-xs tracking-[0.2em] uppercase border transition-[background-color,border-color,color] duration-[var(--duration-fast)] ${
                   active === cat
                     ? "border-[var(--accent)] bg-[var(--accent)] text-white"
                     : "border-[var(--border)] text-[var(--fg-muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
@@ -96,7 +96,7 @@ export default function ProjectsClient() {
                       viewport={{ once: true, margin: "-80px" }}
                       transition={{ duration: 0.6, delay: i * 0.1 }}
                     >
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none opacity-0 scale-95 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-100 group-focus-visible:opacity-100 group-focus-visible:scale-100 group-active:opacity-100 group-active:scale-100 -top-[220px] md:-top-[340px]">
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none scale-95 opacity-0 transition-[opacity,transform] duration-500 ease-out group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100 group-active:scale-100 group-active:opacity-100 -top-[220px] md:-top-[340px]">
                         <div className="w-[300px] h-[200px] md:w-[450px] md:h-[300px] relative rounded-xl overflow-hidden shadow-2xl bg-[var(--border)]">
                           <Image
                             src={thumbnailSrc}

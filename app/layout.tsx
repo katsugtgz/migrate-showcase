@@ -25,16 +25,20 @@ const outfitBody = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://migrate-two.vercel.app"),
   title: "Fariz — Software Engineer",
   description:
     "Software engineer passionate about building innovative solutions and developer tools. Explore my projects and free online utilities.",
   keywords: ["fariz", "software engineer", "backend developer", "typescript", "svelte"],
   authors: [{ name: "Nizar Alfarizi Akbar" }],
+  alternates: {
+    canonical: "https://migrate-two.vercel.app/",
+  },
   openGraph: {
     title: "Fariz — Software Engineer",
     description:
       "Software engineer passionate about building innovative solutions and developer tools. Explore my projects and free online utilities.",
-    url: "https://fariz.dev",
+    url: "https://migrate-two.vercel.app",
     siteName: "Fariz",
     locale: "en_US",
     type: "website",
@@ -60,7 +64,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light">
           {children}
         </ThemeProvider>
-        <Analytics />
+        {process.env.VERCEL === "1" ? <Analytics /> : null}
       </body>
     </html>
   );

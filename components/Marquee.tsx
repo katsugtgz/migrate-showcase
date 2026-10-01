@@ -1,11 +1,20 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback, useState, useSyncExternalStore } from "react";
 import { LazyMotion, domAnimation, m } from "motion/react";
 import { MARQUEE_ROWS } from "@/lib/constants";
 
 const SEPARATOR = "✦";
 const STORAGE_KEY = "marquee-paused";
+
+function subscribeToMarqueePreference(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  return () => window.removeEventListener("storage", onChange);
+}
+
+function getMarqueePreference() {
+  return localStorage.getItem(STORAGE_KEY) === "true";
+}
 
 function MarqueeRow({
   items,
@@ -60,24 +69,27 @@ function MarqueeRow({
 
 export default function Marquee() {
   const allRoles = MARQUEE_ROWS.flat().join(", ");
-  const [isPaused, setIsPaused] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return localStorage.getItem(STORAGE_KEY) === "true";
-  });
+  const storedPaused = useSyncExternalStore(
+    subscribeToMarqueePreference,
+    getMarqueePreference,
+    () => false,
+  );
+  const [focusPaused, setFocusPaused] = useState(false);
+  const isPaused = storedPaused || focusPaused;
 
   const togglePause = useCallback(() => {
     const next = !isPaused;
-    setIsPaused(next);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    window.dispatchEvent(new StorageEvent("storage", { key: STORAGE_KEY }));
   }, [isPaused]);
 
   const handleFocusIn = useCallback(() => {
-    setIsPaused(true);
+    setFocusPaused(true);
   }, []);
 
   const handleFocusOut = useCallback(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored !== "true") setIsPaused(false);
+    if (stored !== "true") setFocusPaused(false);
   }, []);
 
   return (

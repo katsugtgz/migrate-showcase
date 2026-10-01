@@ -64,8 +64,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     const interval = 20;
     const steps = duration / interval;
     let current = 0;
-    let t1: ReturnType<typeof setTimeout>;
-
     const timer = setInterval(() => {
       current += 1;
       const progress = current / steps;
@@ -74,15 +72,12 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
       if (current >= steps) {
         clearInterval(timer);
-        t1 = setTimeout(() => {
-          dispatch({ type: "hide" });
-        }, 300);
+        dispatch({ type: "hide" });
       }
     }, interval);
 
     return () => {
       clearInterval(timer);
-      clearTimeout(t1);
     };
   }, []);
 

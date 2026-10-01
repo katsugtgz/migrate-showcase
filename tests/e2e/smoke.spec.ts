@@ -67,6 +67,17 @@ test.describe("Homepage Smoke", () => {
     expect(count).toBeGreaterThan(0);
   });
 
+  test("desktop 3D badge renders instead of the fallback", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    await page.waitForTimeout(3200);
+    await page.locator("#id-card").scrollIntoViewIfNeeded();
+
+    await expect(page.getByTestId("id-card-3d")).toBeVisible();
+    await expect(page.locator("#id-card canvas")).toHaveCount(1);
+    await expect(page.getByText("Drag the badge; rope and card follow physics.")).toHaveCount(0);
+  });
+
   test("project cards are present on homepage", async ({ page }) => {
     await page.goto("/");
 

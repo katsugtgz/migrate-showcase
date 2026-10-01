@@ -16,7 +16,7 @@ const ROPE_LENGTH = 1;
 
 // Stable joint anchor points (module-level to avoid per-render allocation)
 const JOINT_CENTER = new Vector3(0, 0, 0);
-const CARD_ATTACHMENT = new Vector3(0, 1.42, 0);
+const CARD_ATTACHMENT = new Vector3(0, 1.09, 0);
 
 // Reusable temporaries (single-threaded JS — safe across frames)
 const _pointerWorld = new Vector3();

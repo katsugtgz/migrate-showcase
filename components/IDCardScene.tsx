@@ -72,6 +72,7 @@ function IDCardSceneInner({
         chainRef1={chainRef1}
         chainRef2={chainRef2}
         chainRef3={chainRef3}
+        cardRef={cardRef}
         isMobile={isMobile}
         isDark={isDark}
       />
@@ -83,18 +84,20 @@ export function IDCardScene({ isMobile = false, isDark = false }: IDCardScenePro
   const handleRef = useRef<CardPhysicsHandle>(null);
 
   return (
-    <div
-      className="relative w-full h-full"
-      // react-doctor-disable-next-line react-doctor/prefer-tag-over-role
-      role="img"
-      aria-label="Interactive 3D Spellshand badge"
-    >
-      <Canvas
-        camera={{ position: [0, 0.25, 5.6], fov: 40 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
-        style={{ position: "absolute", inset: 0 }}
+    <div className="relative w-full h-full">
+      <div
+        data-testid="id-card-3d"
+        className="absolute inset-0"
+        // react-doctor-disable-next-line react-doctor/prefer-tag-over-role
+        role="img"
+        aria-label="Interactive 3D Spellshand badge"
       >
+        <Canvas
+          camera={{ position: [0, -0.7, 7.2], fov: 38 }}
+          dpr={[1, 2]}
+          gl={{ antialias: true, alpha: true }}
+          style={{ position: "absolute", inset: 0 }}
+        >
         <ambientLight intensity={0.45} />
         <Suspense fallback={null}>
           <Physics gravity={[0, -40, 0]} timeStep={isMobile ? 1 / 30 : 1 / 60}>
@@ -111,7 +114,8 @@ export function IDCardScene({ isMobile = false, isDark = false }: IDCardScenePro
             <Lightformer intensity={1.2} position={[0, -3, 5]} scale={[10, 2, 1]} />
           </Environment>
         </Suspense>
-      </Canvas>
+        </Canvas>
+      </div>
       <button
         type="button"
         onClick={() => handleRef.current?.resetRotation()}

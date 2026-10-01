@@ -1,29 +1,33 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+const CURSOR_PREFERENCE_EVENT = "cursor-preference-change";
+
+function subscribeToCursorPreference(onChange: () => void) {
+  window.addEventListener(CURSOR_PREFERENCE_EVENT, onChange);
+  window.addEventListener("storage", onChange);
+  return () => {
+    window.removeEventListener(CURSOR_PREFERENCE_EVENT, onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+
+function getCursorEnabled() {
+  return localStorage.getItem("cursor-opt-out") !== "true";
+}
 
 export default function CursorToggle() {
-  const [enabled, setEnabled] = useState(() => {
-    if (typeof window === "undefined") return true;
-    return localStorage.getItem("cursor-opt-out") !== "true";
-  });
-
-  // Snapshot the initial enabled value so the mount-only effect can read it
-  // without re-running on every state change (react-doctor/no-event-handler).
-  const enabledRef = useRef(enabled);
-
-  useEffect(() => {
-    // Mount-only: set initial attribute based on the value at first render.
-    // Subsequent toggles are handled by the `toggle` event handler below.
-    if (enabledRef.current) {
-      document.documentElement.setAttribute("data-cursor", "custom");
-    }
-  }, []);
+  const enabled = useSyncExternalStore(
+    subscribeToCursorPreference,
+    getCursorEnabled,
+    () => true,
+  );
 
   const toggle = () => {
     const next = !enabled;
-    setEnabled(next);
     localStorage.setItem("cursor-opt-out", next ? "false" : "true");
+    window.dispatchEvent(new Event(CURSOR_PREFERENCE_EVENT));
 
     if (next) {
       document.documentElement.setAttribute("data-cursor", "custom");
