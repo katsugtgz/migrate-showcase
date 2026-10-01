@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import Image from "next/image";
 import { TECH_LOGOS } from "@/lib/constants";
 import { LazyMotion, domAnimation, m } from "motion/react";
 
@@ -10,20 +9,33 @@ const MARQUEE_ITEMS = [...TECH_LOGOS, ...TECH_LOGOS].map((item, i) => ({
   uid: `tech-${item.name}-${i}`,
 }));
 
-function LogoItem({ name, src }: { name: string; src: string }) {
+function LogoItem({
+  name,
+  mark,
+  color,
+}: {
+  name: string;
+  mark: string;
+  color: string;
+}) {
   return (
     <div
       data-testid="tech-logo"
       className="relative flex-shrink-0 size-40 md:size-48 flex items-center justify-center"
     >
-      <Image
-        src={src}
-        alt={`${name} logo`}
-        width={384}
-        height={384}
-        className="size-full object-contain grayscale hover:grayscale-0 transition-all duration-300 p-2"
-        loading="lazy"
-      />
+      <div
+        role="img"
+        aria-label={`${name} logo`}
+        className="size-28 md:size-32 rounded-[2rem] flex items-center justify-center p-3 grayscale transition-[filter] duration-300 hover:grayscale-0 shadow-sm"
+        style={{ backgroundColor: color }}
+      >
+        <span
+          aria-hidden="true"
+          className="font-heading font-semibold text-2xl md:text-3xl tracking-tight text-white mix-blend-screen"
+        >
+          {mark}
+        </span>
+      </div>
     </div>
   );
 }
@@ -91,7 +103,12 @@ export default function VTuberLogos() {
             aria-hidden="true"
           >
             {MARQUEE_ITEMS.map((logo) => (
-              <LogoItem key={logo.uid} name={logo.name} src={logo.src} />
+              <LogoItem
+                key={logo.uid}
+                name={logo.name}
+                mark={logo.mark}
+                color={logo.color}
+              />
             ))}
           </m.div>
         </div>
@@ -99,7 +116,12 @@ export default function VTuberLogos() {
         {/* Reduced-motion: static grid */}
         <div className="motion-safe:hidden flex flex-wrap justify-center gap-6 md:gap-8 px-8">
           {TECH_LOGOS.map((logo) => (
-            <LogoItem key={logo.name} name={logo.name} src={logo.src} />
+            <LogoItem
+              key={logo.name}
+              name={logo.name}
+              mark={logo.mark}
+              color={logo.color}
+            />
           ))}
         </div>
       </section>

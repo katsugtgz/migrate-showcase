@@ -14,9 +14,14 @@ import { Vector3, Quaternion } from "three";
 // ── Constants ───────────────────────────────────────────────────
 const ROPE_LENGTH = 1;
 
+// Card-top attachment height in card-local space (Y offset from body origin).
+// Shared with IDCardLanyard and IDCardModel so the physics anchor, the visual
+// band, and the drag collider can't drift apart again.
+export const CARD_ATTACHMENT_HEIGHT = 1.09;
+
 // Stable joint anchor points (module-level to avoid per-render allocation)
 const JOINT_CENTER = new Vector3(0, 0, 0);
-const CARD_ATTACHMENT = new Vector3(0, 1.42, 0);
+const CARD_ATTACHMENT = new Vector3(0, CARD_ATTACHMENT_HEIGHT, 0);
 
 // Reusable temporaries (single-threaded JS — safe across frames)
 const _pointerWorld = new Vector3();

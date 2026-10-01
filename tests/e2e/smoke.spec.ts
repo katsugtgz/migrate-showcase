@@ -67,6 +67,23 @@ test.describe("Homepage Smoke", () => {
     expect(count).toBeGreaterThan(0);
   });
 
+  test("desktop 3D badge renders instead of the fallback", async ({ page }) => {
+    test.setTimeout(30_000); // WebGL scene: cold shader compile on CI can be slow
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+
+    await page.locator("#id-card").scrollIntoViewIfNeeded();
+    const canvas = page.locator("#id-card canvas");
+    await expect(canvas).toHaveCount(1, { timeout: 15_000 });
+    await expect(page.getByTestId("id-card-3d")).toBeVisible();
+
+    // Scene is lazy-mounted (next/dynamic, ssr:false): only after the canvas
+    // exists does this prove the interactive state renders instead of StaticCard.
+    await expect(
+      page.getByText("Drag the badge; rope and card follow physics."),
+    ).toHaveCount(0);
+  });
+
   test("project cards are present on homepage", async ({ page }) => {
     await page.goto("/");
 

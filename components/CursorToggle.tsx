@@ -1,35 +1,51 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
+
+const CURSOR_PREFERENCE_EVENT = "cursor-preference-change";
+
+function subscribeToCursorPreference(onChange: () => void) {
+  window.addEventListener(CURSOR_PREFERENCE_EVENT, onChange);
+  window.addEventListener("storage", onChange);
+  return () => {
+    window.removeEventListener(CURSOR_PREFERENCE_EVENT, onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+
+function getCursorEnabled() {
+  try {
+    return localStorage.getItem("cursor-opt-out") !== "true";
+  } catch {
+    return false;
+  }
+}
 
 export default function CursorToggle() {
-  const [enabled, setEnabled] = useState(() => {
-    if (typeof window === "undefined") return true;
-    return localStorage.getItem("cursor-opt-out") !== "true";
-  });
+  const enabled = useSyncExternalStore(
+    subscribeToCursorPreference,
+    getCursorEnabled,
+    () => true,
+  );
 
-  // Snapshot the initial enabled value so the mount-only effect can read it
-  // without re-running on every state change (react-doctor/no-event-handler).
-  const enabledRef = useRef(enabled);
-
+  // Mirror the live preference onto data-cursor so cross-tab storage events
+  // also tear down (or restore) the custom cursor in this tab.
   useEffect(() => {
-    // Mount-only: set initial attribute based on the value at first render.
-    // Subsequent toggles are handled by the `toggle` event handler below.
-    if (enabledRef.current) {
-      document.documentElement.setAttribute("data-cursor", "custom");
-    }
-  }, []);
-
-  const toggle = () => {
-    const next = !enabled;
-    setEnabled(next);
-    localStorage.setItem("cursor-opt-out", next ? "false" : "true");
-
-    if (next) {
+    if (enabled) {
       document.documentElement.setAttribute("data-cursor", "custom");
     } else {
       document.documentElement.removeAttribute("data-cursor");
     }
+  }, [enabled]);
+
+  const toggle = () => {
+    const next = !enabled;
+    try {
+      localStorage.setItem("cursor-opt-out", next ? "false" : "true");
+    } catch {
+      // Storage blocked: preference won't persist, still apply for this session.
+    }
+    window.dispatchEvent(new Event(CURSOR_PREFERENCE_EVENT));
   };
 
   return (

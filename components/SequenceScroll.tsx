@@ -1,10 +1,21 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useScroll, useTransform, LazyMotion, domAnimation, m } from "motion/react";
 import { SEQUENCE_FRAME_COUNT, IDENTITY } from "@/lib/constants";
 import HeroClock from "@/components/HeroClock";
 
 const TOTAL_FRAMES = SEQUENCE_FRAME_COUNT;
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeToReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
 
 function frameUrl(i: number) {
   return `/sequence/ezgif-frame-${String(i).padStart(3, "0")}.jpg`;
@@ -17,10 +28,11 @@ export default function SequenceScroll() {
   const drawRef = useRef<(index: number) => void>(() => {});
   const [loaded, setLoaded] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
-  const [reducedMotion, setReducedMotion] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  });
+  const reducedMotion = useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    () => false,
+  );
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -33,44 +45,50 @@ export default function SequenceScroll() {
     [0, TOTAL_FRAMES - 1]
   );
 
-  // Listen for reduced-motion changes
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  // Reduced motion is read via useSyncExternalStore above (see Preloader for the
+  // same pattern); no effect needed for the initial value.
 
   useEffect(() => {
     let cancelled = false;
-    const images: HTMLImageElement[] = [];
+    const images = Array.from({ length: TOTAL_FRAMES }, () => new Image());
     let loadedCount = 0;
+    let nextFrame = 0;
+    let batchTimer: ReturnType<typeof setTimeout> | undefined;
 
     const onSettle = () => {
       if (cancelled) return;
       loadedCount++;
       setLoadProgress(Math.round((loadedCount / TOTAL_FRAMES) * 100));
-      if (loadedCount === TOTAL_FRAMES) setLoaded(true);
+      if (loadedCount === 1) setLoaded(true);
+      // Redraw in case the current frame index was skipped while its image was loading.
+      drawRef.current(frameIndex.get());
     };
 
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
-      const img = new Image();
-      img.src = frameUrl(i);
-      img.onload = onSettle;
-      img.onerror = onSettle; // count errors as settled so loader never hangs
-      images.push(img);
-    }
+    const loadBatch = () => {
+      if (cancelled) return;
+      const batchSize = nextFrame === 0 ? 1 : 8;
+      const end = Math.min(nextFrame + batchSize, TOTAL_FRAMES);
+      for (; nextFrame < end; nextFrame++) {
+        const img = images[nextFrame];
+        img.onload = onSettle;
+        img.onerror = onSettle; // count errors as settled so loader never hangs
+        img.src = frameUrl(nextFrame + 1);
+      }
+      if (nextFrame < TOTAL_FRAMES) batchTimer = setTimeout(loadBatch, 100);
+    };
 
     imagesRef.current = images;
+    loadBatch();
 
     return () => {
       cancelled = true;
+      if (batchTimer) clearTimeout(batchTimer);
       images.forEach((img) => {
         img.onload = null;
         img.onerror = null;
       });
     };
-  }, []);
+  }, [frameIndex]);
 
   // Draw frame on scroll
   useEffect(() => {
@@ -85,7 +103,10 @@ export default function SequenceScroll() {
       if (rounded === lastIndex) return;
       lastIndex = rounded;
       const img = imagesRef.current[rounded];
-      if (!img) return;
+      if (!img || !img.complete || img.naturalWidth === 0) {
+        lastIndex = -1; // allow redraw once this frame settles
+        return;
+      }
       const dpr = window.devicePixelRatio || 1;
       const w = canvas.width / dpr;
       const h = canvas.height / dpr;
@@ -154,7 +175,7 @@ export default function SequenceScroll() {
             <p className="font-heading font-bold text-[var(--fg)] text-6xl mb-4">{loadProgress}</p>
             <div className="w-48 h-px bg-[var(--border)] relative overflow-hidden">
               <div
-                className="absolute inset-y-0 left-0 bg-[var(--accent)] transition-all duration-100"
+                className="absolute inset-y-0 left-0 bg-[var(--accent)] transition-[width] duration-100"
                 style={{ width: `${loadProgress}%` }}
               />
             </div>
@@ -238,7 +259,7 @@ export default function SequenceScroll() {
             </p>
             <a
               href={`mailto:${IDENTITY.email}`}
-              className="pointer-events-auto scroll-mt-4 group relative inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-body text-white text-sm tracking-wider uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 backdrop-blur-sm bg-black/20"
+              className="pointer-events-auto scroll-mt-4 group relative inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-body text-white text-sm tracking-wider uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] transition-[border-color,color] duration-300 backdrop-blur-sm bg-black/20"
             >
               <span>{IDENTITY.email}</span>
               <span className="group-hover:translate-x-1 transition-transform">→</span>

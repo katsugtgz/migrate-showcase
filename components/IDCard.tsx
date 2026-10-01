@@ -52,14 +52,14 @@ function StaticCard({ isDark }: { isDark: boolean }) {
         </p>
         <p
           className={`text-xs italic mt-4 sm:mt-6 ${
-            isDark ? "text-slate-500" : "text-stone-400"
+            isDark ? "text-slate-400" : "text-stone-600"
           }`}
         >
           &ldquo;Drag the badge; rope and card follow physics.&rdquo;
         </p>
         <p
           className={`text-xs mt-1.5 ${
-            isDark ? "text-slate-500" : "text-stone-400"
+            isDark ? "text-slate-400" : "text-stone-600"
           }`}
         >
           {CARD_NAME.toLowerCase()}

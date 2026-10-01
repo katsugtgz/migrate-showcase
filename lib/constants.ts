@@ -113,20 +113,24 @@ export const ABOUT_COPY = {
   ],
 } as const;
 
-// ── Tech Logos (12 entries, local asset paths) ──────────────
+// ── Site URL ────────────────────────────────────────────────
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://migrate-two.vercel.app";
+
+// ── Tech Logos ──────────────────────────────────────────────
 export const TECH_LOGOS = [
-  { name: "HTML", src: "/tech/htmlnime.png" },
-  { name: "CSS", src: "/tech/cssnime.png" },
-  { name: "VS Code", src: "/tech/vsnime.png" },
-  { name: "TypeScript", src: "/tech/tsnime.png" },
-  { name: "Python", src: "/tech/pynime.png" },
-  { name: "React", src: "/tech/reactnime.png" },
-  { name: "Next.js", src: "/tech/nextnime.png" },
-  { name: "Tailwind CSS", src: "/tech/twnime.png" },
-  { name: "Node.js", src: "/tech/nodenime.png" },
-  { name: "Laravel", src: "/tech/laranime.png" },
-  { name: "Figma", src: "/tech/figmanime.png" },
-  { name: "Bun", src: "/tech/bunime.png" },
+  { name: "HTML", mark: "HTML", color: "#e34f26" },
+  { name: "CSS", mark: "CSS", color: "#1572b6" },
+  { name: "VS Code", mark: "VS", color: "#007acc" },
+  { name: "TypeScript", mark: "TS", color: "#3178c6" },
+  { name: "Python", mark: "PY", color: "#3776ab" },
+  { name: "React", mark: "R", color: "#149eca" },
+  { name: "Next.js", mark: "N", color: "#2b2b2b" },
+  { name: "Tailwind CSS", mark: "TW", color: "#0e7490" },
+  { name: "Node.js", mark: "JS", color: "#5fa04e" },
+  { name: "Laravel", mark: "L", color: "#ff2d20" },
+  { name: "Figma", mark: "F", color: "#f24e1e" },
+  { name: "Bun", mark: "B", color: "#3b3b3b" },
 ] as const;
 
 // ── Project Categories ──────────────────────────────────────
@@ -163,5 +167,3 @@ export const FOOTER = {
   ],
   copyright: `© ${new Date().getFullYear()} Nizar Alfarizi Akbar. All rights reserved.`,
 } as const;
-
-

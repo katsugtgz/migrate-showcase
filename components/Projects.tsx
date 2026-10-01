@@ -3,6 +3,7 @@
 import { LazyMotion, domAnimation, m } from "motion/react";
 import { PROJECTS } from "@/lib/constants";
 import Link from "next/link";
+import Image from "next/image";
 
 const THUMBNAIL_MAP: Record<string, string> = {
   dea: "/projects/dea.svg",
@@ -49,7 +50,7 @@ export default function Projects() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-testid="project-card"
-                  className="group relative flex items-center justify-between border-b border-[var(--border)] py-8 px-4 hover:px-6 md:hover:pl-10 transition-all duration-300"
+                  className="group relative flex items-center justify-between border-b border-[var(--border)] py-8 px-4 transition-[padding] duration-300 hover:px-6 md:hover:pl-10"
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
@@ -59,7 +60,7 @@ export default function Projects() {
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     {/* Project image — scales in and fades up, blurred so SVG text doesn't compete */}
                     <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 scale-125 group-hover:scale-100 transition-all duration-300 ease-out motion-reduce:transition-none"
+                      className="absolute inset-0 scale-125 opacity-0 transition-[opacity,scale] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100 motion-reduce:transition-none"
                       style={{
                         backgroundImage: `url(${project.imageUrl})`,
                         backgroundSize: "cover",
@@ -78,10 +79,12 @@ export default function Projects() {
                     className="absolute z-20 pointer-events-none hidden md:block"
                     style={{ top: "50%", left: "65%", transform: "translateY(-50%)" }}
                   >
-                    <div className="opacity-0 group-hover:opacity-100 scale-0 group-hover:scale-100 -rotate-12 group-hover:-rotate-6 transition-all duration-300 ease-out motion-reduce:transition-none">
-                      <img
+                    <div className="scale-0 -rotate-12 opacity-0 transition-[opacity,scale,rotate] duration-300 ease-out group-hover:scale-100 group-hover:-rotate-6 group-hover:opacity-100 motion-reduce:transition-none">
+                      <Image
                         src={thumbnailSrc}
                         alt=""
+                        width={256}
+                        height={160}
                         aria-hidden="true"
                         className="w-48 h-32 md:w-64 md:h-40 rounded-xl object-cover shadow-2xl"
                       />
@@ -107,7 +110,7 @@ export default function Projects() {
                   {/* Arrow — slides in from right on hover */}
                   <span
                     aria-hidden="true"
-                    className="relative z-10 hidden md:block text-3xl text-[var(--fg)] group-hover:text-white md:opacity-0 md:group-hover:opacity-100 md:translate-x-6 md:group-hover:translate-x-0 transition-all duration-300 motion-reduce:transition-none"
+                    className="relative z-10 hidden md:block text-3xl text-[var(--fg)] group-hover:text-white md:opacity-0 md:group-hover:opacity-100 md:translate-x-6 md:group-hover:translate-x-0 transition-[color,opacity,translate] duration-300 motion-reduce:transition-none"
                   >
                     →
                   </span>
@@ -126,9 +129,9 @@ export default function Projects() {
             <Link
               href="/projects"
               data-testid="projects-see-more"
-              className="border border-[var(--border)] rounded-full px-8 py-3.5 font-body text-[var(--fg)] text-sm tracking-wider uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] focus-visible:border-[var(--accent)] focus-visible:text-[var(--accent)] transition-all"
+              className="border border-[var(--border)] rounded-full px-8 py-3.5 font-body text-[var(--fg)] text-sm tracking-wider uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] focus-visible:border-[var(--accent)] focus-visible:text-[var(--accent)] transition-[border-color,color] duration-300"
             >
-              SEE MORE
+              View all projects
             </Link>
           </m.div>
         </div>

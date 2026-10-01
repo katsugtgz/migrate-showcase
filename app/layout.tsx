@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Bebas_Neue } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/react";
+import { SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -25,6 +26,7 @@ const outfitBody = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Fariz — Software Engineer",
   description:
     "Software engineer passionate about building innovative solutions and developer tools. Explore my projects and free online utilities.",
@@ -34,7 +36,7 @@ export const metadata: Metadata = {
     title: "Fariz — Software Engineer",
     description:
       "Software engineer passionate about building innovative solutions and developer tools. Explore my projects and free online utilities.",
-    url: "https://fariz.dev",
+    url: SITE_URL,
     siteName: "Fariz",
     locale: "en_US",
     type: "website",
@@ -60,7 +62,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light">
           {children}
         </ThemeProvider>
-        <Analytics />
+        {process.env.VERCEL === "1" ? <Analytics /> : null}
       </body>
     </html>
   );

@@ -1,22 +1,24 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 import * as THREE from "three";
 import type { RapierRigidBody } from "@react-three/rapier";
+import { CARD_ATTACHMENT_HEIGHT } from "@/hooks/useCardPhysics";
 
 interface IDCardLanyardProps {
   anchorRef: React.RefObject<RapierRigidBody | null>;
   chainRef1: React.RefObject<RapierRigidBody | null>;
   chainRef2: React.RefObject<RapierRigidBody | null>;
   chainRef3: React.RefObject<RapierRigidBody | null>;
+  cardRef: React.RefObject<RapierRigidBody | null>;
   isMobile?: boolean;
   isDark?: boolean;
 }
 
 const BAND_TEXT = "SPELLSHAND";
-const BAND_WIDTH = 0.16;
+const BAND_WIDTH = 0.11;
 const MIN_LERP_SPEED = 8;
 const MAX_LERP_SPEED = 28;
 
@@ -24,7 +26,11 @@ const _fixedPoint = new THREE.Vector3();
 const _jointOnePoint = new THREE.Vector3();
 const _jointTwoPoint = new THREE.Vector3();
 const _jointThreePoint = new THREE.Vector3();
+const _cardAttachmentPoint = new THREE.Vector3();
+const _cardQuat = new THREE.Quaternion();
+const _attachmentOffset = new THREE.Vector3();
 const _curvePoints: THREE.Vector3[] = [
+  _cardAttachmentPoint,
   _jointThreePoint,
   _jointTwoPoint,
   _jointOnePoint,
@@ -43,16 +49,23 @@ function copyBodyPosition(
 }
 
 /**
- * Lazily initialize a ref so an expensive factory (e.g. `new THREE.Vector3`)
- * only runs once instead of every render. The `as { current: T }` cast is
- * structural and safe because we always populate `ref.current` before returning.
+ * World-space position of the card's strap attachment: body origin plus the
+ * card-local attachment offset rotated by the body's current orientation, so
+ * the band start tracks the physics joint anchor (card-local
+ * (0, CARD_ATTACHMENT_HEIGHT, 0)) while the badge swings and tilts.
  */
-function useLazyRef<T>(factory: () => T): { current: T } {
-  const ref = useRef<T | null>(null);
-  if (ref.current === null) {
-    ref.current = factory();
-  }
-  return ref as { current: T };
+function copyCardAttachment(
+  ref: React.RefObject<RapierRigidBody | null>,
+  target: THREE.Vector3,
+): boolean {
+  const body = ref.current;
+  if (!body) return false;
+  const pos = body.translation();
+  const rot = body.rotation();
+  _cardQuat.set(rot.x, rot.y, rot.z, rot.w);
+  _attachmentOffset.set(0, CARD_ATTACHMENT_HEIGHT, 0).applyQuaternion(_cardQuat);
+  target.set(pos.x + _attachmentOffset.x, pos.y + _attachmentOffset.y, pos.z + _attachmentOffset.z);
+  return true;
 }
 
 export default function IDCardLanyard({
@@ -60,13 +73,14 @@ export default function IDCardLanyard({
   chainRef1,
   chainRef2,
   chainRef3,
+  cardRef,
   isMobile = false,
   isDark = false,
 }: IDCardLanyardProps) {
   const geometryRef = useRef<MeshLineGeometry>(null);
   const frameCount = useRef(0);
-  const lerpedJointOne = useLazyRef(() => new THREE.Vector3(0, 2.15, 0));
-  const lerpedJointTwo = useLazyRef(() => new THREE.Vector3(0, 1.25, 0));
+  const lerpedJointOne = useMemo(() => new THREE.Vector3(0, 2.15, 0), []);
+  const lerpedJointTwo = useMemo(() => new THREE.Vector3(0, 1.25, 0), []);
   const curve = useMemo(() => new THREE.CatmullRomCurve3(_curvePoints), []);
   const geometry = useMemo(() => new MeshLineGeometry(), []);
   const resolution = useMemo(() => new THREE.Vector2(1024, 1024), []);
@@ -112,6 +126,8 @@ export default function IDCardLanyard({
     return mat;
   }, [isDark, lanyardTexture, resolution]);
 
+  useEffect(() => () => lanyardTexture?.dispose(), [lanyardTexture]);
+
   useFrame((_, delta) => {
     if (!geometryRef.current) return;
 
@@ -124,10 +140,11 @@ export default function IDCardLanyard({
     if (!copyBodyPosition(chainRef1, _jointOnePoint)) return;
     if (!copyBodyPosition(chainRef2, _jointTwoPoint)) return;
     if (!copyBodyPosition(chainRef3, _jointThreePoint)) return;
+    if (!copyCardAttachment(cardRef, _cardAttachmentPoint)) return;
 
     for (const [target, source] of [
-      [lerpedJointOne.current, _jointOnePoint],
-      [lerpedJointTwo.current, _jointTwoPoint],
+      [lerpedJointOne, _jointOnePoint],
+      [lerpedJointTwo, _jointTwoPoint],
     ] as const) {
       const distance = target.distanceTo(source);
       const clampedDistance = Math.max(0.1, Math.min(1, distance));
@@ -135,8 +152,9 @@ export default function IDCardLanyard({
       target.lerp(source, Math.min(1, delta * speed));
     }
 
-    _curvePoints[1] = lerpedJointTwo.current;
-    _curvePoints[2] = lerpedJointOne.current;
+    _curvePoints[1] = _jointThreePoint;
+    _curvePoints[2] = lerpedJointTwo;
+    _curvePoints[3] = lerpedJointOne;
     geometryRef.current.setPoints(curve.getPoints(isMobile ? 24 : 32));
   });
 

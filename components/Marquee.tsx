@@ -1,11 +1,24 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback, useState, useSyncExternalStore } from "react";
 import { LazyMotion, domAnimation, m } from "motion/react";
 import { MARQUEE_ROWS } from "@/lib/constants";
 
 const SEPARATOR = "✦";
 const STORAGE_KEY = "marquee-paused";
+
+function subscribeToMarqueePreference(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  return () => window.removeEventListener("storage", onChange);
+}
+
+function getMarqueePreference() {
+  try {
+    return localStorage.getItem(STORAGE_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
 
 function MarqueeRow({
   items,
@@ -60,24 +73,44 @@ function MarqueeRow({
 
 export default function Marquee() {
   const allRoles = MARQUEE_ROWS.flat().join(", ");
-  const [isPaused, setIsPaused] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return localStorage.getItem(STORAGE_KEY) === "true";
-  });
+  const storedPaused = useSyncExternalStore(
+    subscribeToMarqueePreference,
+    getMarqueePreference,
+    () => false,
+  );
+  const [focusPaused, setFocusPaused] = useState(false);
+  // Session-only pause used when localStorage writes fail (blocked storage):
+  // keeps the toggle working even though the preference can't persist.
+  const [sessionPaused, setSessionPaused] = useState(false);
+  const isPaused = storedPaused || focusPaused || sessionPaused;
 
   const togglePause = useCallback(() => {
     const next = !isPaused;
-    setIsPaused(next);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    let persisted = false;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      persisted = true;
+    } catch {
+      // Storage blocked: fall back to session-only state below.
+    }
+    setSessionPaused(persisted ? false : next);
+    if (!next) setFocusPaused(false);
+    window.dispatchEvent(new StorageEvent("storage", { key: STORAGE_KEY }));
   }, [isPaused]);
 
   const handleFocusIn = useCallback(() => {
-    setIsPaused(true);
+    setFocusPaused(true);
   }, []);
 
   const handleFocusOut = useCallback(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored !== "true") setIsPaused(false);
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem(STORAGE_KEY);
+    } catch {
+      setFocusPaused(false);
+      return;
+    }
+    if (stored !== "true") setFocusPaused(false);
   }, []);
 
   return (

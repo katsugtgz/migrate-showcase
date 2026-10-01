@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, type RefObject } from "react";
+import { useEffect, useMemo, type RefObject } from "react";
 import {
   BallCollider,
   CuboidCollider,
@@ -10,6 +10,7 @@ import {
 import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 import { generateCardTexture } from "@/lib/cardTexture";
+import { CARD_ATTACHMENT_HEIGHT } from "@/hooks/useCardPhysics";
 import type { ThreeEvent } from "@react-three/fiber";
 
 export interface IDCardModelProps {
@@ -34,6 +35,8 @@ export function IDCardModel({
     return tex;
   }, [isDark]);
 
+  useEffect(() => () => texture.dispose(), [texture]);
+
   return (
     <RigidBody
       ref={cardRef}
@@ -45,7 +48,7 @@ export function IDCardModel({
       linearDamping={4}
       angularDamping={4}
     >
-      <BallCollider args={[0.12]} position={[0, 1.42, 0]} />
+      <BallCollider args={[0.12]} position={[0, CARD_ATTACHMENT_HEIGHT, 0]} />
       <CuboidCollider args={[0.92, 1.32, 0.035]} />
       <RoundedBox
         args={[1.52, 2.18, 0.06]}
