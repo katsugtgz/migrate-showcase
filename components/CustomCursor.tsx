@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { LazyMotion, domAnimation, m, useMotionValue, useSpring } from "motion/react";
 
 const springConfig = { damping: 25, stiffness: 700 };
@@ -17,7 +17,11 @@ function subscribeToCursorPreference(onChange: () => void) {
 }
 
 function getCursorPreference() {
-  return localStorage.getItem("cursor-opt-out") === "true";
+  try {
+    return localStorage.getItem("cursor-opt-out") === "true";
+  } catch {
+    return true;
+  }
 }
 
 function subscribeToMediaQueries(onChange: () => void) {
@@ -40,15 +44,11 @@ function getServerMediaQuerySnapshot() {
 }
 
 export default function CustomCursor() {
-  // Single lazy localStorage read seeds both the visibility state and the
-  // ref the keydown handler mutates. Avoids duplicate getItem calls flagged
-  // by react-doctor/js-cache-storage.
   const hidden = useSyncExternalStore(
     subscribeToCursorPreference,
     getCursorPreference,
     () => true,
   );
-  const cursorOptOutRef = useRef(hidden);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -66,22 +66,27 @@ export default function CustomCursor() {
     getMediaQuerySnapshot,
     getServerMediaQuerySnapshot,
   );
-  const [prefersReducedMotion, hasFinePointer] = mediaQuerySnapshot.split(":").map(Boolean);
+  const [prefersReducedMotion, hasFinePointer] = mediaQuerySnapshot
+    .split(":")
+    .map((value) => value === "true");
 
   useEffect(() => {
     if (prefersReducedMotion || !hasFinePointer) return;
 
-    if (cursorOptOutRef.current) return;
+    if (hidden) return;
 
     // Set data-cursor attribute on mount
     document.documentElement.setAttribute("data-cursor", "custom");
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Tab" && !cursorOptOutRef.current) {
-        localStorage.setItem("cursor-opt-out", "true");
+      if (e.key === "Tab") {
+        try {
+          localStorage.setItem("cursor-opt-out", "true");
+        } catch {
+          // Storage blocked: preference won't persist, still apply for this session.
+        }
         window.dispatchEvent(new Event(CURSOR_PREFERENCE_EVENT));
         document.documentElement.removeAttribute("data-cursor");
-        cursorOptOutRef.current = true;
       }
     };
 
@@ -114,7 +119,7 @@ export default function CustomCursor() {
       document.removeEventListener("mouseout", handleOut);
       document.documentElement.removeAttribute("data-cursor");
     };
-  }, [cursorX, cursorY, ringScale, prefersReducedMotion, hasFinePointer]);
+  }, [cursorX, cursorY, ringScale, prefersReducedMotion, hasFinePointer, hidden]);
 
   const shouldRender = !prefersReducedMotion && hasFinePointer && !hidden;
 

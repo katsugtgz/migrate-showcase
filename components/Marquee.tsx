@@ -13,7 +13,11 @@ function subscribeToMarqueePreference(onChange: () => void) {
 }
 
 function getMarqueePreference() {
-  return localStorage.getItem(STORAGE_KEY) === "true";
+  try {
+    return localStorage.getItem(STORAGE_KEY) === "true";
+  } catch {
+    return false;
+  }
 }
 
 function MarqueeRow({
@@ -79,7 +83,12 @@ export default function Marquee() {
 
   const togglePause = useCallback(() => {
     const next = !isPaused;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    } catch {
+      // Storage blocked: preference won't persist, still apply for this session.
+    }
+    if (!next) setFocusPaused(false);
     window.dispatchEvent(new StorageEvent("storage", { key: STORAGE_KEY }));
   }, [isPaused]);
 
@@ -88,7 +97,13 @@ export default function Marquee() {
   }, []);
 
   const handleFocusOut = useCallback(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem(STORAGE_KEY);
+    } catch {
+      setFocusPaused(false);
+      return;
+    }
     if (stored !== "true") setFocusPaused(false);
   }, []);
 

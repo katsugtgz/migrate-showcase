@@ -1,10 +1,21 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useScroll, useTransform, LazyMotion, domAnimation, m } from "motion/react";
 import { SEQUENCE_FRAME_COUNT, IDENTITY } from "@/lib/constants";
 import HeroClock from "@/components/HeroClock";
 
 const TOTAL_FRAMES = SEQUENCE_FRAME_COUNT;
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeToReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
 
 function frameUrl(i: number) {
   return `/sequence/ezgif-frame-${String(i).padStart(3, "0")}.jpg`;
@@ -17,7 +28,11 @@ export default function SequenceScroll() {
   const drawRef = useRef<(index: number) => void>(() => {});
   const [loaded, setLoaded] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const reducedMotion = useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    () => false,
+  );
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -30,13 +45,8 @@ export default function SequenceScroll() {
     [0, TOTAL_FRAMES - 1]
   );
 
-  // Listen for reduced-motion changes
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  // Reduced motion is read via useSyncExternalStore above (see Preloader for the
+  // same pattern); no effect needed for the initial value.
 
   useEffect(() => {
     let cancelled = false;
@@ -50,6 +60,8 @@ export default function SequenceScroll() {
       loadedCount++;
       setLoadProgress(Math.round((loadedCount / TOTAL_FRAMES) * 100));
       if (loadedCount === 1) setLoaded(true);
+      // Redraw in case the current frame index was skipped while its image was loading.
+      drawRef.current(frameIndex.get());
     };
 
     const loadBatch = () => {
@@ -76,7 +88,7 @@ export default function SequenceScroll() {
         img.onerror = null;
       });
     };
-  }, []);
+  }, [frameIndex]);
 
   // Draw frame on scroll
   useEffect(() => {
@@ -91,7 +103,10 @@ export default function SequenceScroll() {
       if (rounded === lastIndex) return;
       lastIndex = rounded;
       const img = imagesRef.current[rounded];
-      if (!img) return;
+      if (!img || !img.complete || img.naturalWidth === 0) {
+        lastIndex = -1; // allow redraw once this frame settles
+        return;
+      }
       const dpr = window.devicePixelRatio || 1;
       const w = canvas.width / dpr;
       const h = canvas.height / dpr;

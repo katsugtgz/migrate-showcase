@@ -14,7 +14,11 @@ function subscribeToCursorPreference(onChange: () => void) {
 }
 
 function getCursorEnabled() {
-  return localStorage.getItem("cursor-opt-out") !== "true";
+  try {
+    return localStorage.getItem("cursor-opt-out") !== "true";
+  } catch {
+    return false;
+  }
 }
 
 export default function CursorToggle() {
@@ -26,7 +30,11 @@ export default function CursorToggle() {
 
   const toggle = () => {
     const next = !enabled;
-    localStorage.setItem("cursor-opt-out", next ? "false" : "true");
+    try {
+      localStorage.setItem("cursor-opt-out", next ? "false" : "true");
+    } catch {
+      // Storage blocked: preference won't persist, still apply for this session.
+    }
     window.dispatchEvent(new Event(CURSOR_PREFERENCE_EVENT));
 
     if (next) {
