@@ -198,7 +198,7 @@ export default function SequenceScroll() {
             style={{ opacity: op1 }}
             className="absolute inset-0 flex flex-col items-start justify-end pb-24 pl-8 md:pl-16 pointer-events-none text-left"
           >
-            <p className="text-white/80 font-body text-sm tracking-[0.3em] uppercase mb-4 drop-shadow-md">
+            <p className="text-white/75 font-mono text-xs mb-4 drop-shadow-md">
               My name is
             </p>
             <p
@@ -207,7 +207,7 @@ export default function SequenceScroll() {
             >
               {IDENTITY.alias}
             </p>
-            <p className="text-white/80 font-body text-lg mt-4 tracking-widest uppercase drop-shadow-md">
+            <p className="text-white/85 font-mono text-sm mt-5 drop-shadow-md">
               {IDENTITY.role}
             </p>
           </m.div>
@@ -217,7 +217,7 @@ export default function SequenceScroll() {
             style={{ opacity: op2 }}
             className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 pointer-events-none max-w-lg"
           >
-            <p className="text-white/80 font-body text-xs tracking-[0.3em] uppercase mb-4 drop-shadow-md">
+            <p className="text-white/75 font-mono text-xs mb-4 drop-shadow-md">
               About
             </p>
             <p
@@ -233,7 +233,7 @@ export default function SequenceScroll() {
             style={{ opacity: op3 }}
             className="absolute inset-0 flex flex-col justify-center items-end px-6 md:px-20 pointer-events-none text-right max-w-lg ml-auto"
           >
-            <p className="text-white/80 font-body text-xs tracking-[0.3em] uppercase mb-4 drop-shadow-md">
+            <p className="text-white/75 font-mono text-xs mb-4 drop-shadow-md">
               Philosophy
             </p>
             <p
@@ -259,11 +259,10 @@ export default function SequenceScroll() {
             </p>
             <a
               href={`mailto:${IDENTITY.email}`}
-              className="pointer-events-auto scroll-mt-4 group relative inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-body text-white text-sm tracking-wider uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] transition-[border-color,color] duration-300 backdrop-blur-sm bg-black/20"
+              className="pointer-events-auto scroll-mt-4 inline-flex items-center gap-3 border border-white/30 rounded-full px-8 py-4 font-body text-white text-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition-[border-color,color] duration-300 backdrop-blur-sm bg-black/20"
             >
               <span>{IDENTITY.email}</span>
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </a>
+              </a>
           </m.div>
 
           {/* Scroll hint */}
@@ -272,7 +271,7 @@ export default function SequenceScroll() {
             style={{ opacity: scrollHintOp }}
             className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
           >
-            <p className="text-white/80 text-xs font-body tracking-widest uppercase drop-shadow-md">
+            <p className="text-white/75 text-xs font-mono drop-shadow-md">
               Scroll
             </p>
             <m.div

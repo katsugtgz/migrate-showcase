@@ -37,13 +37,13 @@ export default function ProjectsClient() {
           >
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-[var(--fg-muted)] font-body text-xs tracking-[0.3em] uppercase mb-8 hover:text-[var(--accent)] transition-colors"
+              className="inline-flex items-center gap-2 text-[var(--fg-muted)] font-mono text-xs mb-8 hover:text-[var(--accent)] transition-colors"
               data-testid="back-home"
             >
               <span aria-hidden="true">←</span> Back
             </Link>
-            <p className="text-[var(--fg-muted)] font-body text-xs tracking-[0.3em] uppercase mb-4">
-              Selected Work
+            <p className="text-[var(--fg-muted)] font-mono text-xs mb-4">
+              Selected work
             </p>
             <h1
               className="font-heading font-semibold text-[var(--fg)] leading-none"
@@ -65,7 +65,7 @@ export default function ProjectsClient() {
                 key={cat}
                 onClick={() => setActive(cat)}
                 data-testid={`filter-${cat.toLowerCase().replace(/\//g, "-")}`}
-                className={`rounded-full px-5 py-2 font-body text-xs tracking-[0.2em] uppercase border transition-[background-color,border-color,color] duration-[var(--duration-fast)] ${
+                className={`rounded-full px-5 py-2 font-mono text-xs border transition-[background-color,border-color,color] duration-[var(--duration-fast)] ${
                   active === cat
                     ? "border-[var(--accent)] bg-[var(--accent)] text-white"
                     : "border-[var(--border)] text-[var(--fg-muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
@@ -116,16 +116,13 @@ export default function ProjectsClient() {
                           >
                             {project.displayTitle ?? project.title}
                           </h3>
-                          <p className="text-sm tracking-widest uppercase mt-1 text-[var(--fg-muted)]">
+                          <p className="font-mono text-xs mt-2 text-[var(--fg-muted)]">
                             {project.subtitle}
                           </p>
                           <p className="text-xs tracking-wider mt-1 text-[var(--fg-muted)] opacity-90">
                             {project.tech}, {project.year}
                           </p>
                         </div>
-                        <span className="hidden md:block text-3xl transition-transform duration-300 group-hover:translate-x-4 group-focus-visible:translate-x-4 text-[var(--fg)]" aria-hidden="true">
-                          →
-                        </span>
                       </div>
                     </m.a>
                   );
@@ -139,7 +136,7 @@ export default function ProjectsClient() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <p className="text-[var(--fg-muted)] font-body text-sm tracking-widest uppercase">
+                  <p className="text-[var(--fg-muted)] font-mono text-xs">
                     No projects in this category yet
                   </p>
                 </m.div>

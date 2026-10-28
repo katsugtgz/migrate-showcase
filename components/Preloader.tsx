@@ -106,10 +106,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           transition={reducedExit ? { duration: 0 } : { duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         >
           <div className="mb-8 text-center">
-            <p className="text-[var(--fg)] text-xs tracking-[0.3em] uppercase font-body">
+            <p className="text-[var(--fg-muted)] text-xs font-mono">
               {IDENTITY.alias}
             </p>
-            <p className="text-[var(--fg)] text-xs tracking-[0.2em] uppercase font-body mt-1">
+            <p className="text-[var(--fg-muted)] text-xs font-mono mt-1">
               {IDENTITY.role}
             </p>
           </div>

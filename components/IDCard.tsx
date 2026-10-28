@@ -20,48 +20,26 @@ function StaticCard({ isDark }: { isDark: boolean }) {
       <div
         className={`rounded-xl border p-6 sm:p-8 max-w-xs sm:max-w-sm ${
           isDark
-            ? "bg-slate-800 border-slate-700"
-            : "bg-stone-50 border-stone-200"
+            ? "bg-[#171A1F] border-[var(--border)]"
+            : "bg-[var(--bg)] border-[var(--border)]"
         }`}
       >
         <div
-          className={`h-1.5 w-[calc(100%+3rem)] -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-4 sm:mb-6 rounded-t-xl ${
-            isDark ? "bg-amber-500" : "bg-amber-600"
-          }`}
+          className="h-1.5 w-[calc(100%+3rem)] -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-4 sm:mb-6 rounded-t-xl bg-[var(--accent)]"
         />
-        <h3
-          className={`text-xl sm:text-2xl font-bold ${
-            isDark ? "text-slate-50" : "text-stone-900"
-          }`}
-        >
+        <h3 className="text-xl sm:text-2xl font-bold text-[var(--fg)]">
           {CARD_NAME}
         </h3>
-        <p
-          className={`text-sm mt-1 ${
-            isDark ? "text-slate-400" : "text-stone-500"
-          }`}
-        >
+        <p className="text-sm mt-1 text-[var(--fg-muted)]">
           Vercel Ship 2024 style badge
         </p>
-        <p
-          className={`text-sm tracking-widest uppercase mt-2 ${
-            isDark ? "text-slate-300" : "text-stone-700"
-          }`}
-        >
-          Interactive Badge
+        <p className="font-mono text-xs mt-2 text-[var(--fg-muted)]">
+          Interactive badge
         </p>
-        <p
-          className={`text-xs italic mt-4 sm:mt-6 ${
-            isDark ? "text-slate-400" : "text-stone-600"
-          }`}
-        >
+        <p className="text-xs italic mt-4 sm:mt-6 text-[var(--fg-muted)]">
           &ldquo;Drag the badge; rope and card follow physics.&rdquo;
         </p>
-        <p
-          className={`text-xs mt-1.5 ${
-            isDark ? "text-slate-400" : "text-stone-600"
-          }`}
-        >
+        <p className="font-mono text-xs mt-1.5 text-[var(--fg-muted)]">
           {CARD_NAME.toLowerCase()}
         </p>
       </div>
@@ -81,7 +59,7 @@ export default function IDCard() {
   return (
     <section id="id-card" className="relative z-10 bg-[#E8E8E8] dark:bg-[#1a1a1a] h-screen w-full overflow-hidden">
       <div className="absolute top-8 left-8 z-10">
-        <p className="text-[#555] dark:text-[var(--fg-muted)] font-body text-xs tracking-[0.3em] uppercase">
+        <p className="text-[#555] dark:text-[var(--fg-muted)] font-mono text-xs">
           my card
         </p>
       </div>

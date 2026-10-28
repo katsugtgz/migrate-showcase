@@ -27,8 +27,8 @@ export default function Projects() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-[var(--fg-muted)] font-body text-xs tracking-[0.3em] uppercase mb-4">
-              Selected Work
+            <p className="text-[var(--fg-muted)] font-mono text-xs mb-4">
+              Selected work
             </p>
             <h2
               className="font-heading font-semibold text-[var(--fg)] leading-none"
@@ -99,7 +99,7 @@ export default function Projects() {
                     >
                       {project.displayTitle ?? project.title}
                     </h3>
-                    <p className="text-sm tracking-widest uppercase mt-1 text-[var(--fg-muted)] group-hover:text-white/70 transition-colors duration-300">
+                    <p className="font-mono text-xs mt-2 text-[var(--fg-muted)] group-hover:text-white/70 transition-colors duration-300">
                       {project.subtitle}
                     </p>
                     <p className="text-xs tracking-wider mt-1 text-[var(--fg-muted)] opacity-90 group-hover:text-white/60 transition-colors duration-300">
@@ -107,13 +107,6 @@ export default function Projects() {
                     </p>
                   </div>
 
-                  {/* Arrow — slides in from right on hover */}
-                  <span
-                    aria-hidden="true"
-                    className="relative z-10 hidden md:block text-3xl text-[var(--fg)] group-hover:text-white md:opacity-0 md:group-hover:opacity-100 md:translate-x-6 md:group-hover:translate-x-0 transition-[color,opacity,translate] duration-300 motion-reduce:transition-none"
-                  >
-                    →
-                  </span>
                 </m.a>
               );
             })}
@@ -129,7 +122,7 @@ export default function Projects() {
             <Link
               href="/projects"
               data-testid="projects-see-more"
-              className="border border-[var(--border)] rounded-full px-8 py-3.5 font-body text-[var(--fg)] text-sm tracking-wider uppercase hover:border-[var(--accent)] hover:text-[var(--accent)] focus-visible:border-[var(--accent)] focus-visible:text-[var(--accent)] transition-[border-color,color] duration-300"
+              className="border border-[var(--border)] rounded-full px-8 py-3.5 font-mono text-[var(--fg)] text-sm hover:border-[var(--accent)] hover:text-[var(--accent)] focus-visible:border-[var(--accent)] focus-visible:text-[var(--accent)] transition-[border-color,color] duration-300"
             >
               View all projects
             </Link>

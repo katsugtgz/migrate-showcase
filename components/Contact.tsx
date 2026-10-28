@@ -56,7 +56,7 @@ export default function Contact() {
       >
         <div className="max-w-5xl mx-auto text-center">
           <m.p
-            className="text-[var(--fg)] font-body text-xs tracking-[0.3em] uppercase mb-8"
+            className="text-[var(--fg-muted)] font-mono text-xs mb-8"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -95,7 +95,7 @@ export default function Contact() {
           <m.a
             href={`mailto:${CONTACT_CTA.email}`}
             data-testid="contact-email-link"
-            className="inline-flex items-center gap-3 bg-[var(--fg)] text-[var(--bg)] font-heading font-bold rounded-full px-10 py-5 text-sm tracking-wider uppercase transition-colors duration-[var(--duration-normal)]"
+            className="inline-flex items-center gap-3 bg-[var(--fg)] text-[var(--bg)] font-mono rounded-full px-10 py-5 text-sm transition-colors duration-[var(--duration-normal)]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -104,7 +104,6 @@ export default function Contact() {
             whileTap={{ scale: 0.97 }}
           >
             {CONTACT_CTA.email}
-            <span aria-hidden="true">→</span>
           </m.a>
 
           <m.div

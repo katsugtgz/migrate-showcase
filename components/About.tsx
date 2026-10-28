@@ -58,7 +58,7 @@ export default function About() {
         <div className="max-w-5xl mx-auto">
           <h2 className="sr-only">About</h2>
           <m.p
-            className="text-[var(--fg)] font-body text-xs tracking-[0.3em] uppercase mb-12"
+            className="text-[var(--fg-muted)] font-mono text-xs mb-12"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}

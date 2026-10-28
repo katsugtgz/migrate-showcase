@@ -21,12 +21,12 @@ export default function AboutClient() {
           >
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-[var(--fg-muted)] font-body text-xs tracking-[0.3em] uppercase mb-8 hover:text-[var(--accent)] transition-colors"
+              className="inline-flex items-center gap-2 text-[var(--fg-muted)] font-mono text-xs mb-8 hover:text-[var(--accent)] transition-colors"
               data-testid="back-home"
             >
               <span aria-hidden="true">←</span> Back
             </Link>
-            <p className="text-[var(--fg-muted)] font-body text-xs tracking-[0.3em] uppercase mb-4">
+            <p className="text-[var(--fg-muted)] font-mono text-xs mb-4">
               About
             </p>
             <h1
@@ -52,8 +52,8 @@ export default function AboutClient() {
               </p>
 
               <div className="mt-12">
-                <p className="text-[var(--fg-muted)] font-body text-xs tracking-[0.3em] uppercase mb-6">
-                  Skills & Tools
+                <p className="text-[var(--fg-muted)] font-mono text-xs mb-6">
+                  Skills & tools
                 </p>
                 <div className="flex flex-wrap gap-3" data-testid="skills-list">
                   {ABOUT_COPY.skills.map((skill) => (
@@ -70,7 +70,7 @@ export default function AboutClient() {
 
             <aside aria-label="Additional information" className="flex flex-col gap-8">
               <div>
-                <p className="text-[var(--fg-muted)] font-body text-xs tracking-[0.3em] uppercase mb-3">
+                <p className="text-[var(--fg-muted)] font-mono text-xs mb-3">
                   Location
                 </p>
                 <p className="text-[var(--fg)] font-body text-sm">
@@ -78,7 +78,7 @@ export default function AboutClient() {
                 </p>
               </div>
               <div>
-                <p className="text-[var(--fg-muted)] font-body text-xs tracking-[0.3em] uppercase mb-3">
+                <p className="text-[var(--fg-muted)] font-mono text-xs mb-3">
                   Role
                 </p>
                 <p className="text-[var(--fg)] font-body text-sm">
@@ -86,7 +86,7 @@ export default function AboutClient() {
                 </p>
               </div>
               <div>
-                <p className="text-[var(--fg-muted)] font-body text-xs tracking-[0.3em] uppercase mb-3">
+                <p className="text-[var(--fg-muted)] font-mono text-xs mb-3">
                   Connect
                 </p>
                 <div className="flex flex-col gap-2">
@@ -96,7 +96,7 @@ export default function AboutClient() {
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[var(--fg)] hover:text-[var(--accent)] font-body text-sm tracking-wider uppercase transition-colors duration-[var(--duration-fast)]"
+                      className="text-[var(--fg)] hover:text-[var(--accent)] font-mono text-sm transition-colors duration-[var(--duration-fast)]"
                     >
                       {s.label} <span aria-hidden="true">↗</span>
                     </a>

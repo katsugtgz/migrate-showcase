@@ -88,7 +88,7 @@ export default function Navbar() {
         aria-label="Main navigation"
         className="fixed top-6 left-0 right-0 z-[800] px-6 flex items-center justify-between pointer-events-none mix-blend-difference text-white"
       >
-        <span className="pointer-events-auto font-heading font-bold text-white text-sm tracking-widest uppercase">
+        <span className="pointer-events-auto font-mono text-white text-sm">
           {IDENTITY.alias}
         </span>
         <div className="flex items-center gap-3">

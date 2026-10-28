@@ -26,7 +26,7 @@ function LogoItem({
       <div
         role="img"
         aria-label={`${name} logo`}
-        className="size-28 md:size-32 rounded-[2rem] flex items-center justify-center p-3 grayscale transition-[filter] duration-300 hover:grayscale-0 shadow-sm"
+        className="size-28 md:size-32 rounded-xl flex items-center justify-center p-3 shadow-sm"
         style={{ backgroundColor: color }}
       >
         <span
@@ -64,8 +64,8 @@ export default function VTuberLogos() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <p className="text-[var(--fg)] uppercase tracking-widest text-xs mb-3">
-            Tech Stack
+          <p className="text-[var(--fg-muted)] font-mono text-xs mb-3">
+            Tech stack
           </p>
           <h2 className="text-[var(--fg)] font-heading font-semibold text-3xl md:text-4xl">
             Tools I Use

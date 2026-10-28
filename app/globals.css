@@ -9,12 +9,12 @@
 }
 
 :root {
-  --bg: #FFFFFF;
-  --fg: #0F172A;
-  --fg-muted: rgba(15, 23, 42, 0.85);
-  --accent: #D97706;
-  --accent-dim: rgba(217, 119, 6, 0.15);
-  --border: rgba(15, 23, 42, 0.1);
+  --bg: #FAFAF7;
+  --fg: #14161A;
+  --fg-muted: rgba(20, 22, 26, 0.78);
+  --accent: #E8442E;
+  --accent-dim: rgba(232, 68, 46, 0.12);
+  --border: rgba(20, 22, 26, 0.12);
 
   /* Transition tokens */
   --duration-fast: 150ms;
@@ -28,12 +28,12 @@
 }
 
 .dark {
-  --bg: #0F172A;
-  --fg: #F8FAFC;
-  --fg-muted: rgba(248, 250, 252, 0.85);
-  --accent: #F59E0B;
-  --accent-dim: rgba(245, 158, 11, 0.15);
-  --border: rgba(248, 250, 252, 0.1);
+  --bg: #0E1013;
+  --fg: #EDEBE6;
+  --fg-muted: rgba(237, 235, 230, 0.78);
+  --accent: #FF5A3C;
+  --accent-dim: rgba(255, 90, 60, 0.14);
+  --border: rgba(237, 235, 230, 0.12);
 }
 
 /* Selection — accent gold on both themes */

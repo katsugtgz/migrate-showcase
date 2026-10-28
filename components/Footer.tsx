@@ -75,7 +75,7 @@ export default function Footer() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                <h3 className="text-[var(--fg)] font-heading font-semibold text-xs tracking-[0.2em] uppercase mb-4">
+                <h3 className="text-[var(--fg-muted)] font-mono text-xs mb-4">
                   Links
                 </h3>
                 <nav aria-label="Footer navigation">
@@ -102,7 +102,7 @@ export default function Footer() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <h3 className="text-[var(--fg)] font-heading font-semibold text-xs tracking-[0.2em] uppercase mb-4">
+                <h3 className="text-[var(--fg-muted)] font-mono text-xs mb-4">
                   Connect
                 </h3>
                 <div className="flex gap-4">

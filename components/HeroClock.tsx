@@ -67,7 +67,7 @@ export default function HeroClock() {
       </div>
 
       <p
-        className="text-white/85 text-xs tracking-[0.4em] uppercase mt-4 font-body"
+        className="text-white/85 text-xs font-mono mt-5"
         style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
       >
         {IDENTITY.role}, {IDENTITY.location}
@@ -75,12 +75,12 @@ export default function HeroClock() {
 
       <div className="flex items-center gap-8 mt-10">
         <div className="flex flex-col items-center gap-1.5">
-          <span className="text-white/85 text-[10px] font-body tracking-[0.3em] uppercase">
+          <span className="text-white/70 text-[10px] font-mono">
             {HERO_CLOCK.siteTimezone}
           </span>
           <span
             data-testid="site-clock"
-            className="text-white/80 font-body text-sm tracking-widest min-w-[7ch] text-center"
+            className="text-white/85 font-mono text-sm min-w-[7ch] text-center"
             style={{ fontVariantNumeric: "tabular-nums" }}
           >
             {times?.siteTime ?? "\u00A0\u00A0:\u00A0\u00A0:\u00A0\u00A0"}
@@ -90,12 +90,12 @@ export default function HeroClock() {
         <span className="w-px h-8 bg-white/15" />
 
         <div className="flex flex-col items-center gap-1.5">
-          <span className="text-white/85 text-[10px] font-body tracking-[0.3em] uppercase">
+          <span className="text-white/70 text-[10px] font-mono">
             {HERO_CLOCK.localTimeLabel}
           </span>
           <span
             data-testid="viewer-clock"
-            className="text-white/80 font-body text-sm tracking-widest min-w-[7ch] text-center"
+            className="text-white/85 font-mono text-sm min-w-[7ch] text-center"
             style={{ fontVariantNumeric: "tabular-nums" }}
           >
             {times?.viewerTime ?? "\u00A0\u00A0:\u00A0\u00A0:\u00A0\u00A0"}
